@@ -7,15 +7,7 @@ eTable = (function(){
   var table,
       maxCells = 0,
       currentCell,
-      //координаты начала перетаскивания
-      currentCell,
       currentRow,
-
-      selectedCellStart,
-      selectedRowStart,
-      //координаты конца перетаскивания
-      selectedCellEnd,
-      selectedRowEnd,
       mergeCells = {},
   init = function(config){
     console.log(config);
@@ -76,8 +68,7 @@ eTable = (function(){
         console.log('default column')
         break;
     };
-    console.log(currentCell);
-
+    mergeCells = {};
     countMaxCells();
     // clearSelection();
    },
@@ -94,32 +85,45 @@ eTable = (function(){
       console.log(i[0], i[1]);
     };
 
+    // вначале мержим по горизонтали
     if (cellIndexArray.length > 1) {
-      for (var c = table.rows[ rowIndexArray[0] ].cells.length - 1; c >= 0; c--) {
-        if ( cellIndexArray.length == 1) {
-          c = table.rows[ rowIndexArray[0] ].cells[ cellIndexArray.pop() ]
-          c.colSpan = Object.keys(mergeCells).length;
-          c.classList.toggle('info');
-          console.log( c );
-        } else {
-          var cell = cellIndexArray.pop();
-          table.rows[ rowIndexArray[0] ].deleteCell(cell);
-        };
+      for (var i = rowIndexArray.length - 1; i >= 0; i--) {
+         var row = table.rows[ rowIndexArray[i] ];
+
+         for (var i = Things.length - 1; i >= 0; i--) {
+           Things[i]
+         };
+      
+        // for (var c = row.cells.length - 1; c >= 0; c--) {
+        //   if ( cellIndexArray.length == 1) {
+        //     c = row.cells[ cellIndexArray.pop() ]
+        //     c.colSpan = Object.keys(mergeCells).length;
+        //     if ( !c.classList.contains('info') ) {
+        //       c.classList.toggle('info');
+        //     };
+        //     console.log( c );
+        //   } else {
+        //     var cell = cellIndexArray.pop();
+        //     row.deleteCell(cell);
+        //   };
+        // };
       };
     };
 
-    mergeCells = {};
-    
-    // for (var r = table.rows.length - 1; r >= 0; r--) {
-    //   for (var c = table.rows[r].cells.length - 1; c >= 0; c--) {
-    //     if ( (r in rowIndexArray) && (c in cellIndexArray) ) {
-    //       table.rows[rowIndexArray.indexOf(r)].cells[cellIndexArray.indexOf(c)].className = "success";
-    //     };
-    //   };
-    // };
+    // потом мержим по вертикали
+
+
+    clearSelection();
    },
   clearSelection = function(){
-    mergeCells  = {};
+    console.log('clearSelection');
+    mergeCells = {};
+
+    var ids = table.getElementsByTagName('td');
+    for(var i = 0; i<ids.length; i++){
+      var td = ids[i];
+      td.className = '';
+    };
     // for(var i = 0; i<table.rows.length; i++){
     //   var row = table.rows[i];
     //   row.className = '';
@@ -135,95 +139,33 @@ eTable = (function(){
    },
   addEventListener = function(){
 
-    // нажали кнопку мыши и начали перетаскивание
-    table.addEventListener('mousedown', function(e){
+
+    table.addEventListener('click', function(e){
       for(var i = 0; i<table.rows.length; i++){
         var row = table.rows[i];
         row.className = '';
       };
 
       if ( e.path[0].nodeName != 'TBODY' ) {
-        selectedRowStart  = e.path[0].parentNode.rowIndex;
-        selectedCellStart = e.path[0].cellIndex;
-      }
-      console.log('select start', e.path[0], selectedRowStart, selectedCellStart)
-
-      e.preventDefault();
-      return false;
-    });
-
-    // отпустили мышь
-    table.addEventListener('mouseup', function(e){
-
-      if ( e.path[0].nodeName != 'TBODY' ) {
         e.path[0].parentNode.className = 'active';
         e.path[0].classList.toggle('info');
-        currentRow  = selectedRowEnd  = e.path[0].parentNode.rowIndex;
-        currentCell = selectedCellEnd = e.path[0].cellIndex;
+        currentRow = e.path[0].parentNode.rowIndex;
+        currentCell = e.path[0].cellIndex;
 
-        var mergeCellName = selectedRowEnd + '_' + selectedCellEnd;
+        var mergeCellName = currentRow + '_' + currentCell;
 
         if ( mergeCells.hasOwnProperty( mergeCellName ) ) {
           delete mergeCells[ mergeCellName ];
         } else {
           mergeCells[ mergeCellName ] = {
-            row:  selectedRowEnd,
-            cell: selectedCellEnd
+            row:  currentRow,
+            cell: currentCell
           }
         };
 
-        console.log(currentCell, selectedRowStart, selectedCellStart, selectedRowEnd, selectedCellEnd, mergeCells)
+        console.log(currentCell, currentRow, mergeCells)
       };
-      // e.preventDefault();
-      // return false;
     });
-    
-
-    // table.addEventListener('mousemove', function(e){
-
-    //   console.log('select move', e.path[0])
-
-    //   e.preventDefault();
-    //   return false;
-    // });
-
-    // table.addEventListener('dblclick', function(e){
-    //   // for(var i = 0; i<table.rows.length; i++){
-    //   //   var row = table.rows[i];
-    //   //   row.className = '';
-    //   // };
-
-    //   if ( e.path[0].nodeName != 'TBODY' ) {
-    //     e.path[0].classList.toggle('success');
-    //   };
-    // });
-
-    // table.addEventListener('click', function(e){
-      
-
-    //   if ( e.path[0].nodeName != 'TBODY' ) {
-    //     e.path[0].parentNode.className = 'active';
-    //     e.path[0].classList.toggle('info');
-    //     currentRow = e.path[0].parentNode.rowIndex;
-    //     currentCell = e.path[0].cellIndex;
-
-    //     var mergeCellName = currentRow + '_' + currentCell;
-
-    //     if ( mergeCells.hasOwnProperty( mergeCellName ) ) {
-    //       delete mergeCells[ mergeCellName ];
-    //     } else {
-    //       mergeCells[ mergeCellName ] = {
-    //         row:  currentRow,
-    //         cell: currentCell
-    //       }
-    //     };
-
-    //     console.log(currentCell, currentRow, mergeCells)
-    //   };
-    // });
-
-
-
 
    };
 
