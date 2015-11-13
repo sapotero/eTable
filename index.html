@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Title Page</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/css/style.css" rel="stylesheet">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <style type="text/css">
+    .b {
+      border: 1px solid rgba(125,125,125,0.35);
+    }
+    </style>
+  </head>
+  <body>
+  
+  <div id="point"></div>
+     
+  <div class="container">
+    <div class="row">
+          <div class="col-lg-12">
+            
+            <div class="btn-group">
+              <a href="#" class="btn btn-default" onclick="eTable.row('insert', 0)">  add_row up   </a>
+              <a href="#" class="btn btn-default" onclick="eTable.row('insert', 1)">  add_row down </a>
+              <a href="#" class="btn btn-default" onclick="eTable.row('delete')">delete_row current</a>
+            </div>
+            <div class="btn-group">
+              <a href="#" class="btn btn-default" onclick="eTable.column('insert', 0)">  add_column before   </a>
+              <a href="#" class="btn btn-default" onclick="eTable.column('insert', 1)">  add_column after </a>
+              <a href="#" class="btn btn-default" onclick="eTable.column('delete')">delete_column current</a>
+            </div>
+            <div class="btn-group">
+              <a href="#" class="btn btn-default" onclick="eTable.merge()">merge</a>
+              <a href="#" class="btn btn-default">split_h</a>
+              <a href="#" class="btn btn-default">split_v</a>
+            </div>
+
+
+          </div>
+
+      <table class="table table-bordered" id="eTable" style="border: 1px solid grey; margin-top: 40px;">
+        <tbody>
+          <tr>
+            <td>+</td>
+            <td>+</td>
+            <td>+</td>
+            <td>+</td>
+          </tr>
+           <tr>
+            <td>+</td>
+            <td>+</td>
+            <td>+</td>
+            <td>+</td>
+          </tr>
+           <tr>
+            <td>+</td>
+            <td>+</td>
+            <td>+</td>
+            <td>+</td>
+          </tr>
+           <tr>
+            <td>+</td>
+            <td>+</td>
+            <td>+</td>
+            <td>+</td>
+          </tr>
+        </tbody>
+      </table>
+
+    </div>
+  </div>
+
+
+    <!-- jQuery -->
+    <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+    
+    <!-- Bootstrap JavaScript -->
+    <script src="https://netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    
+    <!-- jQuery JavaScript Library v1.9.1
+     bootstrap.js v2.3.2
+     Bootstrap v2.3.0 -->
+
+
+
+    <!-- <script src="assets/js/interact.min.js"></script> -->
+    <!-- <script src="assets/js/grid.min.js"></script> -->
+    <!-- <script src="assets/js/report.js"></script> -->
+    <script type="text/javascript">
+    // $('#cellFabrick').popover({placement: 'bottom'})
+    </script>
+
+    <script src="assets/js/cell.js"></script>
+    <script src="assets/js/table.js"></script>
+  </body>
+</html>
