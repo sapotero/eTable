@@ -8,7 +8,7 @@ eTable = (function(){
       maxCells = 0,
       currentCell,
       currentRow,
-      mergeCells = {},
+      mergeCells = [],
   init = function(config){
     console.log(config);
     var initialTable = document.getElementById(config.table);
@@ -74,43 +74,74 @@ eTable = (function(){
    },
   merge = function(mode){
     // merge horizontal
-    var rowIndexArray  = [],
-        cellIndexArray = [];
+    // var rowIndexArray  = [],
+    //     cellIndexArray = [];
     
-    for (var key in mergeCells) {
-      var i = key.split('_');
+    // for (var key in mergeCells) {
+    //   var i = key.split('_');
 
-      rowIndexArray.push(i[0]);
-      cellIndexArray.push(i[1]);
-      console.log(i[0], i[1]);
-    };
+    //   rowIndexArray.push(i[0]);
+    //   cellIndexArray.push(i[1]);
+    //   console.log(i[0], i[1]);
+    // };
+    switch (mode) {
+      case 'h':
+        for (var r = table.rows.length - 1; r >= 0; r--) {
+          console.log(i)
+          var row   = table.rows[r],
+              cells = [];
 
+          for (var i = row.cells.length - 1; i >= 0; i--) {
+
+            var cell = row.cells[i];
+            console.log(cell);
+            if ( cell.classList.contains('info') ) {
+              cells.push(cell);
+            };
+          };
+
+          if (cells.length) {
+            var firstCell = cells.shift();
+            firstCell.colSpan = cells.length + 1;
+
+            for (var i = cells.length - 1; i >= 0; i--) {
+              cells[i].parentNode.removeChild(cells[i]);
+            };
+          };
+        };
+        break;
+      case 'v':
+        
+        break;
+      default:
+        break;
+    }
     // вначале мержим по горизонтали
-    if (cellIndexArray.length > 1) {
-      for (var i = rowIndexArray.length - 1; i >= 0; i--) {
-         var row = table.rows[ rowIndexArray[i] ];
+      // if (cellIndexArray.length > 1) {
+      //   for (var i = rowIndexArray.length - 1; i >= 0; i--) {
+      //      var row = table.rows[ rowIndexArray[i] ];
 
-         for (var i = Things.length - 1; i >= 0; i--) {
-           Things[i]
-         };
-      
-        // for (var c = row.cells.length - 1; c >= 0; c--) {
-        //   if ( cellIndexArray.length == 1) {
-        //     c = row.cells[ cellIndexArray.pop() ]
-        //     c.colSpan = Object.keys(mergeCells).length;
-        //     if ( !c.classList.contains('info') ) {
-        //       c.classList.toggle('info');
-        //     };
-        //     console.log( c );
-        //   } else {
-        //     var cell = cellIndexArray.pop();
-        //     row.deleteCell(cell);
-        //   };
-        // };
-      };
-    };
+      //      // for (var i = Things.length - 1; i >= 0; i--) {
+      //      //   Things[i]
+      //      // };
+        
+      //     for (var c = row.cells.length - 1; c >= 0; c--) {
+      //       if ( cellIndexArray.length == 1) {
+      //         c = row.cells[ cellIndexArray.pop() ]
+      //         c.colSpan = Object.keys(mergeCells).length;
+      //         if ( !c.classList.contains('info') ) {
+      //           c.classList.toggle('info');
+      //         };
+      //         console.log( c );
+      //       } else {
+      //         var cell = cellIndexArray.pop();
+      //         row.deleteCell(cell);
+      //       };
+      //     };
+      //   };
+      // };
 
-    // потом мержим по вертикали
+      // потом мержим по вертикали
 
 
     clearSelection();
@@ -152,15 +183,16 @@ eTable = (function(){
         currentRow = e.path[0].parentNode.rowIndex;
         currentCell = e.path[0].cellIndex;
 
+        // mergeCells.push(e.path[0]);
         var mergeCellName = currentRow + '_' + currentCell;
 
         if ( mergeCells.hasOwnProperty( mergeCellName ) ) {
           delete mergeCells[ mergeCellName ];
         } else {
-          mergeCells[ mergeCellName ] = {
+          mergeCells[ mergeCellName ]  = {
             row:  currentRow,
             cell: currentCell
-          }
+          };
         };
 
         console.log(currentCell, currentRow, mergeCells)
