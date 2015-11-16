@@ -16,28 +16,44 @@ nCore.modules.cellEditor = (function(){
     });
 
     fontSize.addEventListener('click', function (e) {
-
       var cell = nCore.modules.table.activeCell();
-
-
       if ( typeof(cell) != 'function' ) {
         console.log('fontSize: ', cell);
         cell.style.fontSize = fontSize.value + 'px';
       };
     });
-
-
-
   };
 
   return {
     init: function(config){
-      root     = document.getElementById( config.tab ),
-      cellText = document.getElementById( config.cellText ),
+      root     = document.getElementById( config.tab );
+      cellText = document.getElementById( config.cellText );
       fontSize = document.getElementById( config.fontSize );
-      
       attachEvent();
+
+
+      // подписываемся на изменения параметров текста и размера
+      nCore.core.attachTo( nCore.modules.cellEditor.cellText );
+      nCore.core.attachTo( nCore.modules.cellEditor.fontSize );
+
+      nCore.modules.cellEditor.cellText.subscribe('nameChange', function(args){
+        if ( typeof(args) === 'function' ) {
+          args();
+        };
+        console.log( args, 'in nCore.modules.cellEditor' );
+      });
      },
+
+    root     : function(){
+      return root;
+     },
+    cellText : function(){
+      return cellText;
+     },
+    fontSize : function(){
+      return fontSize;
+     },
+
     setFontSize: function(element){
       // fontSize.value = element.textContent;
      },
@@ -53,3 +69,4 @@ nCore.modules.cellEditor.init( {
   fontSize: 'nCoreTabConfigTextFontSize',
   cellText: 'nCoreTabConfigCellText'
 });
+

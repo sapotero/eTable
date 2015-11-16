@@ -252,3 +252,10 @@ nCore.modules.table = (function(){
   }
 })();
 nCore.modules.table.init({ table: 'nCoreTable' });
+
+nCore.modules.cellEditor.cellText.subscribe('nameChange', function(args){
+  if ( typeof(args) === 'function' ) {
+    args();
+  };
+  console.log( args, 'in nCore.modules.table' );
+});

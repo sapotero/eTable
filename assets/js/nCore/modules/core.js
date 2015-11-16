@@ -1,13 +1,11 @@
 "use strict";
 
-
 // var nCore.modules.table = nCore.modules.table || {};
 var nCore = nCore || {};
 nCore.core = (function(){
   
   function init(){
     console.log( this );
-    nCore.core.attachTo(obj);
   };
   
   /* Базовый механизм pub/sub -> веiается на изменения параметров модулей */
@@ -46,12 +44,5 @@ nCore.core = (function(){
     }
   };
 })();
-nCore.core.init();
 
-var obj = {name: 'fuck'};
-obj.publish('nameChange', 'you!');
-obj.subscribe('nameChange', function(args){
-  var old_name = this.name;
-  this.name = args
-  console.log(old_name + ' -> ', this.name)
-});
+nCore.core.init();
