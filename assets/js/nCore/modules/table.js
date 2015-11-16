@@ -209,8 +209,7 @@ nCore.modules.table = (function(){
     table.addEventListener('click', function(e){
       var el = e.path[0];
       activeCell = el;
-      nCore.modules.table.activeCell.publish('setCell', el);
-
+      
       for(var i = 0; i<table.rows.length; i++){
         var row = table.rows[i];
         row.className = '';
@@ -234,9 +233,9 @@ nCore.modules.table = (function(){
         };
         // nCore.modules.cellEditor.setFontSize(el);
         // activeCell.className = 'primary';
-
-
-        console.log(currentCell, currentRow, mergeCells)
+        activeCell.classList.toggle('primary');
+        console.log(currentCell, currentRow, mergeCells);
+        nCore.modules.table.activeCell.publish('setCell', el);
       };
     });
 
