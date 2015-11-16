@@ -9,7 +9,7 @@ nCore.modules.cellEditor = (function(){
   function attachEvent(){
     cellText.addEventListener('keypress', function (e) {
       var cell = nCore.modules.table.activeCell();
-
+      console.log( typeof(cell) );
       if ( typeof(cell) != 'function' ) {
         cell.textContent = cellText.value;
       };
@@ -42,8 +42,8 @@ nCore.modules.cellEditor = (function(){
       // fontSize.value = element.textContent;
      },
     setText: function(element){
-      cellText.focus();
       cellText.value = element.textContent;
+      cellText.focus();
      }
   }
 })();

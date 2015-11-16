@@ -6,8 +6,9 @@ nCore = (function(){
   
   function loadModules(){
     nCore.modules = {};
+    nCore.core    = {};
 
-    var modules = ['cell', 'table', 'cellEditor'];
+    var modules = ['cell', 'table', 'cellEditor', 'core'];
     var body = document.getElementsByTagName('body')[0];
 
     for (var i = modules.length - 1; i >= 0; i--) {
