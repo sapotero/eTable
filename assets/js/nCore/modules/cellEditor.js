@@ -4,22 +4,18 @@
 var nCore = nCore || {};
 nCore.modules.cellEditor = (function(){
   
-  var root, fontSize, cellText;
+  var root, fontSize, cellText, activeCell;
   
   function attachEvent(){
-    cellText.addEventListener('keypress', function (e) {
-      var cell = nCore.modules.table.activeCell();
-      console.log( typeof(cell) );
-      if ( typeof(cell) != 'function' ) {
-        cell.textContent = cellText.value;
+    cellText.addEventListener('keyup', function (e) {
+      if ( typeof(activeCell) != 'function' ) {
+        activeCell.textContent = cellText.value;
       };
     });
 
     fontSize.addEventListener('click', function (e) {
-      var cell = nCore.modules.table.activeCell();
-      if ( typeof(cell) != 'function' ) {
-        console.log('fontSize: ', cell);
-        cell.style.fontSize = fontSize.value + 'px';
+      if ( typeof(activeCell) != 'function' ) {
+        activeCell.style.fontSize = fontSize.value + 'px';
       };
     });
   };
@@ -36,11 +32,10 @@ nCore.modules.cellEditor = (function(){
       nCore.core.attachTo( nCore.modules.cellEditor.cellText );
       nCore.core.attachTo( nCore.modules.cellEditor.fontSize );
 
-      nCore.modules.cellEditor.cellText.subscribe('nameChange', function(args){
-        if ( typeof(args) === 'function' ) {
-          args();
-        };
-        console.log( args, 'in nCore.modules.cellEditor' );
+      nCore.modules.table.activeCell.subscribe('setCell', function(cell){
+        activeCell = cell;
+        cellText.value = cell.textContent;
+        cellText.focus();
       });
      },
 
@@ -52,14 +47,6 @@ nCore.modules.cellEditor = (function(){
      },
     fontSize : function(){
       return fontSize;
-     },
-
-    setFontSize: function(element){
-      // fontSize.value = element.textContent;
-     },
-    setText: function(element){
-      cellText.value = element.textContent;
-      cellText.focus();
      }
   }
 })();

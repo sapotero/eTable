@@ -70,6 +70,3 @@ nCore.modules.cell = (function(config){
     core: Cell
   }
 })();
-
-nCore.modules.cellEditor.cellText.publish('nameChange', 'text' );
-nCore.modules.cellEditor.cellText.publish('nameChange', function(){ console.log( 2+2 ) });

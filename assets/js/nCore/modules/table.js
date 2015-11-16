@@ -8,7 +8,7 @@ nCore.modules.table = (function(){
       maxCells = 0,
       currentCell,
       currentRow,
-      activeCell,
+      activeCell = {},
       mergeCells = [],
   init = function(config){
     var initialTable = document.getElementById(config.table);
@@ -21,6 +21,8 @@ nCore.modules.table = (function(){
     table = ( initialTable ? initialTable : undefined);
     countMaxCells();
     addEventListener();
+
+    nCore.core.attachTo( nCore.modules.table.activeCell );
 
    },
   config = function(){
@@ -207,6 +209,7 @@ nCore.modules.table = (function(){
     table.addEventListener('click', function(e){
       var el = e.path[0];
       activeCell = el;
+      nCore.modules.table.activeCell.publish('setCell', el);
 
       for(var i = 0; i<table.rows.length; i++){
         var row = table.rows[i];
@@ -229,8 +232,6 @@ nCore.modules.table = (function(){
             cell: currentCell
           };
         };
-
-        nCore.modules.cellEditor.setText(el);
         // nCore.modules.cellEditor.setFontSize(el);
         // activeCell.className = 'primary';
 
@@ -252,10 +253,3 @@ nCore.modules.table = (function(){
   }
 })();
 nCore.modules.table.init({ table: 'nCoreTable' });
-
-nCore.modules.cellEditor.cellText.subscribe('nameChange', function(args){
-  if ( typeof(args) === 'function' ) {
-    args();
-  };
-  console.log( args, 'in nCore.modules.table' );
-});
