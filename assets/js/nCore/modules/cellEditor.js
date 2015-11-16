@@ -2,18 +2,35 @@
 
 // var nCore.modules.table = nCore.modules.table || {};
 var nCore = nCore || {};
-nCore.modules.cellEditor = (function(config){
+nCore.modules.cellEditor = (function(){
   
-  var root;
+  var root, fontSize;
+  
+  function attachEvent(config){    
+    fontSize.addEventListener('keypress', function (e) {
+      var cell = nCore.modules.table.activeCell();
+
+      if ( cell ) {
+        cell.textContent = fontSize.value;
+      };
+    });
+
+  };
 
   return {
-    init: function(){
-      root = document.getElementById( config.tab );
+    init: function(config){
+      root     = document.getElementById( config.tab ),
+      fontSize = document.getElementById( config.fontSize );
+      
+      attachEvent();
     },
     setFontSize: function(element){
-      root
+      fontSize.value = element.textContent;
     }
   }
 })();
 
-nCore.modules.cellEditor.init( { tab: 'nCoreTabConfigText' } );
+nCore.modules.cellEditor.init( {
+  tab:  'nCoreTabConfigText',
+  fontSize: 'nCoreTabConfigTextFontSize'
+});

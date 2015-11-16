@@ -8,6 +8,7 @@ nCore.modules.table = (function(){
       maxCells = 0,
       currentCell,
       currentRow,
+      activeCell,
       mergeCells = [],
   init = function(config){
     var initialTable = document.getElementById(config.table);
@@ -197,11 +198,15 @@ nCore.modules.table = (function(){
       };
     }
    },
+  activeCell = function(){
+    return activeCell;
+   },
   addEventListener = function(){
 
 
     table.addEventListener('click', function(e){
       var el = e.path[0];
+      activeCell = el;
 
       for(var i = 0; i<table.rows.length; i++){
         var row = table.rows[i];
@@ -225,7 +230,10 @@ nCore.modules.table = (function(){
           };
         };
 
+        // nCore.modules.cellEditor.setText(el);
         nCore.modules.cellEditor.setFontSize(el);
+        // activeCell.className = 'primary';
+
 
         console.log(currentCell, currentRow, mergeCells)
       };
@@ -235,11 +243,12 @@ nCore.modules.table = (function(){
 
 
   return {
-    init   : init,
-    merge  : merge,
-    config : config,
-    row    : row,
-    column : column
+    init       : init,
+    merge      : merge,
+    config     : config,
+    row        : row,
+    column     : column,
+    activeCell : activeCell
   }
 })();
 nCore.modules.table.init({ table: 'nCoreTable' });
