@@ -2,8 +2,6 @@
 
 // var nCore.modules.table = nCore.modules.table || {};
 var nCore = nCore || {};
-
-console.log(nCore);
 nCore.modules.table = (function(){
 
   var table,
@@ -203,18 +201,19 @@ nCore.modules.table = (function(){
 
 
     table.addEventListener('click', function(e){
+      var el = e.path[0];
+
       for(var i = 0; i<table.rows.length; i++){
         var row = table.rows[i];
         row.className = '';
       };
 
-      if ( e.path[0].nodeName != 'TBODY' ) {
-        e.path[0].parentNode.className = 'active';
-        e.path[0].classList.toggle('info');
-        currentRow = e.path[0].parentNode.rowIndex;
-        currentCell = e.path[0].cellIndex;
+      if ( el.nodeName != 'TBODY' ) {
+        el.parentNode.className = 'active';
+        el.classList.toggle('info');
+        currentRow  = el.parentNode.rowIndex;
+        currentCell = el.cellIndex;
 
-        // mergeCells.push(e.path[0]);
         var mergeCellName = currentRow + '_' + currentCell;
 
         if ( mergeCells.hasOwnProperty( mergeCellName ) ) {
@@ -225,6 +224,8 @@ nCore.modules.table = (function(){
             cell: currentCell
           };
         };
+
+        nCore.modules.cellEditor.setFontSize(el);
 
         console.log(currentCell, currentRow, mergeCells)
       };
@@ -241,4 +242,4 @@ nCore.modules.table = (function(){
     column : column
   }
 })();
-nCore.modules.table.init({ table: 'eTable' });
+nCore.modules.table.init({ table: 'nCoreTable' });

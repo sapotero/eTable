@@ -7,7 +7,7 @@ nCore = (function(){
   function loadModules(){
     nCore.modules = {};
 
-    var modules = ['cell', 'table'];
+    var modules = ['cell', 'table', 'cellEditor'];
     var body = document.getElementsByTagName('body')[0];
 
     for (var i = modules.length - 1; i >= 0; i--) {
