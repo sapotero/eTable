@@ -1,8 +1,10 @@
 "use strict";
 
-var eTable = eTable || {};
+// var nCore.modules.table = nCore.modules.table || {};
+var nCore = nCore || {};
 
-eTable = (function(){
+console.log(nCore);
+nCore.modules.table = (function(){
 
   var table,
       maxCells = 0,
@@ -10,7 +12,6 @@ eTable = (function(){
       currentRow,
       mergeCells = [],
   init = function(config){
-    console.log(config);
     var initialTable = document.getElementById(config.table);
     
     if ( typeof(initialTable) === 'undefined' ) {
@@ -240,7 +241,4 @@ eTable = (function(){
     column : column
   }
 })();
-
-eTable.init({
-  table: 'eTable'
-});
+nCore.modules.table.init({ table: 'eTable' });
