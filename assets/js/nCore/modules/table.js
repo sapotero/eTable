@@ -231,7 +231,7 @@ nCore.modules.table = (function(){
         };
 
         nCore.modules.cellEditor.setText(el);
-        nCore.modules.cellEditor.setFontSize(el);
+        // nCore.modules.cellEditor.setFontSize(el);
         // activeCell.className = 'primary';
 
 

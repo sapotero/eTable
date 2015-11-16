@@ -42,6 +42,7 @@ nCore.modules.cellEditor = (function(){
       // fontSize.value = element.textContent;
      },
     setText: function(element){
+      cellText.focus();
       cellText.value = element.textContent;
      }
   }

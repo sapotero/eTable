@@ -9,6 +9,7 @@
     <!-- Bootstrap CSS -->
     <link href="assets/css/bootstrap.min.css" rel="stylesheet">
     <!-- <link href="assets/css/style.css" rel="stylesheet"> -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -17,9 +18,23 @@
       <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
     <style type="text/css">
-    .b {
-      border: 1px solid rgba(125,125,125,0.35);
-    }
+      .b {
+        margin: 7px;
+      }
+      .fa-rotate-45 {
+        -webkit-transform: rotate(45deg);
+        -moz-transform: rotate(45deg);
+        -ms-transform: rotate(45deg);
+        -o-transform: rotate(45deg);
+        transform: rotate(45deg);
+      }
+      .fa-rotate-135 {
+        -webkit-transform: rotate(135deg);
+        -moz-transform: rotate(135deg);
+        -ms-transform: rotate(135deg);
+        -o-transform: rotate(135deg);
+        transform: rotate(135deg);
+      }
     </style>
   </head>
   <body>
@@ -28,7 +43,10 @@
      
   <div class="container">
     <div class="row">
-      <div class="col-lg-4">
+      <div class="col-lg-12">
+        <h4>nCore Report</h4>
+      </div>
+      <div class="col-lg-4" style="border-right: 1px dashed grey;">
         <ul class="nav nav-tabs">
           <li class="active"><a href="#nCoreTabConfigText"     data-toggle="tab" aria-expanded="true">Настройки</a></li>
           <li class=""><a href="#nCoreTabConfigElements" data-toggle="tab" aria-expanded="false">Элементы</a></li>
@@ -41,19 +59,20 @@
             <!-- панелька -->
             <div class="panel panel-primary" >
               <div class="panel-heading">
-                <h3 class="panel-title">Текст</h3>
+                <h3 class="panel-title">Ячейка</h3>
               </div>
               <div class="panel-body">
                 
                 <form class="form-horizontal">
-                  <legend> Не выбрана ячейка </legend>
+                  <!-- <legend> Не выбрана ячейка </legend> -->
                   <fieldset>
                     <div class="form-group">
-                      <label for="textArea" class="col-lg-2 control-label">Название</label>
+                      <label for="textArea" class="col-lg-2 control-label">Текст</label>
                       <div class="col-lg-10">
                         <textarea class="form-control" rows="3" id="nCoreTabConfigCellText"></textarea>
                       </div>
                     </div>
+                    <!--
                     <div class="form-group">
                       <label class="col-lg-2 control-label">Radios</label>
                       <div class="col-lg-10">
@@ -71,6 +90,7 @@
                         </div>
                       </div>
                     </div>
+                    -->
                     <div class="form-group">
                       <label for="nCoreTabConfigTextFontSize" class="col-lg-2 control-label">Размер</label>
                       <div class="col-lg-10">
@@ -83,12 +103,14 @@
                         </select>
                       </div>
                     </div>
+                    <!-- 
                     <div class="form-group">
                       <div class="col-lg-10 col-lg-offset-2">
                         <button type="reset" class="btn btn-default">Cancel</button>
                         <button type="submit" class="btn btn-primary">Submit</button>
                       </div>
                     </div>
+                    -->
                   </fieldset>
                 </form>
 
@@ -97,8 +119,9 @@
 
             <!-- панелька -->
             <div class="panel panel-primary">
+              <button type="button" class="close b" > <i class="fa fa-plus"></i> </button>
               <div class="panel-heading">
-                <h3 class="panel-title">Текст</h3>
+                <h3 class="panel-title">Критерии поиска</h3>
               </div>
               <div class="panel-body">
                 <!-- тело -->
@@ -117,20 +140,20 @@
       <div class="col-lg-8">
         <div class="col-lg-12">
             <div class="btn-group">
-              <a href="#" class="btn btn-default" onclick="nCore.modules.table.row('insert', 0)">  add_row up   </a>
-              <a href="#" class="btn btn-default" onclick="nCore.modules.table.row('insert', 1)">  add_row down </a>
+              <a href="#" class="btn btn-default" onclick="nCore.modules.table.row('insert', 0)"> <i class="fa fa-arrow-up"></i> </a>
+              <a href="#" class="btn btn-default" onclick="nCore.modules.table.row('insert', 1)"> <i class="fa fa-arrow-down"></i> </a>
               <a href="#" class="btn btn-default" onclick="nCore.modules.table.row('delete')">delete_row current</a>
             </div>
             <div class="btn-group">
-              <a href="#" class="btn btn-default" onclick="nCore.modules.table.column('insert', 0)">  add_column before   </a>
-              <a href="#" class="btn btn-default" onclick="nCore.modules.table.column('insert', 1)">  add_column after </a>
+              <a href="#" class="btn btn-default" onclick="nCore.modules.table.column('insert', 0)"> <i class="fa fa-arrow-left"></i> </a>
+              <a href="#" class="btn btn-default" onclick="nCore.modules.table.column('insert', 1)">  <i class="fa fa-arrow-right"></i> </a>
               <a href="#" class="btn btn-default" onclick="nCore.modules.table.column('delete')">delete_column current</a>
             </div>
             <div class="btn-group">
-              <a href="#" class="btn btn-default" onclick="nCore.modules.table.merge('h')">merge h</a>
-              <a href="#" class="btn btn-default" onclick="nCore.modules.table.merge('v')">merge v</a>
-              <a href="#" class="btn btn-default">split_h</a>
-              <a href="#" class="btn btn-default">split_v</a>
+              <a href="#" class="btn btn-default" onclick="nCore.modules.table.merge('h')"><i class="fa fa-compress fa-rotate-45"></i></a>
+              <a href="#" class="btn btn-default" onclick="nCore.modules.table.merge('v')"><i class="fa fa-compress fa-rotate-135"></i></a>
+              <a href="#" class="btn btn-default"><i class="fa fa-arrows-h"></i></a>
+              <a href="#" class="btn btn-default"><i class="fa fa-arrows-v"></i></a>
             </div>
         </div>
 
