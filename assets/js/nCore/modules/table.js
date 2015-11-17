@@ -209,36 +209,60 @@ nCore.modules.table = (function(){
     table.addEventListener('click', function(e){
       var el = e.path[0];
       activeCell = el;
-      
-      for(var i = 0; i<table.rows.length; i++){
-        var row = table.rows[i];
-        row.className = '';
-      };
 
       if ( el.nodeName != 'TBODY' ) {
-        el.parentNode.className = 'active';
-        el.classList.toggle('info');
-        currentRow  = el.parentNode.rowIndex;
-        currentCell = el.cellIndex;
+        if (e.ctrlKey) {
+            el.classList.toggle('info');
+            currentRow  = el.parentNode.rowIndex;
+            currentCell = el.cellIndex;
 
-        var mergeCellName = currentRow + '_' + currentCell;
+            var mergeCellName = currentRow + '_' + currentCell;
 
-        if ( mergeCells.hasOwnProperty( mergeCellName ) ) {
-          delete mergeCells[ mergeCellName ];
+            if ( mergeCells.hasOwnProperty( mergeCellName ) ) {
+              delete mergeCells[ mergeCellName ];
+            } else {
+              mergeCells[ mergeCellName ]  = {
+                row:  currentRow,
+                cell: currentCell
+              };
+            };
+            // nCore.modules.cellEditor.setFontSize(el);
+            // activeCell.className = 'primary';
+            activeCell.classList.toggle('primary');
+            console.log(currentCell, currentRow, mergeCells);
         } else {
-          mergeCells[ mergeCellName ]  = {
-            row:  currentRow,
-            cell: currentCell
-          };
-        };
-        // nCore.modules.cellEditor.setFontSize(el);
-        // activeCell.className = 'primary';
-        activeCell.classList.toggle('primary');
-        console.log(currentCell, currentRow, mergeCells);
-        nCore.modules.table.activeCell.publish('setCell', el);
+          mergeCells = {};
+          clearSelection();
+          el.classList.toggle('success');
+        }
       };
-    });
+      el.parentNode.className = 'active';
+      activeCell.classList.toggle('primary');
+      nCore.modules.table.activeCell.publish('setCell', el);
 
+    //   if ( el.nodeName != 'TBODY' ) {
+      //     el.parentNode.className = 'active';
+      //     el.classList.toggle('info');
+      //     currentRow  = el.parentNode.rowIndex;
+      //     currentCell = el.cellIndex;
+
+      //     var mergeCellName = currentRow + '_' + currentCell;
+
+      //     if ( mergeCells.hasOwnProperty( mergeCellName ) ) {
+      //       delete mergeCells[ mergeCellName ];
+      //     } else {
+      //       mergeCells[ mergeCellName ]  = {
+      //         row:  currentRow,
+      //         cell: currentCell
+      //       };
+      //     };
+      //     // nCore.modules.cellEditor.setFontSize(el);
+      //     // activeCell.className = 'primary';
+      //     activeCell.classList.toggle('primary');
+      //     console.log(currentCell, currentRow, mergeCells);
+      //     nCore.modules.table.activeCell.publish('setCell', el);
+      //   };
+    });
    };
 
 
