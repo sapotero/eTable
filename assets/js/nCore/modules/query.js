@@ -7,6 +7,9 @@ nCore.query = (function(){
   var request, root, body, button,
   template = ' <form class="form-horizontal fm"> <div class="form-group"> <label for="nCoreTabConfigTextFontSize" class="col-lg-3 control-label">Поле</label> <div class="col-lg-9"> <select class="form-control" id="nCoreTabConfigTextFontSize"> </select> </div></div><div class="form-group" style="padding: 10px auto ;"> <label for="nCoreTabConfigTextFontSize" class="col-lg-3 control-label">Условие</label> <div class="col-lg-9"> <select class="form-control" id="nCoreTabConfigTextFontSize"> </select> </div></div><div class="form-group"> <label class="control-label col-lg-3 " for="focusedInput">Значение</label> <div class="col-lg-9"> <input class="form-control" id="focusedInput" type="text" value=""> </div></div></form>';
 
+  nCore.document.root.subscribe('saveDocument', function(data){
+    console.log('query -> saveDocument:', data)
+  });
   // рисуем форму поиска
   var init = function(config){
     root   = document.getElementById( config.nCoreQuery ),
