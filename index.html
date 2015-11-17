@@ -35,6 +35,10 @@
         -o-transform: rotate(135deg);
         transform: rotate(135deg);
       }
+      .fm + .fm {
+        border-top: 1px solid rgba(0,0,0,0.25);
+        padding-top: 15px;
+      }
     </style>
   </head>
   <body>
@@ -119,12 +123,11 @@
 
             <!-- панелька -->
             <div class="panel panel-primary">
-              <button type="button" class="close b" > <i class="fa fa-plus"></i> </button>
+              <button type="button" class="close b" id='nCoreQueryAddButtom' > <i class="fa fa-plus"></i> </button>
               <div class="panel-heading">
                 <h3 class="panel-title">Критерии поиска</h3>
               </div>
-              <div class="panel-body">
-                <!-- тело -->
+              <div class="panel-body" id='nCoreQuery'>
               </div>
             </div>
 
