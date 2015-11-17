@@ -2,11 +2,16 @@
 
 // var nCore.modules.table = nCore.modules.table || {};
 var nCore = nCore || {};
-nCore.modules.cell = (function(config){
-  var config = config;
+nCore.modules.cell = (function(){
+  var cells = [], activeCell;
 
-  var Cell = function(config) {
+  nCore.modules.table.activeCell.subscribe('setCell', function(cell){
+    activeCell = cell;
+  });
+
+  var Cell = function(data) {
     this.index     = 0;
+    this.element   = activeCell;
     this.items     = data.items       || [];
     this.query     = data.query       || undefined;
     this.caption   = data.caption     || undefined;
@@ -66,7 +71,14 @@ nCore.modules.cell = (function(config){
      }
   };
 
+  var newCell = function(config){
+    var cell = new Cell(config);
+    cells.push(cell);
+    return cell;
+  };
+
   return {
-    core: Cell
+    newCell: newCell,
+    cells: cells
   }
 })();

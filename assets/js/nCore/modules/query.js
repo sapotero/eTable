@@ -12,8 +12,8 @@ nCore.query = (function(){
     root   = document.getElementById( config.nCoreQuery ),
     button = document.getElementById( config.nCoreQueryAddButtom );
 
+
     button.addEventListener('click', function (e) {
-      root.innerHTML += template;
     });
    },
 
