@@ -62,25 +62,27 @@
   <div class="container">
     <div class="row">
       <div class="col-lg-12">
-        <h4>nCore Report</h4>
+        <h4 id="nCoreDocumentId" >nCore Report</h4>
       </div>
       <div class="col-lg-4" style="border-right: 1px dashed grey;">
         <ul class="nav nav-tabs">
-          <li class="active"><a href="#nCoreTabConfigText"     data-toggle="tab" aria-expanded="true">Настройки</a></li>
-          <li class=""><a href="#nCoreTabConfigElements" data-toggle="tab" aria-expanded="false">Элементы</a></li>
+          <li class="">       <a href="#nCoreTabDocument"       data-toggle="tab" aria-expanded="false"> Документ </a></li>
+          <li class="active"> <a href="#nCoreTabConfigText"     data-toggle="tab" aria-expanded="true">  Настройки</a></li>
+          <li class="">       <a href="#nCoreTabConfigElements" data-toggle="tab" aria-expanded="false"> Элементы </a></li>
+          
         </ul>
         <div id="nCoreTabContent" class="tab-content">
           
           <!-- Настройки -->
           <div class="tab-pane fade active in" id="nCoreTabConfigText">
-            
+            <br>
             <!-- панелька -->
             <div class="panel panel-primary" >
               <div class="panel-heading">
                 <h3 class="panel-title">Ячейка</h3>
               </div>
               <div class="panel-body">
-                
+                <br>
                 <form class="form-horizontal">
                   <!-- <legend> Не выбрана ячейка </legend> -->
                   <fieldset>
@@ -90,25 +92,6 @@
                         <textarea class="form-control" rows="3" id="nCoreTabConfigCellText"></textarea>
                       </div>
                     </div>
-                    <!--
-                    <div class="form-group">
-                      <label class="col-lg-2 control-label">Radios</label>
-                      <div class="col-lg-10">
-                        <div class="radio">
-                          <label>
-                            <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked="">
-                            Option one is this
-                          </label>
-                        </div>
-                        <div class="radio">
-                          <label>
-                            <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
-                            Option two can be something else
-                          </label>
-                        </div>
-                      </div>
-                    </div>
-                    -->
                     <div class="form-group">
                       <label for="nCoreTabConfigTextFontSize" class="col-lg-2 control-label">Размер</label>
                       <div class="col-lg-10">
@@ -121,14 +104,6 @@
                         </select>
                       </div>
                     </div>
-                    <!-- 
-                    <div class="form-group">
-                      <div class="col-lg-10 col-lg-offset-2">
-                        <button type="reset" class="btn btn-default">Cancel</button>
-                        <button type="submit" class="btn btn-primary">Submit</button>
-                      </div>
-                    </div>
-                    -->
                   </fieldset>
                 </form>
 
@@ -149,7 +124,59 @@
 
           <!-- Элементы -->
           <div class="tab-pane fade" id="nCoreTabConfigElements">
+            <br>
             <div class="list-group" id="nCoreElements"></div>
+          </div>
+
+          <!-- Документ -->
+          <div class="tab-pane fade" id="nCoreTabDocument">
+            <div class="list-group" id="nCoreElements">
+              <!-- <legend> Документ </legend> -->
+              <br>
+              <form class="form-horizontal">
+                <fieldset>
+                  <div class="form-group">
+                    <label class="col-lg-3 control-label" for="focusedInput">Название</label>
+                    <div class="col-lg-9">
+                      <input class="form-control" id="focusedInput" type="text" placeholder="...">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="nCoreTabConfigTextFontSize" class="col-lg-3 control-label">Размер</label>
+                    <div class="col-lg-9">
+                      <select class="form-control" id="nCoreTabConfigTextFontSize">
+                        <option>A3</option>
+                        <option>A4</option>
+                        <option>A5</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="col-lg-3 control-label">Ориентация</label>
+                    <div class="col-lg-9">
+                      <div class="radio">
+                        <label>
+                          <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1">
+                          Альбомная
+                        </label>
+                      </div>
+                      <div class="radio">
+                        <label>
+                          <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2" checked="">
+                          Книжная
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="col-lg-8 col-lg-offset-4">
+                      <button type="reset" class="btn btn-default">  Отмена    </button>
+                      <button type="submit" class="btn btn-primary"> Сохранить </button>
+                    </div>
+                  </div>
+                </fieldset>
+              </form>
+            </div>
           </div>
         </div>
       </div>

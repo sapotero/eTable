@@ -54,8 +54,8 @@ nCore.modules.elements = (function(config){
     };
 
     nCoreElements.appendChild(fragment);
-    attachEvent();
-    
+    // attachEvent();
+
     return new nCoreElement();
   },
   create = function(options){

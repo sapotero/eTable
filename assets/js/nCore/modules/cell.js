@@ -19,7 +19,7 @@ nCore.modules.cell = (function(){
     this.childs    = data.childrens   || [];
 
     if ( data.parent ) {
-      this.parent.addChild(this);
+      this.parent.addChild(this); 
     };
   };
    
