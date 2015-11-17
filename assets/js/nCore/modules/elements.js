@@ -7,7 +7,9 @@
 var nCore = nCore || {};
 nCore.modules.elements = (function(config){
   var nCoreElement,
-      elements = [];
+      elements = [],
+      config,
+      nCoreElements;
 
   function nCoreLabel( options ) {
     this.color           = options.color || 'red';
@@ -35,8 +37,23 @@ nCore.modules.elements = (function(config){
     return new parentClass( options );
   }
 
-  var init = function(){
-   return new nCoreElement();
+  var init = function(config){
+    nCoreElements = document.getElementById( config.nCoreElements );
+
+    var e = [ 'label', 'input' ];
+    var fragment = new DocumentFragment();
+
+    for (var i = 0; i < e.length; i++) {
+      var a = document.createElement('a');
+      a.href = "#";
+      a.className = 'list-group-item';
+      a.text = e[i];
+      fragment.appendChild(a);
+    };
+    nCoreElements.appendChild(fragment);
+
+    // <a href="#" class="list-group-item nCore-draggable"> Morbi leo risus </a>
+    return new nCoreElement();
   },
   create = function(options){
     var root     = init(),
@@ -44,7 +61,10 @@ nCore.modules.elements = (function(config){
 
     elements.push(element);
     return element;
-  };
+  },
+  index = function(){
+
+  }
 
   return {
     init       : init,
@@ -52,4 +72,6 @@ nCore.modules.elements = (function(config){
     elements   : elements
   }
 })();
-// nCore.modules.elements.init();
+nCore.modules.elements.init({
+  nCoreElements: 'nCoreElements'
+});
