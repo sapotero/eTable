@@ -100,7 +100,7 @@ buttons {
   right: -350px;
   overflow: auto;
   /*z-index: 2;*/
-  background-color: #EEE;
+  background-color: #E0E0E0;
   transition: right 0.2s;
 }
 #cellSettings.active {
@@ -119,14 +119,9 @@ buttons {
   margin-bottom: -160px;
   padding-bottom: 160px;
 
-  background: #F5F5F5;
+  background: #FAFAFA;
 }
 
-#footer {
-  height: 160px;
-  margin-left: 0px;
-  transition: margin-left 0.2s;
-}
 
 @media (min-width: 768px) {
   #header {
@@ -201,7 +196,8 @@ buttons {
 
 #sidedrawer-brand {
   /*padding-left: 20px;*/
-  padding-top: 14px;
+  /*padding-top: 14px;*/
+  padding: 7px; 20px;
   margin: auto;
   height: 64px;
   color: white;
@@ -234,20 +230,6 @@ buttons {
   padding: 6px 0px;
 }
 
-
-/**
- * Footer CSS
- */
-
-#footer {
-  background-color: #0288D1;
-  color: #fff;
-}
-
-#footer a {
-  color: #fff;
-  text-decoration: underline;
-}
 
 .mui-btn--fab.mui-btn--small.bb {
     width: 32px;
@@ -304,6 +286,29 @@ buttons {
     left: 0;
     top: 0;
   }
+}
+
+.mui-tabs__bar.s {
+  background: #EEEEEE;
+}
+
+.mui-btn.saveTemplate {
+  padding: 0px;
+  margin: 0px;
+}
+
+.mui-table>tbody>tr>td.saveTemplate {
+  margin: 0px;
+  padding: 0px;
+}
+
+.templateOptions:hover {
+  transition: 0.1s;
+  box-shadow: 0 3px 6px rgba(0,0,0,.16),0 3px 6px rgba(0,0,0,.23);
+}
+
+.mui-btn--accent.mui-btn--flat.mui-btn--cc  {
+  color: #40C4FF;
 }
 
 @page {
