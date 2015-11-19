@@ -204,17 +204,15 @@ nCore.modules.table = (function(){
     return activeCell;
    },
   addEventListener = function(){
-
-
     table.addEventListener('click', function(e){
       var el = e.path[0];
       activeCell = el;
 
       if ( el.nodeName != 'TBODY' ) {
+        currentRow  = el.parentNode.rowIndex;
+        currentCell = el.cellIndex;
         if (e.ctrlKey) {
             el.classList.toggle('info');
-            currentRow  = el.parentNode.rowIndex;
-            currentCell = el.cellIndex;
 
             var mergeCellName = currentRow + '_' + currentCell;
 
@@ -236,10 +234,11 @@ nCore.modules.table = (function(){
           el.classList.toggle('success');
         }
       };
+
       el.parentNode.className = 'active';
       activeCell.classList.toggle('primary');
       nCore.modules.table.activeCell.publish('setCell', el);
-
+      console.log( activeCell );
     //   if ( el.nodeName != 'TBODY' ) {
       //     el.parentNode.className = 'active';
       //     el.classList.toggle('info');

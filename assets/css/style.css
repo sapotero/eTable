@@ -88,7 +88,7 @@ buttons {
   left: -350px;
   overflow: auto;
   z-index: 2;
-  background-color: #EEE;
+  background-color: #FAFAFA;
   transition: left 0.2s;
 }
 
@@ -100,7 +100,7 @@ buttons {
   right: -350px;
   overflow: auto;
   /*z-index: 2;*/
-  background-color: #E0E0E0;
+  background-color: #FAFAFA;
   transition: right 0.2s;
 }
 #cellSettings.active {
@@ -119,7 +119,7 @@ buttons {
   margin-bottom: -160px;
   padding-bottom: 160px;
 
-  background: #FAFAFA;
+  background: #E0E0E0;
 }
 
 
@@ -255,6 +255,8 @@ buttons {
 
 #paper.book {
   /*margin-top: 50px auto;*/
+  transition: 0.1s;
+  /*transform: rotate(90deg);*/
   height: 297mm;
   width:  210mm;
   /*margin-left: 29%;*/

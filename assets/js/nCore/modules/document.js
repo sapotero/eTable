@@ -5,7 +5,8 @@ var nCore = nCore || {};
 nCore.document = (function(){
   var nCoreDocumentId = Math.floor(Math.random() * (Number.MAX_SAFE_INTEGER)),
       nCoreRoot = {},
-      nCoreDocumentSave;
+      nCoreDocumentSave,
+      nCoreDocumentEvent = {};
 
   var init = function (config){
     nCoreRoot         = document.getElementById( config.nCoreDocumentId );
@@ -21,6 +22,9 @@ nCore.document = (function(){
   root = function root(){
     return nCoreRoot;
   },
+  event = function event(){
+    return nCoreDocumentEvent;
+  },
   attachEvent = function(){
     nCoreDocumentSave.addEventListener('click', function (e) {
       nCore.document.root.publish('saveDocument', nCoreDocumentId );
@@ -28,9 +32,10 @@ nCore.document = (function(){
   };
   
   return {
-    init : init,
-    id   : id,
-    root : root
+    init  : init,
+    id    : id,
+    root  : root,
+    event : event
   };
 })();
 

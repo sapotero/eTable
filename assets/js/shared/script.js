@@ -1,8 +1,10 @@
 jQuery(function($) {
-  var $bodyEl = $('body'),
-      $sidedrawerEl = $('#sidedrawer'),
-      $cellSettingToggleButton = $('#cellSettingToggleButton'),
-      $cellSettings = $('#cellSettings');
+  var $bodyEl              = $('body'),
+  $sidedrawerEl            = $('#sidedrawer'),
+  $cellSettingToggleButton = $('#cellSettingToggleButton'),
+  $cellSettings            = $('#cellSettings'),
+  $rotatePage              = $('#rotatePage'),
+  $paper                   = $('#paper');
   
   
   // ==========================================================================
@@ -55,6 +57,9 @@ jQuery(function($) {
     $(this).next().slideToggle(200);
   });
 
+  $rotatePage.click(function(){
+    $paper.toggleClass('book');
+  });
   $cellSettingToggleButton.click(function(){
     console.log('++');
     $cellSettings.toggleClass('active')

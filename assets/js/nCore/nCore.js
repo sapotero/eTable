@@ -9,7 +9,7 @@ nCore = (function(){
     nCore.core    = {};
     nCore.query   = {};
 
-    var modules = ['elements', 'query', 'cell', 'cellEditor','table', 'document', 'core'];
+    var modules = ['events', 'elements', 'query', 'cell', 'cellEditor','table', 'document', 'core'];
     var body = document.getElementsByTagName('body')[0];
 
     for (var i = modules.length - 1; i >= 0; i--) {
