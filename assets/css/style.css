@@ -92,6 +92,22 @@ buttons {
   transition: left 0.2s;
 }
 
+#cellSettings {
+  position: fixed;
+  top: 64px;
+  bottom: 0;
+  width: 350px;
+  right: -350px;
+  overflow: auto;
+  /*z-index: 2;*/
+  background-color: #EEE;
+  transition: right 0.2s;
+}
+#cellSettings.active {
+  right: 0;
+  transition: right 0.2s;
+}
+
 #content-wrapper {
   min-height: 100%;
   overflow-x: hidden;
@@ -103,7 +119,7 @@ buttons {
   margin-bottom: -160px;
   padding-bottom: 160px;
 
-  background: #ECEFF1;
+  background: #F5F5F5;
 }
 
 #footer {
@@ -124,7 +140,7 @@ buttons {
   }
   
   #content-wrapper {
-    margin-left: 250px;
+    margin-left: 0px;
     transition: margin-left 0.2s;
   }
   
@@ -243,6 +259,11 @@ buttons {
     border: 1px solid rgba(0,0,0,.12);
 }
 
+#paperBar {
+  /*margin-top: 50px auto;*/
+  width: 297mm;
+  margin:0px auto;
+}
 #paper {
   /*margin-top: 50px auto;*/
   height: 210mm;
@@ -263,6 +284,12 @@ buttons {
   height: 44px;
   padding: 3px; 
   background-color: #FAFAFA;
+}
+.mui-table.no-margin-bottom {
+  margin-bottom: 0px;
+}
+.mui-table.no-margin-bottom>tbody>tr>td.bar {
+  padding: 0px 10px;
 }
 
 @media print {

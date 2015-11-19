@@ -1,6 +1,8 @@
 jQuery(function($) {
   var $bodyEl = $('body'),
-      $sidedrawerEl = $('#sidedrawer');
+      $sidedrawerEl = $('#sidedrawer'),
+      $cellSettingToggleButton = $('#cellSettingToggleButton'),
+      $cellSettings = $('#cellSettings');
   
   
   // ==========================================================================
@@ -21,9 +23,12 @@ jQuery(function($) {
     
     // show element
     $sidedrawerEl.appendTo($overlayEl);
+
     setTimeout(function() {
       $sidedrawerEl.addClass('active');
     }, 20);
+
+
   }
   
   
@@ -49,4 +54,10 @@ jQuery(function($) {
   $titleEls.on('click', function() {
     $(this).next().slideToggle(200);
   });
+
+  $cellSettingToggleButton.click(function(){
+    console.log('++');
+    $cellSettings.toggleClass('active')
+  });
+
 });
