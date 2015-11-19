@@ -1,0 +1,275 @@
+.b {
+        margin: 7px;
+      }
+
+      .nCore-table-head {
+        border: 2px solid green;
+      }
+      .nCore-table-side {
+        border: 2px solid blue;
+      }
+      .nCore-table-index {
+        border: 2px solid red;
+      }
+      .nCore-table-total {
+        border: 2px solid orange;
+      }
+
+      .fa-rotate-45 {
+        -webkit-transform: rotate(45deg);
+        -moz-transform: rotate(45deg);
+        -ms-transform: rotate(45deg);
+        -o-transform: rotate(45deg);
+        transform: rotate(45deg);
+      }
+      .fa-rotate-135 {
+        -webkit-transform: rotate(135deg);
+        -moz-transform: rotate(135deg);
+        -ms-transform: rotate(135deg);
+        -o-transform: rotate(135deg);
+        transform: rotate(135deg);
+      }
+      .fm + .fm {
+        border-top: 1px solid rgba(0,0,0,0.25);
+        padding-top: 15px;
+      } 
+
+.info {
+  background: #FFCDD2;
+}
+
+.primary {
+  background: #C8E6C9;
+}
+
+.active {
+  background: #E8F5E9;
+}
+/**
+ * Body CSS
+ */
+
+html,
+body {
+  height: 100%;
+  background-color: #eee;
+}
+
+html,
+body,
+input,
+textarea,
+buttons {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.004);
+}
+
+
+/**
+ * Layout CSS
+ */
+
+#header {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 2;
+  transition: left 0.2s;
+  line-height: 32px;
+}
+
+#sidedrawer {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  width: 350px;
+  left: -350px;
+  overflow: auto;
+  z-index: 2;
+  background-color: #ECEFF1;
+  transition: left 0.2s;
+}
+
+#content-wrapper {
+  min-height: 100%;
+  overflow-x: hidden;
+  margin-left: 0px;
+  transition: margin-left 0.2s;
+  
+  margin-top: 42px;
+  /* sticky bottom */
+  margin-bottom: -160px;
+  padding-bottom: 160px;
+
+  background: #F5F5F5;
+}
+
+#footer {
+  height: 160px;
+  margin-left: 0px;
+  transition: margin-left 0.2s;
+}
+
+@media (min-width: 768px) {
+  #header {
+    left: 350px;
+    transition: left 0.2s;
+  }
+  
+  #sidedrawer {
+    left: 0;
+    transition: left 0.2s;
+  }
+  
+  #content-wrapper {
+    margin-left: 350px;
+    transition: margin-left 0.2s;
+  }
+  
+  #footer {
+    margin-left: 350px;
+    transition: margin-left 0.2s;
+  }
+  
+  body.hide-sidedrawer #header {
+    left: 0;
+  }
+  
+  body.hide-sidedrawer #sidedrawer {
+    left: -350px;
+  }
+  
+  body.hide-sidedrawer #content-wrapper {
+    margin-left: 0;
+  }
+  
+  body.hide-sidedrawer #footer {
+    margin-left: 0;
+  }
+}
+
+
+/**
+ * Toggle Sidedrawer
+ */
+
+#sidedrawer.active {
+  left: 0;
+  transition: left 0.2s;
+}
+
+
+/**
+ * Header CSS
+ */
+
+.sidedrawer-toggle {
+  color: #fff;
+  cursor: pointer;
+  font-size: 20px;
+  line-height: 20px;
+  margin-right: 10px;
+}
+
+.sidedrawer-toggle:hover {
+  color: #fff;
+  text-decoration: none;
+}
+
+
+/**
+ * Sidedrawer CSS
+ */
+
+#sidedrawer-brand {
+  /*padding-left: 20px;*/
+  padding-top: 14px;
+  margin: auto;
+  height: 64px;
+  color: white;
+  background: #EEEEEE;
+}
+
+#sidedrawer ul {
+  list-style: none;
+}
+
+#sidedrawer > ul {
+  padding-left: 0px;
+}
+
+#sidedrawer > ul > li:first-child {
+  padding-top: 15px;
+}
+
+#sidedrawer strong {
+  display: block;
+  padding: 15px 22px;
+  cursor: pointer;
+}
+
+#sidedrawer strong:hover {
+  background-color: #E0E0E0;
+}
+
+#sidedrawer strong + ul > li {
+  padding: 6px 0px;
+}
+
+
+/**
+ * Footer CSS
+ */
+
+#footer {
+  background-color: #0288D1;
+  color: #fff;
+}
+
+#footer a {
+  color: #fff;
+  text-decoration: underline;
+}
+
+.mui-btn--fab.mui-btn--small.bb {
+    width: 32px;
+    height: 32px;
+    line-height: 32px;
+}
+
+.mui-table.mui-table--bordered>tbody>tr>td {
+    border: 1px solid rgba(0,0,0,.12);
+}
+
+#portret {
+  /*margin-top: 50px auto;*/
+  height: 210mm;
+  width: 297mm;
+}
+.mui-panel.bb {
+  margin-top: 10px;
+}
+.mui-panel.mainbar {
+  height: 44px;
+ padding: 3px; 
+}
+
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  .printArea, .printArea * {
+    visibility: visible;
+  }
+  .printArea {
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+}
+
+@page {
+  margin: 3cm;
+}

@@ -7,7 +7,9 @@
     <title>nCore.cells</title>
 
     <!-- Bootstrap CSS -->
-    <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+    <!-- <link href="assets/css/bootstrap.min.css" rel="stylesheet"> -->
+    <link href="assets/css/style.css" rel="stylesheet">
+    <link href="assets/css/mui.min.css" rel="stylesheet">
     <!-- <link href="assets/css/style.css" rel="stylesheet"> -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
 
@@ -17,230 +19,283 @@
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
       <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-    <style type="text/css">
-      .b {
-        margin: 7px;
-      }
-
-      .nCore-table-head {
-        border: 2px solid green;
-      }
-      .nCore-table-side {
-        border: 2px solid blue;
-      }
-      .nCore-table-index {
-        border: 2px solid red;
-      }
-      .nCore-table-total {
-        border: 2px solid orange;
-      }
-
-      .fa-rotate-45 {
-        -webkit-transform: rotate(45deg);
-        -moz-transform: rotate(45deg);
-        -ms-transform: rotate(45deg);
-        -o-transform: rotate(45deg);
-        transform: rotate(45deg);
-      }
-      .fa-rotate-135 {
-        -webkit-transform: rotate(135deg);
-        -moz-transform: rotate(135deg);
-        -ms-transform: rotate(135deg);
-        -o-transform: rotate(135deg);
-        transform: rotate(135deg);
-      }
-      .fm + .fm {
-        border-top: 1px solid rgba(0,0,0,0.25);
-        padding-top: 15px;
-      }
-    </style>
   </head>
   <body>
-  
-  <div id="point"></div>
-     
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-12">
-        <h4 id="nCoreDocumentId" >nCore Report</h4>
-      </div>
-      <div class="col-lg-4" style="border-right: 1px dashed grey;">
-        <ul class="nav nav-tabs">
-          <li class="">       <a href="#nCoreTabDocument"       data-toggle="tab" aria-expanded="false"> Документ </a></li>
-          <li class="active"> <a href="#nCoreTabConfigText"     data-toggle="tab" aria-expanded="true">  Настройки</a></li>
-          <li class="">       <a href="#nCoreTabConfigElements" data-toggle="tab" aria-expanded="false"> Элементы </a></li>
-          
+<div id="nCoreDocumentId" >nCore</div>
+
+    <div id="sidedrawer" class="mui--no-user-select">
+      <div id="sidedrawer-brand" class="mui--appbar-line-height mui--text-title mui--z1">
+        
+        <ul class="mui-tabs__bar mui-tabs__bar--justified">
+          <!-- <div class="mui--text-black-54 mui--text-display1"></div> -->
+
+          <li class="mui--is-active">
+            <a data-mui-toggle="tab" data-mui-controls="pane-default-1" class="mui--text-white">Настройки</a>
+          </li>
+          <li>
+            <a data-mui-toggle="tab" data-mui-controls="pane-default-2" class="mui--text-white">Данные</a>
+          </li>
         </ul>
-        <div id="nCoreTabContent" class="tab-content">
-          
-          <!-- Настройки -->
-          <div class="tab-pane fade active in" id="nCoreTabConfigText">
-            <br>
-            <!-- панелька -->
-            <div class="panel panel-primary" >
-              <div class="panel-heading">
-                <h3 class="panel-title">Ячейка</h3>
-              </div>
-              <div class="panel-body">
-                <br>
-                <form class="form-horizontal">
-                  <!-- <legend> Не выбрана ячейка </legend> -->
-                  <fieldset>
-                    <div class="form-group">
-                      <label for="textArea" class="col-lg-2 control-label">Текст</label>
-                      <div class="col-lg-10">
-                        <textarea class="form-control" rows="3" id="nCoreTabConfigCellText"></textarea>
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <label for="nCoreTabConfigTextFontSize" class="col-lg-2 control-label">Размер</label>
-                      <div class="col-lg-10">
-                        <select class="form-control" id="nCoreTabConfigTextFontSize">
-                          <option>14</option>
-                          <option>16</option>
-                          <option>18</option>
-                          <option>20</option>
-                          <option>22</option>
-                        </select>
-                      </div>
-                    </div>
-                  </fieldset>
-                </form>
+      </div>
 
-              </div>
-            </div>
+      <div class="mui-divider"></div>
 
-            <!-- панелька -->
-            <div class="panel panel-primary">
-              <button type="button" class="close b" id='nCoreQueryAddButtom' > <i class="fa fa-plus"></i> </button>
-              <div class="panel-heading">
-                <h3 class="panel-title">Критерии поиска</h3>
+      
+     <div class="mui-divider mui--divider-right"></div>
+      <div class="mui-tabs__pane mui--is-active" id="pane-default-1">
+          <div class="mui-panel mui-col-lg-10 mui-col-lg-offset-1 bb">
+            <form>
+              <!-- <legend>Свойства</legend> -->
+              
+              <div class="mui-textfield">
+                <input id="nCoreTabConfigCellText" type="text">
+                <label>Текст</label>
               </div>
-              <div class="panel-body" id='nCoreQuery'>
-              </div>
-            </div>
-
+              <!-- <label  class="mui-col-lg-2 control-label">Размер</label> -->
+            </form>
           </div>
 
-          <!-- Элементы -->
-          <div class="tab-pane fade" id="nCoreTabConfigElements">
-            <br>
-            <div class="list-group" id="nCoreElements"></div>
-          </div>
+          <div class="mui-panel mui-col-lg-10 mui-col-lg-offset-1 bb">
+            <form>
+              <legend>Поиск</legend>
+              
+              <div class="mui-textfield">
+                <input  type="text">
+                 <textarea id="" placeholder="Textarea"></textarea>
+                <label>Текст</label>
+              </div>
+              
+              <div class="mui-textfield">
+                <div class="mui-select" id="nCoreTabConfigTextFontSize">
+                  <select>
+                    <option>14</option>
+                    <option>16</option>
+                    <option>18</option>
+                    <option>20</option>
+                    <option>22</option>
+                  </select>
+                </div>
+                <label>Размер</label>
+              </div>
 
-          <!-- Документ -->
-          <div class="tab-pane fade" id="nCoreTabDocument">
-            <div class="list-group" id="nCoreElements">
-              <!-- <legend> Документ </legend> -->
-              <br>
-              <form class="form-horizontal">
-                <fieldset>
-                  <div class="form-group">
-                    <label class="col-lg-3 control-label" for="focusedInput">Название</label>
-                    <div class="col-lg-9">
-                      <input class="form-control" id="focusedInput" type="text" placeholder="...">
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label for="nCoreTabConfigTextFontSize" class="col-lg-3 control-label">Размер</label>
-                    <div class="col-lg-9">
-                      <select class="form-control" id="nCoreTabConfigTextFontSize">
-                        <option>A3</option>
-                        <option>A4</option>
-                        <option>A5</option>
-                      </select>
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <label class="col-lg-3 control-label">Ориентация</label>
-                    <div class="col-lg-9">
-                      <div class="radio">
-                        <label>
-                          <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1">
-                          Альбомная
-                        </label>
-                      </div>
-                      <div class="radio">
-                        <label>
-                          <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2" checked="">
-                          Книжная
-                        </label>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <div class="col-lg-8 col-lg-offset-4">
-                      <button type="reset" class="btn btn-default">  Отмена    </button>
-                      <button type="submit" class="btn btn-primary" id="nCoreDocumentSave"> Сохранить </button>
-                    </div>
-                  </div>
-                </fieldset>
-              </form>
-            </div>
+              <div class="mui-textfield">
+                <div class="mui-select" id="nCoreTabConfigTextFontSize">
+                  <select>
+                    <option> <i class="fa fa-cog"></i> </option>
+                    <option>16</option>
+                    <option>18</option>
+                  </select>
+                </div>
+                <label>Выравнивание</label>
+              </div>
+              <!-- <label  class="mui-col-lg-2 control-label">Размер</label> -->
+            </form>
+          </div>
+      </div>
+      <div class="mui-tabs__pane" id="pane-default-2">Pane-2</div>
+
+    </div>
+   
+<!--     <header id="header">
+      <div class="mui-appbar mui--appbar-line-height mui--z2">
+        <div class="mui-container-fluid">
+          <div class="mui--text-left mui-col-lg-8">
+            
+          </div>
+          <div class="mui--text-right mui-col-lg-4">
+            <i class="fa fa-plus"></i>
+            <i class="fa fa-plus"></i>
           </div>
         </div>
       </div>
+    </header> -->
 
-      <div class="col-lg-8">
-        <div class="col-lg-12">
-            <div class="btn-group">
-              <a href="#" class="btn btn-default" onclick="nCore.modules.table.row('insert', 0)"> <i class="fa fa-arrow-up"></i> </a>
-              <a href="#" class="btn btn-default" onclick="nCore.modules.table.row('insert', 1)"> <i class="fa fa-arrow-down"></i> </a>
-              <a href="#" class="btn btn-default" onclick="nCore.modules.table.row('delete')">delete_row current</a>
-            </div>
-            <div class="btn-group">
-              <a href="#" class="btn btn-default" onclick="nCore.modules.table.column('insert', 0)"> <i class="fa fa-arrow-left"></i> </a>
-              <a href="#" class="btn btn-default" onclick="nCore.modules.table.column('insert', 1)">  <i class="fa fa-arrow-right"></i> </a>
-              <a href="#" class="btn btn-default" onclick="nCore.modules.table.column('delete')">delete_column current</a>
-            </div>
-            <div class="btn-group">
-              <a href="#" class="btn btn-default" onclick="nCore.modules.table.merge('h')"><i class="fa fa-compress fa-rotate-45"></i></a>
-              <a href="#" class="btn btn-default" onclick="nCore.modules.table.merge('v')"><i class="fa fa-compress fa-rotate-135"></i></a>
-              <a href="#" class="btn btn-default"><i class="fa fa-arrows-h"></i></a>
-              <a href="#" class="btn btn-default"><i class="fa fa-arrows-v"></i></a>
-            </div>
-            <div class="btn-group">
-              <a href="#" class="btn btn-default btn-success" onclick=""> <i class="fa fa-file-text-o"></i></a>
-            </div>
-        </div>
-
-        <table class="table table-bordered" id="nCoreTable" style="border: 1px solid grey; margin-top: 40px;">
+    <header id="header">
+      <nav id="appbar" class="mui-container-fluid mui-appbar mui--z1">
+        <table width="100%">
           <tbody>
-            <tr>
-              <td>+</td>
-              <td>+</td>
-              <td>+</td>
-              <td>+</td>
-            </tr>
-             <tr>
-              <td>+</td>
-              <td>+</td>
-              <td>+</td>
-              <td>+</td>
-            </tr>
-             <tr>
-              <td>+</td>
-              <td>+</td>
-              <td>+</td>
-              <td>+</td>
-            </tr>
-             <tr>
-              <td>+</td>
-              <td>+</td>
-              <td>+</td>
-              <td>+</td>
+            <tr class="mui--appbar-height">
+              <td>
+                <a class="sidedrawer-toggle mui--visible-xs-inline-block js-show-sidedrawer">☰</a>
+                <a class="sidedrawer-toggle mui--hidden-xs js-hide-sidedrawer">☰</a>
+                <span class="mui--text-title mui--visible-xs-inline-block"></span>
+              </td>
+              
+              <td>
+                
+              </td>
+
+              <td class="mui--text-right">
+                <div id="appbar-social-links" class="mui--hidden-xs">
+                  
+                  <a href="#" style="color: white;" ><i class="fa fa-twitter"></i></a>
+                  <a href="#" style="color: white;" ><i class="fa fa-twitter"></i></a>
+                  
+                  <div class="mui-dropdown">
+                    <a href="#" class="mui-btn mui-btn--small" data-mui-toggle="dropdown" >
+                      <i class="fa fa-ellipsis-v" ></i>
+                    </a>
+                    <ul class="mui-dropdown__menu mui-dropdown__menu--right">
+                      <li><a href="#">A very long menu option</a></li>
+                      <li><a href="#">Option 2</a></li>
+                      <li><a href="#">Option 3</a></li>
+                      <li><a href="#">Option 4</a></li>
+                    </ul>
+                  </div>
+                </div>
+              </td>
             </tr>
           </tbody>
         </table>
+    </nav>
+    </header>
+    <div id="content-wrapper">
+      <!-- <div class="mui--appbar-height"></div> -->
+
+      <!-- <div class="mui-col-lg-12"> -->
+        <div class="mui-panel mui-col-lg-12 mui-col-lg-offset-0 mui--text-center mainbar">
+            <button type="button" class="mui-btn mui-btn--flat mui-btn--small" data-toggle="tooltip" title="New file">
+                <i class="fa fa-file-o"></i>
+            </button>
+            <button type="button" class="mui-btn mui-btn--flat mui-btn--small" data-toggle="tooltip" title="Save">
+                <i class="fa fa-save"></i>
+            </button>
+            <button type="button" class="mui-btn mui-btn--flat mui-btn--small" data-toggle="tooltip" title="Print">
+                <i class="fa fa-print"></i>
+            </button>
+
+            <span class="mui--divider-right"></span>
+
+            <button type="button" class="mui-btn mui-btn--flat mui-btn--small" data-toggle="tooltip" title="Bold">
+                <i class="fa fa-bold"></i>
+            </button>
+            <button type="button" class="mui-btn mui-btn--flat mui-btn--small" data-toggle="tooltip" title="Italic">
+                <i class="fa fa-italic"></i>
+            </button>
+            <button type="button" class="mui-btn mui-btn--flat mui-btn--small" data-toggle="tooltip" title="Underline">
+                <i class="fa fa-underline"></i>
+            </button>
+            <button type="button" class="mui-btn mui-btn--flat mui-btn--small" data-toggle="tooltip" title="Strikethrough">
+                <i class="fa fa-strikethrough"></i>
+            </button>
+            
+
+            <span class="mui--divider-right"></span>
+
+            <button type="button" class="mui-btn mui-btn--flat mui-btn--small" data-toggle="tooltip" title="Cut">
+                <i class="fa fa-scissors"></i>
+            </button>
+            <button type="button" class="mui-btn mui-btn--flat mui-btn--small" data-toggle="tooltip" title="Copy">
+                <i class="fa fa-copy"></i>
+            </button>
+            <button type="button" class="mui-btn mui-btn--flat mui-btn--small" data-toggle="tooltip" title="Past">
+                <i class="fa fa-paste"></i>
+            </button>
+
+            <span class="mui--divider-right"></span>
+
+            <button type="button" class="mui-btn mui-btn--flat mui-btn--small" data-toggle="tooltip" title="Align left">
+                <i class="fa fa-align-left"></i>
+            </button>
+            <button type="button" class="mui-btn mui-btn--flat mui-btn--small" data-toggle="tooltip" title="Align center">
+                <i class="fa fa-align-center"></i>
+            </button>
+            <button type="button" class="mui-btn mui-btn--flat mui-btn--small" data-toggle="tooltip" title="Align right">
+                <i class="fa fa-align-right"></i>
+            </button>
+            <button type="button" class="mui-btn mui-btn--flat mui-btn--small" data-toggle="tooltip" title="Align justify">
+                <i class="fa fa-align-justify"></i>
+            </button>
+            
+
+            <span class="mui--divider-right"></span>
+
+            <button type="button" class="mui-btn mui-btn--flat mui-btn--small" data-toggle="tooltip" title="Numbered list">
+                <i class="fa fa-list-ol"></i>
+            </button>
+            <button type="button" class="mui-btn mui-btn--flat mui-btn--small" data-toggle="tooltip" title="Bulleted list">
+                <i class="fa fa-list-ul"></i>
+            </button>
+
+            <span class="mui--divider-right"></span>
+
+            <button type="button" class="mui-btn mui-btn--flat mui-btn--small"  data-toggle="tooltip" title="Picture">
+                <i class="fa fa-picture-o"></i>
+            </button>
+            <button type="button" class="mui-btn mui-btn--flat mui-btn--small" data-toggle="tooltip" title="HTML table">
+                <i class="fa fa-table"></i>
+            </button>
+            <button type="button" class="mui-btn mui-btn--flat mui-btn--small" data-toggle="tooltip" title="Font">
+                <i class="fa fa-font"></i>
+            </button>
+        </div>
+      <!-- </div> -->
+
+      <div class="mui-col-lg-8 mui--text-center ">
+        <div class="mui-panel mui-col-lg-8 mui-col-lg-offset-2 mui--z1 mui--text-center " id="portret">
+          <div class="mui-col-lg-12">
+                <div class="btn-group">
+                  <a href="#" class="mui-btn mui-btn--small mui-btn--primary" onclick="nCore.modules.table.row('insert', 0)"> <i class="fa fa-arrow-up"></i> </a>
+                  <a href="#" class="mui-btn mui-btn--small mui-btn--primary" onclick="nCore.modules.table.row('insert', 1)"> <i class="fa fa-arrow-down"></i> </a>
+                  <a href="#" class="mui-btn mui-btn--small mui-btn--primary" onclick="nCore.modules.table.row('delete')">delete_row current</a>
+                  <span class="mui--divider-right">&nbsp;</span>
+                  <a href="#" class="mui-btn mui-btn--small mui-btn--primary" onclick="nCore.modules.table.column('insert', 0)"> <i class="fa fa-arrow-left"></i> </a>
+                  <a href="#" class="mui-btn mui-btn--small mui-btn--primary" onclick="nCore.modules.table.column('insert', 1)">  <i class="fa fa-arrow-right"></i> </a>
+                  <a href="#" class="mui-btn mui-btn--small mui-btn--primary" onclick="nCore.modules.table.column('delete')">delete_column current</a>
+                  <span class="mui--divider-right">&nbsp;</span>
+                  <a href="#" class="mui-btn mui-btn--small mui-btn--primary" onclick="nCore.modules.table.merge('h')"><i class="fa fa-compress fa-rotate-45"></i></a>
+                  <a href="#" class="mui-btn mui-btn--small mui-btn--primary" onclick="nCore.modules.table.merge('v')"><i class="fa fa-compress fa-rotate-135"></i></a>
+                  <a href="#" class="mui-btn mui-btn--small mui-btn--primary"><i class="fa fa-arrows-h"></i></a>
+                  <a href="#" class="mui-btn mui-btn--small mui-btn--primary"><i class="fa fa-arrows-v"></i></a>
+                </div>
+            </div>
+          <div class="mui-container-fluid">
+            
+            <table class=" printArea mui-table mui-table--bordered" id="nCoreTable" style="border: 1px solid grey; margin-top: 40px;">
+              <tbody>
+                <tr>
+                  <td>+</td>
+                  <td>+</td>
+                  <td>+</td>
+                  <td>+</td>
+                </tr>
+                 <tr>
+                  <td>+</td>
+                  <td>+</td>
+                  <td>+</td>
+                  <td>+</td>
+                </tr>
+                 <tr>
+                  <td>+</td>
+                  <td>+</td>
+                  <td>+</td>
+                  <td>+</td>
+                </tr>
+                 <tr>
+                  <td>+</td>
+                  <td>+</td>
+                  <td>+</td>
+                  <td>+</td>
+                </tr>
+              </tbody>
+            </table>
+
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-
-
-    <!-- jQuery -->
+<!--     <footer id="footer">
+      <div class="mui-container-fluid">
+        <br>
+        nCore report
+      </div>
+    </footer> -->
+      <!-- jQuery -->
     <script src="assets/js/shared/jquery-1.9.1.js"></script>
-    <script src="assets/js/shared/bootstrap.min.js"></script>
+<!--     // <script src="assets/js/shared/bootstrap.min.js"></script> -->
     <script src="assets/js/shared/interact.min.js"></script>
+    <script src="assets/js/shared/mui.min.js"></script>
+    <script src="assets/js/shared/script.js"></script>
     
     <!-- nCore -->
     <!--
