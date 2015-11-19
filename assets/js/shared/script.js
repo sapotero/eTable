@@ -11,10 +11,11 @@ jQuery(function($) {
     var options = {
       onclose: function() {
         $sidedrawerEl
-          .removeClass('active')
+          .addClass('active')
           .appendTo(document.body);
       }
     };
+    $('#sidedrawer-brand').toggleClass('mui--z5');
     
     var $overlayEl = $(mui.overlay('on', options));
     
@@ -28,6 +29,7 @@ jQuery(function($) {
   
   function hideSidedrawer() {
     $bodyEl.toggleClass('hide-sidedrawer');
+    $('#sidedrawer-brand').removeClass('mui--z5');
   }
   
   

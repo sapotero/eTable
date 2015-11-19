@@ -23,8 +23,8 @@
   <body>
 <div id="nCoreDocumentId" >nCore</div>
 
-    <div id="sidedrawer" class="mui--no-user-select">
-      <div id="sidedrawer-brand" class="mui--appbar-line-height mui--text-title mui--z1">
+    <div id="sidedrawer" class="mui--no-user-select mui--z5">
+      <div id="sidedrawer-brand" class="mui--appbar-line-height mui--text-title">
         
         <ul class="mui-tabs__bar mui-tabs__bar--justified">
           <!-- <div class="mui--text-black-54 mui--text-display1"></div> -->
@@ -33,7 +33,7 @@
             <a data-mui-toggle="tab" data-mui-controls="pane-default-1" class="mui--text-white">Настройки</a>
           </li>
           <li>
-            <a data-mui-toggle="tab" data-mui-controls="pane-default-2" class="mui--text-white">Данные</a>
+            <a data-mui-toggle="tab" data-mui-controls="nCoreElements" class="mui--text-white">Данные</a>
           </li>
         </ul>
       </div>
@@ -88,27 +88,12 @@
                 </div>
                 <label>Выравнивание</label>
               </div>
-              <!-- <label  class="mui-col-lg-2 control-label">Размер</label> -->
             </form>
           </div>
       </div>
-      <div class="mui-tabs__pane" id="pane-default-2">Pane-2</div>
-
+      <div class="mui-tabs__pane" id="nCoreElements">Pane-2</div>
     </div>
-   
-<!--     <header id="header">
-      <div class="mui-appbar mui--appbar-line-height mui--z2">
-        <div class="mui-container-fluid">
-          <div class="mui--text-left mui-col-lg-8">
-            
-          </div>
-          <div class="mui--text-right mui-col-lg-4">
-            <i class="fa fa-plus"></i>
-            <i class="fa fa-plus"></i>
-          </div>
-        </div>
-      </div>
-    </header> -->
+
 
     <header id="header">
       <nav id="appbar" class="mui-container-fluid mui-appbar mui--z1">
@@ -152,12 +137,12 @@
     <div id="content-wrapper">
       <!-- <div class="mui--appbar-height"></div> -->
 
-      <!-- <div class="mui-col-lg-12"> -->
+      <!-- Главная панелька с кнопками -->
         <div class="mui-panel mui-col-lg-12 mui-col-lg-offset-0 mui--text-center mainbar">
-            <button type="button" class="mui-btn mui-btn--flat mui-btn--small" data-toggle="tooltip" title="New file">
+            <button id="nCoreQueryAddButtom" type="button" class="mui-btn mui-btn--flat mui-btn--small" data-toggle="tooltip" title="New file">
                 <i class="fa fa-file-o"></i>
             </button>
-            <button type="button" class="mui-btn mui-btn--flat mui-btn--small" data-toggle="tooltip" title="Save">
+            <button id="nCoreDocumentSave" type="button" class="mui-btn mui-btn--flat mui-btn--small" data-toggle="tooltip" title="Save">
                 <i class="fa fa-save"></i>
             </button>
             <button type="button" class="mui-btn mui-btn--flat mui-btn--small" data-toggle="tooltip" title="Print">
@@ -231,66 +216,75 @@
         </div>
       <!-- </div> -->
 
-      <div class="mui-col-lg-8 mui--text-center ">
-        <div class="mui-panel mui-col-lg-8 mui-col-lg-offset-2 mui--z1 mui--text-center " id="portret">
-          <div class="mui-col-lg-12">
-                <div class="btn-group">
-                  <a href="#" class="mui-btn mui-btn--small mui-btn--primary" onclick="nCore.modules.table.row('insert', 0)"> <i class="fa fa-arrow-up"></i> </a>
-                  <a href="#" class="mui-btn mui-btn--small mui-btn--primary" onclick="nCore.modules.table.row('insert', 1)"> <i class="fa fa-arrow-down"></i> </a>
-                  <a href="#" class="mui-btn mui-btn--small mui-btn--primary" onclick="nCore.modules.table.row('delete')">delete_row current</a>
-                  <span class="mui--divider-right">&nbsp;</span>
-                  <a href="#" class="mui-btn mui-btn--small mui-btn--primary" onclick="nCore.modules.table.column('insert', 0)"> <i class="fa fa-arrow-left"></i> </a>
-                  <a href="#" class="mui-btn mui-btn--small mui-btn--primary" onclick="nCore.modules.table.column('insert', 1)">  <i class="fa fa-arrow-right"></i> </a>
-                  <a href="#" class="mui-btn mui-btn--small mui-btn--primary" onclick="nCore.modules.table.column('delete')">delete_column current</a>
-                  <span class="mui--divider-right">&nbsp;</span>
-                  <a href="#" class="mui-btn mui-btn--small mui-btn--primary" onclick="nCore.modules.table.merge('h')"><i class="fa fa-compress fa-rotate-45"></i></a>
-                  <a href="#" class="mui-btn mui-btn--small mui-btn--primary" onclick="nCore.modules.table.merge('v')"><i class="fa fa-compress fa-rotate-135"></i></a>
-                  <a href="#" class="mui-btn mui-btn--small mui-btn--primary"><i class="fa fa-arrows-h"></i></a>
-                  <a href="#" class="mui-btn mui-btn--small mui-btn--primary"><i class="fa fa-arrows-v"></i></a>
-                </div>
-            </div>
-          <div class="mui-container-fluid">
-            
-            <table class=" printArea mui-table mui-table--bordered" id="nCoreTable" style="border: 1px solid grey; margin-top: 40px;">
-              <tbody>
-                <tr>
-                  <td>+</td>
-                  <td>+</td>
-                  <td>+</td>
-                  <td>+</td>
-                </tr>
-                 <tr>
-                  <td>+</td>
-                  <td>+</td>
-                  <td>+</td>
-                  <td>+</td>
-                </tr>
-                 <tr>
-                  <td>+</td>
-                  <td>+</td>
-                  <td>+</td>
-                  <td>+</td>
-                </tr>
-                 <tr>
-                  <td>+</td>
-                  <td>+</td>
-                  <td>+</td>
-                  <td>+</td>
-                </tr>
-              </tbody>
-            </table>
+      <table class="mui-table">
+        <tr>
+          <td class="mui-col-lg-2">&nbsp;</td>
+          <td class="mui-col-lg-8">
+            <div class="mui-panel" id="paper">
+              <div class="mui-col-lg-12">
+                    <div class="btn-group">
+                      <a href="#" class="mui-btn mui-btn--small mui-btn--primary" onclick="nCore.modules.table.row('insert', 0)"> <i class="fa fa-arrow-up"></i> </a>
+                      <a href="#" class="mui-btn mui-btn--small mui-btn--primary" onclick="nCore.modules.table.row('insert', 1)"> <i class="fa fa-arrow-down"></i> </a>
+                      <a href="#" class="mui-btn mui-btn--small mui-btn--primary" onclick="nCore.modules.table.row('delete')">delete_row current</a>
+                      <span class="mui--divider-right">&nbsp;</span>
+                      <a href="#" class="mui-btn mui-btn--small mui-btn--primary" onclick="nCore.modules.table.column('insert', 0)"> <i class="fa fa-arrow-left"></i> </a>
+                      <a href="#" class="mui-btn mui-btn--small mui-btn--primary" onclick="nCore.modules.table.column('insert', 1)">  <i class="fa fa-arrow-right"></i> </a>
+                      <a href="#" class="mui-btn mui-btn--small mui-btn--primary" onclick="nCore.modules.table.column('delete')">delete_column current</a>
+                      <span class="mui--divider-right">&nbsp;</span>
+                      <a href="#" class="mui-btn mui-btn--small mui-btn--primary" onclick="nCore.modules.table.merge('h')"><i class="fa fa-compress fa-rotate-45"></i></a>
+                      <a href="#" class="mui-btn mui-btn--small mui-btn--primary" onclick="nCore.modules.table.merge('v')"><i class="fa fa-compress fa-rotate-135"></i></a>
+                      <a href="#" class="mui-btn mui-btn--small mui-btn--primary"><i class="fa fa-arrows-h"></i></a>
+                      <a href="#" class="mui-btn mui-btn--small mui-btn--primary"><i class="fa fa-arrows-v"></i></a>
+                    </div>
+              </div>
 
-          </div>
-        </div>
-      </div>
+              <div class="mui-container-fluid">
+                <table class=" printArea mui-table mui-table--bordered" id="nCoreTable" style="border: 1px solid grey; margin-top: 40px;">
+                  <tbody>
+                    <tr>
+                      <td>+</td>
+                      <td>+</td>
+                      <td>+</td>
+                      <td>+</td>
+                    </tr>
+                     <tr>
+                      <td>+</td>
+                      <td>+</td>
+                      <td>+</td>
+                      <td>+</td>
+                    </tr>
+                     <tr>
+                      <td>+</td>
+                      <td>+</td>
+                      <td>+</td>
+                      <td>+</td>
+                    </tr>
+                     <tr>
+                      <td>+</td>
+                      <td>+</td>
+                      <td>+</td>
+                      <td>+</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </td>
+          <td class="mui-col-lg-2">&nbsp;</td>
+        </tr>
+      </table>
+      <!-- Лист -->
     </div>
-<!--     <footer id="footer">
-      <div class="mui-container-fluid">
-        <br>
-        nCore report
-      </div>
-    </footer> -->
-      <!-- jQuery -->
+
+    <!--
+      <footer id="footer">
+        <div class="mui-container-fluid">
+          <br>
+          nCore report
+        </div>
+      </footer>
+    -->
+
     <script src="assets/js/shared/jquery-1.9.1.js"></script>
 <!--     // <script src="assets/js/shared/bootstrap.min.js"></script> -->
     <script src="assets/js/shared/interact.min.js"></script>
@@ -298,17 +292,6 @@
     <script src="assets/js/shared/script.js"></script>
     
     <!-- nCore -->
-    <!--
-      <script src="assets/js/nCore/modules/cell.js"></script>
-      <script src="assets/js/nCore/modules/table.js"></script>
-    -->
     <script src="assets/js/nCore/nCore.js"></script>
-    <!-- 
-      <script src="assets/js/interact.min.js"></script>
-      <script src="assets/js/grid.min.js"></script>
-      <script src="assets/js/report.js"></script>
-      <script src="assets/js/cell.js"></script>
-      <script src="assets/js/table.js"></script>
-     -->
   </body>
 </html>
