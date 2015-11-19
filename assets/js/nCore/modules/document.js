@@ -6,7 +6,8 @@ nCore.document = (function(){
   var nCoreDocumentId = Math.floor(Math.random() * (Number.MAX_SAFE_INTEGER)),
       nCoreRoot = {},
       nCoreDocumentSave,
-      nCoreDocumentEvent = {};
+      nCoreDocumentEvent = {},
+      nCoreIsNew = true;
 
   var init = function (config){
     nCoreRoot         = document.getElementById( config.nCoreDocumentId );
@@ -29,13 +30,17 @@ nCore.document = (function(){
     nCoreDocumentSave.addEventListener('click', function (e) {
       nCore.document.root.publish('saveDocument', nCoreDocumentId );
     });
+  },
+  newDocument = function newDocument() {
+    return nCoreIsNew;
   };
   
   return {
     init  : init,
     id    : id,
     root  : root,
-    event : event
+    event : event,
+    newDocument : newDocument
   };
 })();
 
