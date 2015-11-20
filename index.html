@@ -481,8 +481,18 @@
     <script type="text/javascript">
       $(function() {
         // $('div#froala-editor').froalaEditor({
+        $.FroalaEditor.DefineIcon('alignLeft', {NAME: 'align-left'});
+        $.FroalaEditor.RegisterCommand('alignLeft', {
+          title: 'left align',
+          focus: false,
+          undo: false,
+          refreshAfterCallback: false,
+          callback: function () {
+            console.log( this.align.apply('left') );
+          }
+        });
         $('div#paper').froalaEditor({
-          toolbarButtons: ['fullscreen', 'bold', 'italic', 'underline', 'strikeThrough', 'subscript', 'superscript', 'fontFamily', 'fontSize', '|', 'color', 'inlineStyle', 'paragraphStyle', '|', 'paragraphFormat', 'align', 'formatOL', 'formatUL', 'outdent', 'indent','insertImage', 'insertTable', '|', 'quote', 'insertHR', 'undo', 'redo', 'html'],
+          toolbarButtons: ['fullscreen', 'bold', 'italic', 'underline', 'strikeThrough', 'subscript', 'superscript', 'fontFamily', 'fontSize', '|', 'color', 'inlineStyle', 'paragraphStyle', '|', 'paragraphFormat', 'align', 'formatOL', 'formatUL', 'outdent', 'indent','insertImage', 'insertTable', '|', 'quote', 'insertHR', 'undo', 'redo', 'alignLeft'],
           language: 'ru',
           // toolbarInline: true,
           charCounterCount: false,
