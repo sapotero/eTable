@@ -280,7 +280,16 @@ buttons {
   body * {
     visibility: hidden;
   }
-  .printArea, .printArea * {
+
+/*  .printArea {
+    visibility: visible;
+  }
+  .printArea#paper.fr-toolbar.fr-ltr.fr-desktop.fr-top.fr-basic.fr-sticky.fr-sticky-off{
+    display: none;
+    margin: 0;
+    padding: 0px;
+  }*/
+  .fr-wrapper *{
     visibility: visible;
   }
   .printArea {
@@ -291,7 +300,7 @@ buttons {
 }
 
 @page {
-  margin: 5mm;
+  /*margin: 5mm;*/
 }
 
 .mui-tabs__bar.s {

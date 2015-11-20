@@ -10,6 +10,7 @@
     <!-- <link href="assets/css/bootstrap.min.css" rel="stylesheet"> -->
     <link href="assets/css/style.css" rel="stylesheet">
     <link href="assets/css/mui.min.css" rel="stylesheet">
+    <link href="assets/fr.css" rel="stylesheet">
     <!-- <link href="assets/css/style.css" rel="stylesheet"> -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
 
@@ -317,14 +318,10 @@
               </button>
               <span class="mui--divider-right"></span>
 
-              <button id="cellSettingToggleButton" type="button" class="mui-btn mui-btn--accent mui-btn--cc mui-btn--flat mui-btn--small" title="Font">
+              <button id="cellSettingToggleButton" type="button" class="mui-btn mui-btn--accent mui-btn--cc mui-btn--flat mui-btn--small" title="Font" style="z-index: 1">
                   <i class="fa fa-cog"></i>
               </button>
-
-              <!-- accebt button -->
-              <!-- <button class="mui-btn mui-btn--small mui-btn--accent mui-btn--fab">+</button> -->
-
-          </div>
+            </div>
           </td>
           <td class="mui-col-lg-2">
             <div id="cellSettings" class="mui--z1">
@@ -405,18 +402,67 @@
           <td class="mui-col-lg-2">&nbsp;</td>
 
           <!-- Лист -->
-          <td class="mui-col-lg-8 printArea">
+          <td class="mui-col-lg-8 ">
             <div class="mui-panel mui--z2" id="paper">
 
-              <div id="pane" contenteditable>++++</div>
+              <table width="471" cellpadding="0" cellspacing="0" style="width: 82%;">
+                <tbody>
+                  <tr valign="top">
+                    <td width="235" bgcolor="#ffffff">
 
-              <table class='mui-table' border="1">
-                <tr>
-                  <td>++</td>
-                  <td>++</td>
-                </tr>
+                      <p align="left">Рег.№:<strong>Тест1/3673</strong></p>
+
+                      <p align="left">Датарегистрации:<strong>20.11.2015</strong></p>
+
+                      <p align="left">Виддокумента: Рапорт</p>
+
+                      <p align="left">Основногодокумента: 6 экз. / 444 л.</p>
+
+                      <p align="left">Характер:Инициативный</p>
+                    </td>
+                    <td width="235" bgcolor="#ffffff">
+
+                      <p align="left">Подписал:Гостев А.А. (Центральный аппарат МВДРФ)</p>
+
+                      <p align="left">Гриф:Н/С</p>
+
+                      <p align="left">Приложение:555 / Приложение исходящих</p>
+                    </td>
+                  </tr>
+                </tbody>
+                <tbody>
+                  <tr>
+                    <td colspan="2" width="471" valign="top" bgcolor="#ffffff">
+
+                      <p align="center">Краткоесодержание</p>
+
+                      <p align="center">Краткоесодержание прохождения</p>
+                    </td>
+                  </tr>
+                </tbody>
+                <tbody>
+                  <tr>
+                    <td colspan="2" width="471" valign="top" bgcolor="#ffffff">
+
+                      <p align="left">Адресат:Зубов И.Н. (Центральный аппарат МВДРФ), Кандан А.А. (МВД по РеспубликеТыва), Махонов А.М. (ДИТСиЗИ МВД России),Ахметханов А.Ф. (МВД по РеспубликеСеверная Осетия-Алания), МВД поРеспублике Тыва, ОДиР ДИТСиЗИ, МВД поРеспублике Северная Осетия-Алания</p>
+
+                      <p align="left">Исполнитель:Лобанов А.Ф. (МВД по Республике Тыва)</p>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colspan="2" width="471" valign="top" bgcolor="#ffffff">
+
+                      <p align="left">Документоснование: № p/1999 от 26.03.2015/ Входящиедокументы /Письмо</p>
+
+                      <p align="left">
+                        <br>
+                      </p>
+
+                      <p align="left">Регистратор:Колокольцев В.А.</p>
+                    </td>
+                  </tr>
+                </tbody>
               </table>
-
             </div>
           </td>
 
@@ -431,8 +477,24 @@
     <script src="assets/js/shared/mui.min.js"></script>
     <script src="assets/js/shared/script.js"></script>
 
-    <script src="assets/js/table.js"></script>
-    
+    <script src="assets/fr.js"></script>
+    <script type="text/javascript">
+      $(function() {
+        // $('div#froala-editor').froalaEditor({
+        $('div#paper').froalaEditor({
+          toolbarButtons: ['fullscreen', 'bold', 'italic', 'underline', 'strikeThrough', 'subscript', 'superscript', 'fontFamily', 'fontSize', '|', 'color', 'inlineStyle', 'paragraphStyle', '|', 'paragraphFormat', 'align', 'formatOL', 'formatUL', 'outdent', 'indent','insertImage', 'insertTable', '|', 'quote', 'insertHR', 'undo', 'redo', 'html'],
+          language: 'ru',
+          // toolbarInline: true,
+          charCounterCount: false,
+          // theme: 'gray',
+          // tableEditButtons: ['tableRows', 'tableColumns', 'tableCells', 'tableCellVerticalAlign', 'tableRemove']
+          // toolbarStickyOffset: 100,
+          toolbarSticky: false
+          // toolbarBottom: true
+
+        })
+      });
+    </script>
     <!-- nCore -->
     <script src="assets/js/nCore/nCore.js"></script>
   </body>
