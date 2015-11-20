@@ -250,7 +250,7 @@ buttons {
   /*margin-top: 50px auto;*/
   height: 210mm;
   width: 297mm;
-  margin:0px auto;
+  margin: 5mm auto;
 }
 
 #paper.book {
@@ -290,6 +290,10 @@ buttons {
   }
 }
 
+@page {
+  margin: 5mm;
+}
+
 .mui-tabs__bar.s {
   background: #EEEEEE;
 }
@@ -313,6 +317,10 @@ buttons {
   color: #40C4FF;
 }
 
-@page {
-  margin: 3cm;
+
+#pane {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  border: 1px solid grey;
 }
