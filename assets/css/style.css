@@ -10,15 +10,25 @@
   z-index: 100;
 }
 
-#point {
+#points {
   border: 1px solid black;
+  width: 100%;
+  margin-left: -400px;
 }
 
 #points tbody > tr > td {
-  border: 1px solid grey;
+  border: 1px solid green;
+  padding: 5px;
+}
+
+#points thead > tr > td {
+  border: 1px solid red;
   padding: 5px;
 }
 
 td.query {
   border: 1px solid green;
+}
+.red {
+  color: red;
 }

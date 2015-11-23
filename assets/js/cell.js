@@ -157,7 +157,7 @@ var sideCell = new Cell({
       }),
       c13 = new Cell({
         caption : 'obl_3',
-        query   : 'c13_query_obl_2',
+        query   : 'c13_query_obl_3',
         parent  : c1
       }),
     c2 = new Cell({
@@ -214,7 +214,27 @@ var sideCell = new Cell({
       caption : 'obl',
       query   : 'c6_query_obl',
       parent  : sideCell
-    })
+    }),
+    c7 = new Cell({
+      caption : 'obl',
+      query   : 'c7_query_obl',
+      parent  : sideCell
+    }),
+    c8 = new Cell({
+      caption : 'obl',
+      query   : 'c8_query_obl',
+      parent  : sideCell
+    }),
+      c81 = new Cell({
+        caption : 'obl_1',
+        query   : 'c8_query_obl_1',
+        parent  : c8
+      }),
+      c82 = new Cell({
+        caption : 'obl_3',
+        query   : 'c8_query_obl_3',
+        parent  : c8
+      });
 
 var headerCell = new CellHeader({
     caption : 'main',
@@ -299,11 +319,40 @@ var headerCell = new CellHeader({
 
 
 
-var table = document.getElementById('points'),
-    tableHead = table.getElementsByTagName('thead')[0],
-    tableBody = table.getElementsByTagName('tbody')[0],
-    data_length = 5;
+var table       = document.getElementById('points'),
+    tableHead   = table.getElementsByTagName('thead')[0],
+    tableBody   = table.getElementsByTagName('tbody')[0],
+    data_length = 0,
+    data_head   = 0,
+    data_side   = 0,
+    head_tr = document.createElement('tr'),
+    data_tr = document.createElement('tr');
 
+tableHead.appendChild(data_tr);
+tableHead.appendChild(head_tr);
+
+// вначале строим шапку, чтобы понять сколько полей с данными будет в таблице
+headerCell.each( function(cell){
+  console.log('+', cell)
+  if (!cell.root) {
+    var a = head(cell, head_tr, data_tr, true);
+    tableHead.appendChild( a );
+  };
+});
+
+
+// считаем кол-во полей для боковины
+swapElements(head_tr, data_tr);
+for (var i = 0; i < head_tr.childNodes.length; i++) {
+  // console.log ( head_tr.childNodes[i].hasOwnProperty('colSpan') );
+  if ( head_tr.childNodes[i].rowSpan > 1 ) {
+    data_head++;
+  };
+};
+data_length += data_tr.childNodes.length + data_head;
+
+
+// потом строим боковину
 sideCell.each( function(cell){
   if (!cell.root) {
     var a = side(cell, undefined, true);
@@ -311,47 +360,100 @@ sideCell.each( function(cell){
   };
 });
 
+// и считаем индекс у ячеек + критерии поиска по ним + делаем в шапке ещё одну ячейку №
+// так же обходим ячейки и считаем все критерии поиска, которые не посчитаны
+var indexCell = document.createElement('td');
+indexCell.rowSpan = data_head;
+indexCell.colSpan = data_side;
+head_tr.insertBefore(indexCell, head_tr.childNodes[0]);
 
-headerCell.each( function(cell){
-  if (!cell.root) {
-    var a = side(cell, undefined, true);
-    tableBody.appendChild( a );
+var _a = head_tr.getElementsByTagName('td'),
+    _a_index = [];
+
+for (var z = 0; z < _a.length; z++) {
+  if ( _a[z].rowSpan > 1 && _a[z].dataset.hasOwnProperty('query') ) {
+    console.log(_a[z]);
+    for (var i = 0, row; row = tableBody.rows[i]; i++) {
+      for (var j = 0, col; col = row.cells[j]; j++) {
+        if ( col.textContent.match(/\`/g) ) {
+          col.textContent = col.textContent.replace("`", _a[z].dataset.query );
+          console.log(col);
+          break;
+        };
+      }
+    }
   };
-});
+};
 
 function side(cell, el, main){
   // var main = true;
   // console.log(cell, el, main);
-
   var el = new DocumentFragment();
 
   if ( cell.hasChilds() ) {
+      data_side = 2;
+      var _row_counter = 0,
+          _row_query   = '';
+          _ch_counter  = 0
       cell.each( function(item){
-      var row = document.createElement('tr');
+        var query = '';
+        var row = document.createElement('tr');
+        _ch_counter++;
 
-      // если есть родительская клетка и у ней есть потомки
-      // делаем такую штуку
-      if ( main ) {
+        // если есть родительская клетка и у ней есть потомки
+        // делаем такую штуку
+        if ( main ) {
+          var td = document.createElement('td');
+          td.rowSpan = cell.childrens().length;
+          td.textContent = cell.query;
+          td.className = 'query'
+          row.appendChild(td);
+          _row_query = cell.query;
+          _row_counter = cell.childrens().length;
+          main = false
+        };
+
+        // // все остальные
         var td = document.createElement('td');
-        td.rowSpan = cell.childrens().length;
-        td.textContent = cell.query;
+        td.textContent = item.query;
         td.className = 'query'
         row.appendChild(td);
-        main = false
-      };
 
-      // // все остальные
-      var td = document.createElement('td');
-      td.textContent = item.query;
-      td.className = 'query'
-      row.appendChild(td);
+        if ( _row_counter > 0 ) {
+          _row_counter--;
+          query += _row_query + ' * ' + item.query;
+        };
 
-      for (var _data_counter = 0; _data_counter < data_length; _data_counter++) {
-        var td_data = document.createElement('td');
-        td_data.textContent = 'data';
-        
-        row.appendChild(td_data);
-      };
+        for (var _data_counter = 0; _data_counter < data_length; _data_counter++) {
+          var td_data = document.createElement('td');
+          td_data.textContent = query;
+          td_data.dataset.cellType = 'data';
+          row.appendChild(td_data);
+          var _mod = 2;
+
+          switch (_ch_counter){
+            case 1:
+              _mod = 2;
+              break;
+            case 2:
+              _mod = 1;
+              break;
+            default:
+              _mod = 1;
+              break;
+          };
+
+          var _head_cell_data = data_tr.childNodes[td_data.cellIndex-_mod];
+          var _head_cell_data_query = '`';
+          
+          if ( typeof(_head_cell_data) !== 'undefined' ) {
+             _head_cell_data_query = _head_cell_data.dataset.query
+          };
+            
+          // console.log( td_data.cellIndex-2, typeof(_head_cell_data) !== 'undefined' ? _head_cell_data.dataset.query : 'error');
+          // console.log( td_data.cellIndex-2, _head_cell_data );
+          td_data.innerHTML += ' | <i class="red">'+ _head_cell_data_query +'</i> |'
+        };
 
       el.appendChild(row);
     });
@@ -366,75 +468,90 @@ function side(cell, el, main){
 
     for (var _data_counter = 0; _data_counter < data_length; _data_counter++) {
       var td_data = document.createElement('td');
-      td_data.textContent = 'data';
-      
+      td_data.textContent = cell.query;
+      td_data.dataset.cellType = 'data';
       row.appendChild(td_data);
+
+      var _mod = 2;
+      
+      switch (_ch_counter){
+        case 1:
+          _mod = 2;
+          break;
+        case 2:
+          _mod = 1;
+          break;
+        default:
+          _mod = 1;
+          break;
+      };
+
+      var _head_cell_data = data_tr.childNodes[td_data.cellIndex-_mod];
+      var _head_cell_data_query = '`'
+      if ( typeof(_head_cell_data) !== 'undefined' ) {
+         _head_cell_data_query = _head_cell_data.dataset.query
+      };
+
+      td_data.innerHTML += ' | <i class="red">'+ _head_cell_data_query +'</i> |';
+
     };
     el.appendChild(row);
   }
   return el;
 };
 
-function head(cell, el, main){
+function head(cell, head_tr, data_tr, main){
   // var main = true;
   // console.log(cell, el, main);
 
   var el = new DocumentFragment();
 
   if ( cell.hasChilds() ) {
+      var _head_data = '';
       cell.each( function(item){
-      var row = document.createElement('tr');
 
       // если есть родительская клетка и у ней есть потомки
       // делаем такую штуку
       if ( main ) {
         var td = document.createElement('td');
-        td.rowSpan = cell.childrens().length;
+        td.colSpan = cell.childrens().length;
         td.textContent = cell.query;
         td.className = 'query'
-        row.appendChild(td);
+        head_tr.appendChild(td);
+        td.dataset.query = cell.query;
+        _head_data = cell.query;
+
         main = false
-      };
+      }
 
       // // все остальные
       var td = document.createElement('td');
       td.textContent = item.query;
       td.className = 'query'
-      row.appendChild(td);
+      td.dataset.query = _head_data + " | " + item.query;
+      data_tr.appendChild(td);
 
-      for (var _data_counter = 0; _data_counter < data_length; _data_counter++) {
-        var td_data = document.createElement('td');
-        td_data.textContent = 'data';
-        
-        row.appendChild(td_data);
-      };
-
-      el.appendChild(row);
+      el.appendChild(data_tr);
     });
   } else {
-    console.log(cell);
-    var row = document.createElement('tr');
+
     var td = document.createElement('td');
-    td.colSpan = 2;
+    td.rowSpan = 2;
     td.textContent = cell.query;
     td.className = 'query'
-    row.appendChild(td);
+    td.dataset.query = cell.query;
 
-    for (var _data_counter = 0; _data_counter < data_length; _data_counter++) {
-      var td_data = document.createElement('td');
-      td_data.textContent = 'data';
-      
-      row.appendChild(td_data);
-    };
-    el.appendChild(row);
+    head_tr.appendChild(td);
+    el.appendChild(head_tr);
   }
   return el;
 };
 
-function createIndex(){
-
-};
-
+function swapElements(el1, el2) {
+    el2.nextSibling === el1
+    ? el1.parentNode.insertBefore(el2, el1.nextSibling)
+    : el1.parentNode.insertBefore(el2, el1); 
+}
 
 // $('#cellFabrick').click(function(){
   //   var table = document.getElementById('table'),
