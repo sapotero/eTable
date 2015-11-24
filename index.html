@@ -80,10 +80,73 @@
         </tbody>
       </table>
 
+
+
+
+
+
+
       <table class="table" id="points">
         <thead></thead>
         <tbody></tbody>
       </table>
+      
+
+
+
+<table id="frTable" style="width: 100%;">
+  <tbody>
+    <tr>
+      <td style="width: 16.4723%;" colspan="2" rowspan="3" class="fr-highlighted">
+        <br>
+      </td>
+      <td style="width: 5.7603%;" rowspan="3" class="fr-highlighted">
+        <br>
+      </td>
+      <td style="width: 18.8977%;" colspan="2" class="fr-highlighted">
+        <br>
+      </td>
+      <td style="width: 16.5734%;" colspan="2" class="fr-highlighted">
+        <br>
+      </td>
+      <td style="width: 8.3877%;" rowspan="3" class="fr-highlighted">
+        <br>
+      </td>
+      <td style="width: 16.6045%;" class="fr-highlighted" colspan="2">
+        <br>
+      </td>
+      <td style="width: 8.4888%;" rowspan="3" class="fr-highlighted">
+        <br>
+      </td>
+      <td style="width: 8.5899%;" rowspan="3" class="fr-highlighted">
+        <br>
+      </td>
+    </tr>
+    <tr>
+      <td style="width: 10.7121%;" rowspan="2" class="fr-highlighted">
+        <br>
+      </td>
+      <td style="width: 8.1856%;" rowspan="2" class="fr-highlighted">
+        <br>
+      </td>
+      <td style="width: 8.2867%;" rowspan="2" class="fr-highlighted">
+        <br>
+      </td>
+      <td style="width: 8.2867%;" rowspan="2" class="fr-highlighted">
+        <br>
+      </td>
+      <td style="width: 8.3877%;" rowspan="2" class="fr-highlighted">
+        <br>
+      </td>
+      <td style="width: 8.3877%;" rowspan="2" class="fr-highlighted">
+        <br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+
       </div>
     </div>
   </div>
@@ -104,11 +167,14 @@
     <!-- <script src="assets/js/interact.min.js"></script> -->
     <!-- <script src="assets/js/grid.min.js"></script> -->
     <!-- <script src="assets/js/report.js"></script> -->
-    <script type="text/javascript">
-    // $('#cellFabrick').popover({placement: 'bottom'})
-    </script>
 
     <script src="assets/js/cell.js"></script>
     <script src="assets/js/table.js"></script>
+    <script type="text/javascript">
+    // $('#cellFabrick').popover({placement: 'bottom'})
+    
+    frTable = document.getElementById('frTable');
+    generateQueryFromTable(frTable, 'fr-highlighted');
+    </script>
   </body>
 </html>

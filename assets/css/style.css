@@ -32,3 +32,24 @@ td.query {
 .red {
   color: red;
 }
+#points thead > tr > td.total {
+  border: 2px solid black;
+  color: purple;
+}
+
+#frTable {
+  border: 1px solid black;
+}
+
+#frTable tbody > tr > td {
+  border: 1px solid green;
+}
+
+#frTable tbody > tr > td.fr-highlighted {
+  border: 1px solid red;
+}
+
+#frTable tr.data td {
+  border: 1px solid blue;
+  height: 20px;
+}

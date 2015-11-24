@@ -241,6 +241,11 @@ var headerCell = new CellHeader({
     query   : 'query_register',
     root    : true
   }),
+    c55 = new CellHeader({
+      caption : 'header_obl',
+      query   : 'header_c55_query_obl',
+      parent  : headerCell
+    }),
     c1 = new CellHeader({
       caption : 'header_msk',
       query   : 'header_c1_query_msk',
@@ -315,7 +320,7 @@ var headerCell = new CellHeader({
       caption : 'header_obl',
       query   : 'header_c6_query_obl',
       parent  : headerCell
-    })
+    });
 
 
 
@@ -325,15 +330,17 @@ var table       = document.getElementById('points'),
     data_length = 0,
     data_head   = 0,
     data_side   = 0,
-    head_tr = document.createElement('tr'),
-    data_tr = document.createElement('tr');
+    head_tr     = document.createElement('tr'),
+    data_tr     = document.createElement('tr'),
+    total_tr    = document.createElement('tr');
 
-tableHead.appendChild(data_tr);
 tableHead.appendChild(head_tr);
+tableHead.appendChild(data_tr);
+tableHead.appendChild(total_tr);
 
 // вначале строим шапку, чтобы понять сколько полей с данными будет в таблице
 headerCell.each( function(cell){
-  console.log('+', cell)
+  // console.log('+', cell)
   if (!cell.root) {
     var a = head(cell, head_tr, data_tr, true);
     tableHead.appendChild( a );
@@ -372,12 +379,12 @@ var _a = head_tr.getElementsByTagName('td'),
 
 for (var z = 0; z < _a.length; z++) {
   if ( _a[z].rowSpan > 1 && _a[z].dataset.hasOwnProperty('query') ) {
-    console.log(_a[z]);
+    // console.log(_a[z]);
     for (var i = 0, row; row = tableBody.rows[i]; i++) {
       for (var j = 0, col; col = row.cells[j]; j++) {
         if ( col.textContent.match(/\`/g) ) {
-          col.textContent = col.textContent.replace("`", _a[z].dataset.query );
-          console.log(col);
+          col.innerHTML = col.innerHTML.replace("`", '<i class="red">'+_a[z].dataset.query+"</i>" );
+          // console.log(col);
           break;
         };
       }
@@ -385,16 +392,19 @@ for (var z = 0; z < _a.length; z++) {
   };
 };
 
+
+
 function side(cell, el, main){
   // var main = true;
   // console.log(cell, el, main);
   var el = new DocumentFragment();
 
   if ( cell.hasChilds() ) {
-      data_side = 2;
+             data_side = 2;
       var _row_counter = 0,
-          _row_query   = '';
-          _ch_counter  = 0
+          _row_query   = '',
+          _ch_counter  = 0;
+
       cell.each( function(item){
         var query = '';
         var row = document.createElement('tr');
@@ -429,6 +439,9 @@ function side(cell, el, main){
           td_data.textContent = query;
           td_data.dataset.cellType = 'data';
           row.appendChild(td_data);
+
+          // console.log(td_data, td_data.cellIndex);
+
           var _mod = 2;
 
           switch (_ch_counter){
@@ -449,16 +462,13 @@ function side(cell, el, main){
           if ( typeof(_head_cell_data) !== 'undefined' ) {
              _head_cell_data_query = _head_cell_data.dataset.query
           };
-            
-          // console.log( td_data.cellIndex-2, typeof(_head_cell_data) !== 'undefined' ? _head_cell_data.dataset.query : 'error');
-          // console.log( td_data.cellIndex-2, _head_cell_data );
           td_data.innerHTML += ' | <i class="red">'+ _head_cell_data_query +'</i> |'
         };
 
       el.appendChild(row);
     });
   } else {
-    console.log(cell);
+    // console.log(cell);
     var row = document.createElement('tr');
     var td = document.createElement('td');
     td.colSpan = 2;
@@ -638,3 +648,91 @@ function swapElements(el1, el2) {
   // // }
 
   // // tableCreator(  cell, '#dyn' )
+
+function generateQueryFromTable(table, headClass){
+  var table     = table,
+      headClass = headClass,
+      maxCells  = 0,
+      headRows  = [];
+
+  // считаем макс. кол-во ячеек в таблице
+  for(var i=0;i<table.rows.length;i++) {
+    var cells = table.rows[i].cells, max = 0;
+    for (var c = 0; c < cells.length; c++) {
+      max += cells[c].colSpan;
+    };
+    if (max > maxCells) {
+      maxCells = max;
+    };
+  }
+  console.log('max:', maxCells);
+
+  // выбираем все элементы, которые отметил пользователь
+  head_elements = table.getElementsByClassName( headClass );
+  
+  // получаем уникальные строки таблицы
+  for (var z = 0; z < head_elements.length; z++) {
+    headRows.push(head_elements[z].parentNode)
+  };
+  headRows = uniq(headRows);
+
+  // добавляем специальную строку с данными
+  var dataRow = document.createElement('tr');
+  dataRow.className = 'data';
+  dataRow.dataset.cellType = 'data';
+  table.appendChild(dataRow);
+
+  // создаем строку с данными
+  for (var i = 0; i < maxCells; i++) {
+    var dataCell = document.createElement('td');
+    dataCell.innerHTML = '<br>'
+    dataCell.dataset.cellType = 'data-cell';
+    dataRow.appendChild(dataCell);
+  };
+
+  // обходим все ноды и добавляем текст в строку с данными
+  for (var h = 0; h < headRows.length; h++) {
+
+    var node = headRows[h].getElementsByTagName('td');
+    console.log('node', node);
+
+    var currentCellIndex = 0;
+    var lastCellIndex = 0;
+    for (var z = 0; z < node.length; z++) {
+      var cell = node[z];
+
+      // если colSpan больше единыцы, то клонируем значение из заголовка на все соседние ячейки
+      if ( cell.colSpan > 1 ) {
+        lastCellIndex = currentCellIndex;
+        for (var x = 0; x < cell.colSpan; x++) {
+          currentCellIndex += x;
+          console.log('***', cell, currentCellIndex);
+          var dc = dataRow.getElementsByTagName('td')[lastCellIndex + cell.cellIndex];
+          dc.textContent += '[' + cell.parentNode.rowIndex + ':' + cell.cellIndex +']';
+        };
+      } else {
+        // если меньше, то пишем сразу
+        console.log('*', cell);
+        currentCellIndex++;
+        var dc = dataRow.getElementsByTagName('td')[currentCellIndex];
+        dc.textContent += ' > ' + cell.cellIndex;
+        // console.log('index', cell, cell.cellIndex);
+        // console.log( currentCellIndex, dc );
+      };
+      
+    };
+  };
+
+};
+
+function uniq(a) {
+  var prims = {"boolean":{}, "number":{}, "string":{}}, objs = [];
+
+  return a.filter(function(item) {
+    var type = typeof item;
+    if(type in prims)
+      return prims[type].hasOwnProperty(item) ? false : (prims[type][item] = true);
+    else
+      return objs.indexOf(item) >= 0 ? false : objs.push(item);
+  });
+}
