@@ -49,6 +49,10 @@ td.query {
   border: 1px solid red;
 }
 
+#frTable tbody > tr > td.fr-thick {
+  border: 1px solid purple;
+}
+
 #frTable tr.data td {
   border: 1px solid blue;
   height: 20px;

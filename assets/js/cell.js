@@ -649,11 +649,17 @@ function swapElements(el1, el2) {
 
   // // tableCreator(  cell, '#dyn' )
 
-function generateQueryFromTable(table, headClass){
+function generateQueryFromTable(table, headClass, sideClass){
   var table     = table,
       headClass = headClass,
+      sideClass = sideClass,
       maxCells  = 0,
-      headRows  = [];
+      headRows  = [],
+      head_elements,
+      sideRows  = [],
+      side_elements,
+      headRowsCenter = [],
+      sideRowsCenter = [];
 
   // считаем макс. кол-во ячеек в таблице
   for(var i=0;i<table.rows.length;i++) {
@@ -669,12 +675,19 @@ function generateQueryFromTable(table, headClass){
 
   // выбираем все элементы, которые отметил пользователь
   head_elements = table.getElementsByClassName( headClass );
-  
-  // получаем уникальные строки таблицы
+  // получаем уникальные строки из шапки таблицы
   for (var z = 0; z < head_elements.length; z++) {
     headRows.push(head_elements[z].parentNode)
   };
   headRows = uniq(headRows);
+
+  // выбираем все элементы, которые отметил пользователь
+  side_elements = table.getElementsByClassName( sideClass );
+  // получаем уникальные строки из боковины таблицы
+  for (var z = 0; z < side_elements.length; z++) {
+    sideRows.push(side_elements[z].parentNode)
+  };
+  sideRows = uniq(sideRows);
 
   // добавляем специальную строку с данными
   var dataRow = document.createElement('tr');
@@ -683,31 +696,75 @@ function generateQueryFromTable(table, headClass){
   table.appendChild(dataRow);
 
   // считаем середины строк шапки
-  var headRowsCenter = [];
   for (var v = 0; v < headRows.length; v++) {
     var coordinates = headRows[v].getBoundingClientRect();
-    console.log('row', headRows[v], coordinates)
     headRowsCenter.push( (coordinates.top+coordinates.bottom)/2 );
   };
+
+  // считаем середины строк боковины
+  for (var v = 0; v < sideRows.length; v++) {
+    var coordinates = sideRows[v].getBoundingClientRect();
+    sideRowsCenter.push( {center: (coordinates.top+coordinates.bottom)/2, el: sideRows[v] } );
+  };
+  console.log(sideRowsCenter);
+
   // создаем строку с данными
   for (var i = 0; i < maxCells; i++) {
-    var dataCell = document.createElement('td');
+    var queryArray = [],
+    dataCell = document.createElement('td');
     dataCell.dataset.cellType = 'data-cell';
     dataRow.appendChild(dataCell);
 
     var coordinates = dataCell.getBoundingClientRect();
 
+    // проходимся по центрам строкам и центрам ячеек чтобы получить элемент
     for (var b = 0; b < headRowsCenter.length; b++) {
-      console.log(coordinates, el, (coordinates.left+coordinates.right)/2, headRowsCenter[b]);
+      // console.log(coordinates, el, (coordinates.left+coordinates.right)/2, headRowsCenter[b]);
       var el = document.elementFromPoint( (coordinates.left+coordinates.right)/2, headRowsCenter[b]);
       if ( el ) {
         dataCell.innerHTML += '<br>'+ el.innerHTML;
+        queryArray.push( el.innerHTML );
       };
     };
 
-
+    dataCell.innerHTML = uniq(queryArray).join('+');
   };
 
+  var rowRoot   = '';
+  for (var b = 0; b < sideRowsCenter.length; b++) {
+    
+    var row       = sideRowsCenter[b].el,
+        rowCenter = sideRowsCenter[b].center,
+        rowQuery  = '',
+        index     = 1;
+
+    for (var n = 0; n < row.cells.length; n++) {
+      var cell = row.cells[n];
+
+      if ( cell.classList.contains( sideClass ) && cell.rowSpan > 1 ) {
+        console.log('root: ',cell);
+        rowRoot = cell.innerHTML;
+        index = 0;
+      }
+
+      if (cell.classList.contains( sideClass )){
+        rowQuery = rowRoot +'*'+ cell.innerHTML;
+      } else {
+        cell.innerHTML += rowQuery + ' || ' +dataRow.getElementsByTagName('td')[cell.cellIndex + index].innerHTML;
+      }
+      // console.log( rowRoot, rowQuery, cell, index );
+
+    };
+
+    // console.log(coordinates, el, (coordinates.left+coordinates.right)/2, sideRowsCenter[b]);
+
+    // var el = document.elementFromPoint( (coordinates.left+coordinates.right)/2, sideRowsCenter[b]);
+    // if ( el ) {
+    //   dataCell.innerHTML += '<br>'+ el.innerHTML;
+    //   queryArray.push( el.innerHTML );
+    // };
+  };
+  dataRow.style.display = 'none';
   // // обходим все ноды и добавляем текст в строку с данными
   // for (var h = 0; h < headRows.length; h++) {
 
