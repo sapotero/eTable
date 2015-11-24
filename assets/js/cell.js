@@ -682,47 +682,67 @@ function generateQueryFromTable(table, headClass){
   dataRow.dataset.cellType = 'data';
   table.appendChild(dataRow);
 
+  // считаем середины строк шапки
+  var headRowsCenter = [];
+  for (var v = 0; v < headRows.length; v++) {
+    var coordinates = headRows[v].getBoundingClientRect();
+    console.log('row', headRows[v], coordinates)
+    headRowsCenter.push( (coordinates.top+coordinates.bottom)/2 );
+  };
   // создаем строку с данными
   for (var i = 0; i < maxCells; i++) {
     var dataCell = document.createElement('td');
-    dataCell.innerHTML = '<br>'
     dataCell.dataset.cellType = 'data-cell';
     dataRow.appendChild(dataCell);
-  };
 
-  // обходим все ноды и добавляем текст в строку с данными
-  for (var h = 0; h < headRows.length; h++) {
+    var coordinates = dataCell.getBoundingClientRect();
 
-    var node = headRows[h].getElementsByTagName('td');
-    console.log('node', node);
-
-    var currentCellIndex = 0;
-    var lastCellIndex = 0;
-    for (var z = 0; z < node.length; z++) {
-      var cell = node[z];
-
-      // если colSpan больше единыцы, то клонируем значение из заголовка на все соседние ячейки
-      if ( cell.colSpan > 1 ) {
-        lastCellIndex = currentCellIndex;
-        for (var x = 0; x < cell.colSpan; x++) {
-          currentCellIndex += x;
-          console.log('***', cell, currentCellIndex);
-          var dc = dataRow.getElementsByTagName('td')[lastCellIndex + cell.cellIndex];
-          dc.textContent += '[' + cell.parentNode.rowIndex + ':' + cell.cellIndex +']';
-        };
-      } else {
-        // если меньше, то пишем сразу
-        console.log('*', cell);
-        currentCellIndex++;
-        var dc = dataRow.getElementsByTagName('td')[currentCellIndex];
-        dc.textContent += ' > ' + cell.cellIndex;
-        // console.log('index', cell, cell.cellIndex);
-        // console.log( currentCellIndex, dc );
+    for (var b = 0; b < headRowsCenter.length; b++) {
+      console.log(coordinates, el, (coordinates.left+coordinates.right)/2, headRowsCenter[b]);
+      var el = document.elementFromPoint( (coordinates.left+coordinates.right)/2, headRowsCenter[b]);
+      if ( el ) {
+        dataCell.innerHTML += '<br>'+ el.innerHTML;
       };
-      
     };
+
+
   };
 
+  // // обходим все ноды и добавляем текст в строку с данными
+  // for (var h = 0; h < headRows.length; h++) {
+
+  //   var node = headRows[h].getElementsByTagName('td');
+  //   console.log('node', node);
+
+  //   var currentCellIndex = 0;
+  //   var lastCellIndex = 0;
+  //   for (var z = 0; z < node.length; z++) {
+  //     console.log(node[z], node[z].getBoundingClientRect() );
+  //     // var cell = node[z];
+  //     // console.log()
+
+  //     // // если colSpan больше единыцы, то клонируем значение из заголовка на все соседние ячейки
+  //     // if ( cell.colSpan > 1 ) {
+  //     //   lastCellIndex = currentCellIndex;
+  //     //   for (var x = 0; x < cell.colSpan; x++) {
+  //     //     currentCellIndex += x;
+  //     //     console.log('***', cell, currentCellIndex);
+  //     //     var dc = dataRow.getElementsByTagName('td')[lastCellIndex + cell.cellIndex];
+  //     //     dc.textContent += '[' + cell.parentNode.rowIndex + ':' + cell.cellIndex +']';
+  //     //   };
+  //     //   // break;
+  //     // } else {
+  //     //   // если меньше, то пишем сразу
+  //     //   console.log('*', cell);
+  //     //   currentCellIndex++;
+  //     //   var dc = dataRow.getElementsByTagName('td')[currentCellIndex];
+  //     //   dc.textContent += ' > ' + cell.cellIndex;
+  //     //   // console.log('index', cell, cell.cellIndex);
+  //     //   // console.log( currentCellIndex, dc );
+  //     // };
+      
+  //     };
+  //   };
 };
 
 function uniq(a) {
