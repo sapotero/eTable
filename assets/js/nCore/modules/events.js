@@ -96,23 +96,18 @@ nCore.events = (function(){
     });
 
     nCore.modules.table.event.subscribe('cellSelect', function(data){
-      console.log('cellSelect', data);
-      var showCellSettings = true;
+      // console.log('cellSelect', data);
+      var showCellSettings = true,
+          searchList = {
+            conditions  :document.getElementsByName('conditions')[0],
+            value       :document.getElementsByName('value')[0],
+            origin_name :document.getElementsByName('origin_name')[0]
+          };
       activeCell = data;
 
-      if ( data.dataset.hasOwnProperty('conditions') ) {
-        console.warn( document.getElementsByName('conditions') );
-
-        console.log( 'conditions:', data.dataset.conditions );
-      };
-
-      if ( data.dataset.hasOwnProperty('value') ) {
-        console.log( 'value:', data.dataset.value );
-      };
-
-      if ( data.dataset.hasOwnProperty('origin_name') ) {
-        console.log( 'origin_name:', data.dataset.origin_name );
-      };
+      data.dataset.hasOwnProperty('value') ? searchList['value'].value = data.dataset.value :searchList['value'].value = '';
+      data.dataset.hasOwnProperty('conditions') ? searchList['conditions'].value = data.dataset.conditions :searchList['conditions'].selectedIndex = -1;
+      data.dataset.hasOwnProperty('origin_name') ? searchList['origin_name'].value = data.dataset.origin_name :searchList['origin_name'].selectedIndex = -1;
 
       if ( showCellSettings && !document.getElementById('cellSettings').classList.contains('active') ) {
         document.getElementById('cellSettings').classList.toggle('active');
@@ -121,7 +116,7 @@ nCore.events = (function(){
     });
 
     nCore.modules.table.event.subscribe('cellSettingsChange', function(input){
-      console.log('cellSettingsChange', input);
+      // console.log('cellSettingsChange', input);
 
       switch( input.target.name ){
         case 'conditions':
@@ -138,15 +133,15 @@ nCore.events = (function(){
       };
 
       if ( activeCell.dataset.hasOwnProperty('condition') ) {
-        console.log( 'condition:', activeCell.dataset.condition );
+        // console.log( 'condition:', activeCell.dataset.condition );
       };
 
       if ( activeCell.dataset.hasOwnProperty('value') ) {
-        console.log( 'value:', activeCell.dataset.value );
+        // console.log( 'value:', activeCell.dataset.value );
       };
 
       if ( activeCell.dataset.hasOwnProperty('origin_name') ) {
-        console.log( 'origin_name:', activeCell.dataset.origin_name );
+        // console.log( 'origin_name:', activeCell.dataset.origin_name );
       };
 
     });
