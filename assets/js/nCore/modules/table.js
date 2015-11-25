@@ -327,12 +327,12 @@ nCore.modules.table = (function(){
       for (var b = 0; b < headRowsCenter.length; b++) {
         var el = document.elementFromPoint( (coordinates.left+coordinates.right)/2, headRowsCenter[b]);
         if ( el ) {
-          dataCell.innerHTML += '<br>'+ el.innerHTML;
+          dataCell.innerHTML += el.innerHTML;
           queryArray.push( el.innerHTML );
         };
       };
 
-      dataCell.innerHTML = uniq(queryArray).join('+');
+      dataCell.innerHTML = uniq(queryArray).join(' -> ');
     };
 
     var rowRoot   = '';
@@ -353,7 +353,7 @@ nCore.modules.table = (function(){
         }
 
         if (cell.classList.contains( sideClass )){
-          rowQuery = rowRoot +'*'+ cell.innerHTML;
+          rowQuery = rowRoot +' -> '+ cell.innerHTML;
         } else {
           cell.innerHTML += rowQuery + ' || ' +dataRow.getElementsByTagName('td')[cell.cellIndex + index].innerHTML;
         }
