@@ -6,9 +6,9 @@ var nCore = nCore || {};
 nCore.modules.cell = (function(){
   var cells = [], activeCell;
 
-  nCore.modules.table.activeCell.subscribe('setCell', function(cell){
-    activeCell = cell;
-  });
+  // nCore.modules.table.activeCell.subscribe('setCell', function(cell){
+  //   activeCell = cell;
+  // });
 
   var Cell = function(data) {
     this.index     = 0;

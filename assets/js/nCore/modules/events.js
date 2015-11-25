@@ -58,6 +58,15 @@ nCore.events = (function(){
         console.log('setDocumentAttributes false:', data);
       }
     });
+
+    nCore.modules.table.event.subscribe('generateQuery', function(data){
+      console.log('generateQuery', data);
+      var table     = data.table,
+          headClass = data.headClass,
+          sideClass = data.sideClass;
+
+      nCore.modules.table.tableQuery(table, headClass, sideClass);
+    });
   };
 
   return {

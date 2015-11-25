@@ -33,11 +33,11 @@ nCore.modules.cellEditor = (function(){
       nCore.core.attachTo( nCore.modules.cellEditor.cellText );
       nCore.core.attachTo( nCore.modules.cellEditor.fontSize );
 
-      nCore.modules.table.activeCell.subscribe('setCell', function(cell){
-        activeCell = cell;
-        cellText.value = cell.textContent;
-        cellText.focus();
-      });
+      // nCore.modules.table.activeCell.subscribe('setCell', function(cell){
+      //   activeCell = cell;
+      //   cellText.value = cell.textContent;
+      //   cellText.focus();
+      // });
      },
 
     root     : function(){

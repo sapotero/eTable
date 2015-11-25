@@ -4,26 +4,28 @@
 
 var nCore = nCore || {};
 nCore.modules.table = (function(){
-
-  var table,
+  var nCoreTableEvent = {},
+      table,
       maxCells = 0,
       currentCell,
       currentRow,
       activeCell = {},
       mergeCells = [],
   init = function(config){
+    nCore.core.attachTo( nCore.modules.table.event );
     var initialTable = document.getElementById(config.table);
     
-    if ( typeof(initialTable) === 'undefined' ) {
-      console.log('error init: table undefined');
+    if ( typeof(initialTable) !== 'undefined' && initialTable !== null ) {
+      console.log( 'error init: table undefined', typeof(initialTable), initialTable );
+      table = ( initialTable ? initialTable : undefined);
+      countMaxCells();
+      addEventListener();
+
+      nCore.core.attachTo( nCore.modules.table.activeCell );
+    } else {
       return false;
-    };
+    }
 
-    table = ( initialTable ? initialTable : undefined);
-    countMaxCells();
-    addEventListener();
-
-    nCore.core.attachTo( nCore.modules.table.activeCell );
 
    },
   config = function(){
@@ -358,7 +360,21 @@ nCore.modules.table = (function(){
       };
     };
     dataRow.style.display = 'none';
-  };
+   },
+  event = function event(){
+    return nCoreTableEvent;
+   },
+  uniq = function (a) {
+    var prims = {"boolean":{}, "number":{}, "string":{}}, objs = [];
+
+    return a.filter(function(item) {
+      var type = typeof item;
+      if(type in prims)
+        return prims[type].hasOwnProperty(item) ? false : (prims[type][item] = true);
+      else
+        return objs.indexOf(item) >= 0 ? false : objs.push(item);
+    });
+   };
 
   return {
     init       : init,
@@ -366,6 +382,7 @@ nCore.modules.table = (function(){
     config     : config,
     row        : row,
     column     : column,
+    event      : event,
     activeCell : activeCell,
     tableQuery : generateQueryFromTable
   }

@@ -146,8 +146,26 @@ $(function() {
     }
   });
 
+  $.FroalaEditor.DefineIcon('calculator', {NAME: 'calculator'});
+  $.FroalaEditor.RegisterCommand('calculator', {
+    title: 'calculator',
+    focus: false,
+    undo: false,
+    refreshAfterCallback: false,
+    callback: function () {
+      var data = {
+        table: document.querySelector('.fr-element.fr-view > table'),
+        headClass: 'fr-highlighted',
+        sideClass: 'fr-thick'
+      };
+      nCore.modules.table.event.publish('generateQuery', data );
+    }
+  });
+
   $('div#paper').froalaEditor({
-    toolbarButtons: ['file-o', 'floppy-o', '|', 'bold', 'italic', 'underline', 'strikeThrough', 'fontSize', '|', 'color', 'inlineStyle', 'paragraphStyle', '|', 'paragraphFormat', '|','alignLeft', 'alignCenter', 'alignRight', '|','formatOL', 'formatUL', '|','outdent', 'indent', '|','insertImage', 'insertTable', '|', 'html', '|','undo', 'redo', '|', 'cog'],
+    // раскоментировать когда будет выкладывать в прод
+    // toolbarButtons: ['file-o', 'floppy-o', '|', 'bold', 'italic', 'underline', 'strikeThrough', 'fontSize', '|', 'color', 'inlineStyle', 'paragraphStyle', '|', 'paragraphFormat', '|','alignLeft', 'alignCenter', 'alignRight', '|','formatOL', 'formatUL', '|','outdent', 'indent', '|','insertImage', 'insertTable', '|', 'html', '|','undo', 'redo', '|', 'cog'],
+    toolbarButtons: ['file-o', 'floppy-o', '|', 'bold', 'italic', 'underline', 'strikeThrough', 'fontSize', '|', 'color', 'calculator', 'paragraphStyle', '|', 'paragraphFormat', '|','alignLeft', 'alignCenter', 'alignRight', '|','formatOL', 'formatUL', '|','outdent', 'indent', '|','insertImage', 'insertTable', '|', 'html', '|','undo', 'redo', '|', 'cog'],
     language: 'ru',
     // toolbarInline: true,
     charCounterCount: false,

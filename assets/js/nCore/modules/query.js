@@ -10,11 +10,11 @@ nCore.query = (function(){
 
   // рисуем форму поиска
   var init = function(config){
-    root   = document.getElementById( config.nCoreQuery ),
+    root   = document.getElementById( config.nCoreQuery );
     // button = document.getElementById( config.nCoreQueryAddButtom );
     // button.addEventListener('click', function (e) {
     // });
-   // },
+   },
 
   // произвольный пост запрос
   post = function( url ){
@@ -48,11 +48,10 @@ nCore.query = (function(){
     getQueryParam           : getQueryParam,
     createSearchRequestForm : createSearchRequestForm,
     request : request
-  };
+  }
 })();
 
 nCore.query.init({
   nCoreQuery: 'nCoreQuery',
-  // nCoreQueryAddButtom: 'nCoreQueryAddButtom'
 });
 // var data = nCore.query.getQuery('http://localhost:3000/query/index.json');
