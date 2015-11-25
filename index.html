@@ -275,18 +275,19 @@
                   </div> -->
 
                   <div class="mui-panel mui-col-lg-10 mui-col-lg-offset-1 bb mui--z2">
-                    <form>
+                    <form id="cellSettingsForm" onsubmit="return false;">
                       <!-- <legend>Поиск</legend> -->
                       <!--
-                        condition    = equal
-                        value        = test
+                        condition    = equal   *
+                        value        = test    *
+                        origin_name  = comment *
+
                         data_type    = String
-                        origin_name  = comment
                         russian_name = russian_name
                       -->
                       <div class="mui-textfield">
-                        <div class="mui-select" name="origin_name" > <!-- id="nCoreTabConfigTextFontSize"> -->
-                          <select>
+                        <div class="mui-select" > <!-- id="nCoreTabConfigTextFontSize"> -->
+                          <select name="origin_name">
                             <option value="554c5fc85804000014000001" selected="selected">Комментарий</option>
                             <option value="554c5fc858040000cf000001">Экземпляры. Кому</option>
                             <option value="554c5fc858040000da000001">Штрих-код</option>
@@ -303,8 +304,8 @@
                       </div>
 
                       <div class="mui-textfield">
-                        <div class="mui-select" name="conditions" > <!-- id="nCoreTabConfigTextFontSize"> -->
-                          <select>
+                        <div class="mui-select" > <!-- id="nCoreTabConfigTextFontSize"> -->
+                          <select name="conditions">
                             <option value="equal">Точное совпадение</option>
                             <option value="not_equal">Не</option>
                             <option value="regexp">Частичное совпадение</option>
@@ -318,8 +319,8 @@
                         <input  type="text" name="value">
                         <label>Значение</label>
                       </div>
-                      <input type="hidden" name="data_type" value='string'>
-                      <input type="hidden" name="russian_name">
+                      <input type="hidden" name="data_type" value='string' required>
+                      <input type="hidden" name="russian_name" >
 
                     </form>
                   </div>

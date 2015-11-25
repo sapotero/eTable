@@ -71,8 +71,11 @@ jQuery(function($) {
   });
 
   $('td.fr-selected-cell').live('click', function(e){
-    console.log( 'selected', this,'|', e );
+    // console.log( 'selected', this,'|', e );
     nCore.modules.table.event.publish('cellSelect', this );
+  });
+  $('#cellSettingsForm').change(function(e){
+    nCore.modules.table.event.publish('cellSettingsChange', e );
   })
 
 

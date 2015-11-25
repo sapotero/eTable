@@ -26,7 +26,7 @@ nCore.modules.cellEditor = (function(){
       root     = document.getElementById( config.tab );
       cellText = document.getElementById( config.cellText );
       fontSize = document.getElementById( config.fontSize );
-      attachEvent();
+      // attachEvent();
 
 
       // подписываемся на изменения параметров текста и размера
