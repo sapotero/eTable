@@ -262,7 +262,114 @@ nCore.modules.table = (function(){
       //     nCore.modules.table.activeCell.publish('setCell', el);
       //   };
     });
-   };
+   },
+  generateQueryFromTable = function (table, headClass, sideClass, total){
+    var table     = table,
+        headClass = headClass,
+        sideClass = sideClass,
+        maxCells  = 0,
+        headRows  = [],
+        head_elements,
+        sideRows  = [],
+        side_elements,
+        headRowsCenter = [],
+        sideRowsCenter = [];
+
+    // считаем макс. кол-во ячеек в таблице
+    for(var i=0;i<table.rows.length;i++) {
+      var cells = table.rows[i].cells, max = 0;
+      for (var c = 0; c < cells.length; c++) {
+        max += cells[c].colSpan;
+      };
+      if (max > maxCells) {
+        maxCells = max;
+      };
+    }
+    console.log('max:', maxCells);
+
+    // выбираем все элементы, которые отметил пользователь
+    head_elements = table.getElementsByClassName( headClass );
+    // получаем уникальные строки из шапки таблицы
+    for (var z = 0; z < head_elements.length; z++) {
+      headRows.push(head_elements[z].parentNode)
+    };
+    headRows = uniq(headRows);
+
+    // выбираем все элементы, которые отметил пользователь
+    side_elements = table.getElementsByClassName( sideClass );
+    // получаем уникальные строки из боковины таблицы
+    for (var z = 0; z < side_elements.length; z++) {
+      sideRows.push(side_elements[z].parentNode)
+    };
+    sideRows = uniq(sideRows);
+
+    // добавляем специальную строку с данными
+    var dataRow = document.createElement('tr');
+    dataRow.className = 'data';
+    dataRow.dataset.cellType = 'data';
+    table.appendChild(dataRow);
+
+    // считаем середины строк шапки
+    for (var v = 0; v < headRows.length; v++) {
+      var coordinates = headRows[v].getBoundingClientRect();
+      headRowsCenter.push( (coordinates.top+coordinates.bottom)/2 );
+    };
+
+    // считаем середины строк боковины
+    for (var v = 0; v < sideRows.length; v++) {
+      var coordinates = sideRows[v].getBoundingClientRect();
+      sideRowsCenter.push( {center: (coordinates.top+coordinates.bottom)/2, el: sideRows[v] } );
+    };
+    console.log(sideRowsCenter);
+
+    // создаем строку с данными
+    for (var i = 0; i < maxCells; i++) {
+      var queryArray = [],
+      dataCell = document.createElement('td');
+      dataCell.dataset.cellType = 'data-cell';
+      dataRow.appendChild(dataCell);
+
+      var coordinates = dataCell.getBoundingClientRect();
+
+      // проходимся по центрам строкам и центрам ячеек чтобы получить элемент
+      for (var b = 0; b < headRowsCenter.length; b++) {
+        var el = document.elementFromPoint( (coordinates.left+coordinates.right)/2, headRowsCenter[b]);
+        if ( el ) {
+          dataCell.innerHTML += '<br>'+ el.innerHTML;
+          queryArray.push( el.innerHTML );
+        };
+      };
+
+      dataCell.innerHTML = uniq(queryArray).join('+');
+    };
+
+    var rowRoot   = '';
+    for (var b = 0; b < sideRowsCenter.length; b++) {
+      
+      var row       = sideRowsCenter[b].el,
+          rowCenter = sideRowsCenter[b].center,
+          rowQuery  = '',
+          index     = 1;
+
+      for (var n = 0; n < row.cells.length; n++) {
+        var cell = row.cells[n];
+
+        if ( cell.classList.contains( sideClass ) && cell.rowSpan > 1 ) {
+          console.log('root: ',cell);
+          rowRoot = cell.innerHTML;
+          index = 0;
+        }
+
+        if (cell.classList.contains( sideClass )){
+          rowQuery = rowRoot +'*'+ cell.innerHTML;
+        } else {
+          cell.innerHTML += rowQuery + ' || ' +dataRow.getElementsByTagName('td')[cell.cellIndex + index].innerHTML;
+        }
+      };
+    };
+    dataRow.style.display = 'none';
+  };
+
 
 
   return {
@@ -271,7 +378,8 @@ nCore.modules.table = (function(){
     config     : config,
     row        : row,
     column     : column,
-    activeCell : activeCell
+    activeCell : activeCell,
+    tableQuery : generateQueryFromTable
   }
 })();
 nCore.modules.table.init({ table: 'nCoreTable' });
