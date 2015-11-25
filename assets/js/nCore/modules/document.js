@@ -7,7 +7,9 @@ nCore.document = (function(){
       nCoreRoot = {},
       nCoreDocumentSave,
       nCoreDocumentEvent = {},
-      nCoreIsNew = true;
+      nCoreIsNew = true,
+      nCoreTitle,
+      nCoreDescription;
 
   var init = function (config){
     nCoreRoot         = document.getElementById( config.nCoreDocumentId );
@@ -15,7 +17,6 @@ nCore.document = (function(){
 
     nCoreRoot.textContent += "_" + nCoreDocumentId;
     nCore.core.attachTo( nCore.document.root );
-    attachEvent();
   },
   id = function () {
     return nCoreDocumentId;
@@ -23,24 +24,32 @@ nCore.document = (function(){
   root = function root(){
     return nCoreRoot;
   },
+  title = function title(){
+    return nCoreTitle;
+  },
+  description = function description(){
+    return nCoreDescription;
+  },
   event = function event(){
     return nCoreDocumentEvent;
   },
-  attachEvent = function(){
-    nCoreDocumentSave.addEventListener('click', function (e) {
-      nCore.document.root.publish('saveDocument', nCoreDocumentId );
-    });
-  },
   newDocument = function newDocument() {
     return nCoreIsNew;
+  },
+  setAttributes = function setAttributes(data){
+    console.log('setAttributes', data);
+    nCore.document.root.publish('setDocumentAttribute', true);
   };
   
   return {
-    init  : init,
-    id    : id,
-    root  : root,
-    event : event,
-    newDocument : newDocument
+    init          : init,
+    id            : id,
+    title         : title,
+    setAttributes : setAttributes,
+    description   : description,
+    root          : root,
+    event         : event,
+    newDocument   : newDocument
   };
 })();
 

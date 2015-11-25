@@ -8,9 +8,9 @@
 
     <!-- Bootstrap CSS -->
     <!-- <link href="assets/css/bootstrap.min.css" rel="stylesheet"> -->
-    <link href="assets/css/style.css" rel="stylesheet">
     <link href="assets/css/mui.min.css" rel="stylesheet">
-    <link href="assets/fr.css" rel="stylesheet">
+    <link href="assets/css/fr.css" rel="stylesheet">
+    <link href="assets/css/style.css" rel="stylesheet">
     <!-- <link href="assets/css/style.css" rel="stylesheet"> -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
 
@@ -191,7 +191,7 @@
     </div>
 
     <header id="header">
-      <nav id="appbar" class="mui-container-fluid mui-appbar mui--z2">
+      <nav id="appbar" class="mui-container-fluid mui-appbar mui--z2" style="z-index: 3">
         <table width="100%">
           <tbody>
             <tr class="mui--appbar-height">
@@ -199,6 +199,7 @@
                 <a class="sidedrawer-toggle mui--visible-xs-inline-block js-show-sidedrawer">☰</a>
                 <a class="sidedrawer-toggle mui--hidden-xs js-hide-sidedrawer">☰</a>
                 <span class="mui--text-title mui--visible-xs-inline-block"></span>
+                <span class="mui--text-headline"> Document Name</span>
               </td>
               
               <td>
@@ -240,87 +241,6 @@
 
           <td class="mui-col-lg-8 bar ">
             <div class="mui-panel mainbar  mui--z1" id="paperBar">
-              <button onclick="nCore.document.root.publish('newDocument', nCoreDocumentId );" id="nCoreQueryAddButtom" type="button" class="mui-btn mui-btn--flat mui-btn--small" title="New file">
-                  <i class="fa fa-file-o"></i>
-              </button>
-              <button id="nCoreDocumentSave" type="button" class="mui-btn mui-btn--flat mui-btn--small" title="Save">
-                  <i class="fa fa-save"></i>
-              </button>
-              <button type="button" class="mui-btn mui-btn--flat mui-btn--small" title="Print">
-                  <i class="fa fa-print"></i>
-              </button>
-
-              <span class="mui--divider-right"></span>
-
-              <button type="button" class="mui-btn mui-btn--flat mui-btn--small" title="Bold">
-                  <i class="fa fa-bold"></i>
-              </button>
-              <button type="button" class="mui-btn mui-btn--flat mui-btn--small" title="Italic">
-                  <i class="fa fa-italic"></i>
-              </button>
-              <button type="button" class="mui-btn mui-btn--flat mui-btn--small" title="Underline">
-                  <i class="fa fa-underline"></i>
-              </button>
-              <button type="button" class="mui-btn mui-btn--flat mui-btn--small" title="Strikethrough">
-                  <i class="fa fa-strikethrough"></i>
-              </button>
-              
-
-              <span class="mui--divider-right"></span>
-
-              <button type="button" class="mui-btn mui-btn--flat mui-btn--small" title="Cut">
-                  <i class="fa fa-scissors"></i>
-              </button>
-              <button type="button" class="mui-btn mui-btn--flat mui-btn--small" title="Copy">
-                  <i class="fa fa-copy"></i>
-              </button>
-              <button type="button" class="mui-btn mui-btn--flat mui-btn--small" title="Past">
-                  <i class="fa fa-paste"></i>
-              </button>
-
-              <span class="mui--divider-right"></span>
-
-              <button type="button" class="mui-btn mui-btn--flat mui-btn--small" title="Align left">
-                  <i class="fa fa-align-left"></i>
-              </button>
-              <button type="button" class="mui-btn mui-btn--flat mui-btn--small" title="Align center">
-                  <i class="fa fa-align-center"></i>
-              </button>
-              <button type="button" class="mui-btn mui-btn--flat mui-btn--small" title="Align right">
-                  <i class="fa fa-align-right"></i>
-              </button>
-              <button type="button" class="mui-btn mui-btn--flat mui-btn--small" title="Align justify">
-                  <i class="fa fa-align-justify"></i>
-              </button>
-              
-
-              <span class="mui--divider-right"></span>
-
-              <button type="button" class="mui-btn mui-btn--flat mui-btn--small" title="Numbered list">
-                  <i class="fa fa-list-ol"></i>
-              </button>
-              <button type="button" class="mui-btn mui-btn--flat mui-btn--small" title="Bulleted list">
-                  <i class="fa fa-list-ul"></i>
-              </button>
-
-              <span class="mui--divider-right"></span>
-
-              <button type="button" class="mui-btn mui-btn--flat mui-btn--small"  title="Picture">
-                  <i class="fa fa-picture-o"></i>
-              </button>
-              <button type="button" class="mui-btn mui-btn--flat mui-btn--small" title="HTML table">
-                  <i class="fa fa-table"></i>
-              </button>
-
-              <span class="mui--divider-right"></span>
-              <button id="rotatePage" type="button" class="mui-btn mui-btn--flat mui-btn--small " title="Font"  style="margin-left: 50px;">
-                <i class="fa fa-refresh"></i>
-              </button>
-              <span class="mui--divider-right"></span>
-
-              <button id="cellSettingToggleButton" type="button" class="mui-btn mui-btn--accent mui-btn--cc mui-btn--flat mui-btn--small" title="Font" style="z-index: 1">
-                  <i class="fa fa-cog"></i>
-              </button>
             </div>
           </td>
           <td class="mui-col-lg-2">
@@ -405,7 +325,7 @@
           <td class="mui-col-lg-8 ">
             <div class="mui-panel mui--z2" id="paper">
 
-              <table width="471" cellpadding="0" cellspacing="0" style="width: 82%;">
+              <table width="471" cellpadding="0" cellspacing="0" style="width: 100%;">
                 <tbody>
                   <tr valign="top">
                     <td width="235" bgcolor="#ffffff">
@@ -472,40 +392,10 @@
     </div>
 
     <script src="assets/js/shared/jquery-1.9.1.js"></script>
-<!--     // <script src="assets/js/shared/bootstrap.min.js"></script> -->
-    <script src="assets/js/shared/interact.min.js"></script>
+    <!-- // <script src="assets/js/shared/interact.min.js"></script> -->
     <script src="assets/js/shared/mui.min.js"></script>
-    <script src="assets/js/shared/script.js"></script>
-
-    <script src="assets/fr.js"></script>
-    <script type="text/javascript">
-      $(function() {
-        // $('div#froala-editor').froalaEditor({
-        $.FroalaEditor.DefineIcon('alignLeft', {NAME: 'align-left'});
-        $.FroalaEditor.RegisterCommand('alignLeft', {
-          title: 'left align',
-          focus: false,
-          undo: false,
-          refreshAfterCallback: false,
-          callback: function () {
-            console.log( this.align.apply('left') );
-          }
-        });
-        $('div#paper').froalaEditor({
-          toolbarButtons: ['fullscreen', 'bold', 'italic', 'underline', 'strikeThrough', 'subscript', 'superscript', 'fontFamily', 'fontSize', '|', 'color', 'inlineStyle', 'paragraphStyle', '|', 'paragraphFormat', 'align', 'formatOL', 'formatUL', 'outdent', 'indent','insertImage', 'insertTable', '|', 'quote', 'insertHR', 'undo', 'redo', 'alignLeft'],
-          language: 'ru',
-          // toolbarInline: true,
-          charCounterCount: false,
-          // theme: 'gray',
-          // tableEditButtons: ['tableRows', 'tableColumns', 'tableCells', 'tableCellVerticalAlign', 'tableRemove']
-          // toolbarStickyOffset: 100,
-          toolbarSticky: false
-          // toolbarBottom: true
-
-        })
-      });
-    </script>
-    <!-- nCore -->
+    <script src="assets/js/shared/fr.js"></script>
     <script src="assets/js/nCore/nCore.js"></script>
+    <script src="assets/js/shared/script.js"></script>
   </body>
 </html>
