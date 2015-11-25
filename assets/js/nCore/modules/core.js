@@ -1,15 +1,22 @@
 "use strict";
 
-// ядро
+/**
+ * nCore Ядро nCore - загрузчик остальных модулей
 
+ */
 var nCore = nCore || {};
 nCore.core = (function(){
-  
+
   function init(){
     console.log( this );
   };
-  
-  /* Базовый механизм pub/sub -> веiается на изменения параметров модулей */
+
+  /**
+   * [subscribe Механизм подписки на изменение объекта]
+   * @param  {string}   channel [Куда подписываемся]
+   * @param  {Function} fn      [Функция обратного вызова]
+
+   */
   var subscribe = function(channel, fn) {
     if ( !nCore.core.channels[channel] ) {
       nCore.core.channels[channel] = [];
@@ -18,6 +25,13 @@ nCore.core = (function(){
     nCore.core.channels[channel].push({ context: this, callback: fn });
     return this;
    },
+
+  /**
+   * Публикация события]
+   * @function publish
+   * @param  {string} channel [Куда шлём событие]
+
+   */
   publish = function(channel) {
     if ( !nCore.core.channels[channel] ) {
       return false;

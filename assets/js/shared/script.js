@@ -1,3 +1,13 @@
+if (typeof jQuery.fn.live == 'undefined' || !(jQuery.isFunction(jQuery.fn.live))) {
+  jQuery.fn.extend({
+      live: function (event, callback) {
+         if (this.selector) {
+              jQuery(document).on(event, this.selector, callback);
+          }
+      }
+  });
+}
+
 jQuery(function($) {
   var $bodyEl              = $('body'),
   $sidedrawerEl            = $('#sidedrawer'),
@@ -59,9 +69,16 @@ jQuery(function($) {
   $rotatePage.click(function(){
     $paper.toggleClass('book');
   });
-});
 
-$(function() {
+  $('td.fr-selected-cell').live('click', function(e){
+    console.log( 'selected', this,'|', e );
+    nCore.modules.table.event.publish('cellSelect', this );
+  })
+
+
+  /**
+   * FROALA EDITOR
+   */
   // $('div#froala-editor').froalaEditor({
   $.FroalaEditor.DefineIcon('alignLeft', {NAME: 'align-left'});
   $.FroalaEditor.RegisterCommand('alignLeft', {
@@ -174,6 +191,5 @@ $(function() {
     // toolbarStickyOffset: 100,
     toolbarSticky: false
     // toolbarBottom: true
-
-  })
+  });
 });

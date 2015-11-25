@@ -28,6 +28,9 @@ nCore.document = (function(){
   title = function title(){
     return nCoreTitle;
   },
+  type = function type(){
+    return nCoreType;
+  },
   description = function description(){
     return nCoreDescription;
   },
@@ -38,14 +41,15 @@ nCore.document = (function(){
     return nCoreIsNew;
   },
   setAttributes = function setAttributes(data){
-    console.log('setAttributes', data);
-    nCore.document.root.publish('setDocumentAttribute', true);
+    data.isNew = nCoreIsNew
+    nCore.document.root.publish('setDocumentAttribute', data);
   };
   
   return {
     init          : init,
     id            : id,
     title         : title,
+    type          : type,
     setAttributes : setAttributes,
     description   : description,
     root          : root,

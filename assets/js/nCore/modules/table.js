@@ -256,16 +256,17 @@ nCore.modules.table = (function(){
     });
    },
   generateQueryFromTable = function (table, headClass, sideClass, total){
-    var table     = table,
-        headClass = headClass,
-        sideClass = sideClass,
-        maxCells  = 0,
-        headRows  = [],
-        head_elements,
-        sideRows  = [],
-        side_elements,
+    var table          = table,
+        headClass      = headClass,
+        sideClass      = sideClass,
+        maxCells       = 0,
+        headRows       = [],
+        sideRows       = [],
         headRowsCenter = [],
-        sideRowsCenter = [];
+        sideRowsCenter = [],
+        cellData       = {},
+        head_elements,
+        side_elements;
 
     // считаем макс. кол-во ячеек в таблице
     for(var i=0;i<table.rows.length;i++) {
@@ -329,6 +330,7 @@ nCore.modules.table = (function(){
         if ( el ) {
           dataCell.innerHTML += el.innerHTML;
           queryArray.push( el.innerHTML );
+          dataCell.dataset.cellType = 'data-cell';
         };
       };
 
@@ -356,10 +358,20 @@ nCore.modules.table = (function(){
           rowQuery = rowRoot +' -> '+ cell.innerHTML;
         } else {
           cell.innerHTML += rowQuery + ' || ' +dataRow.getElementsByTagName('td')[cell.cellIndex + index].innerHTML;
+          cell.dataset.cellType  = 'data-cell';
+          cell.dataset.cellIndex = cell.cellIndex;
+          cell.dataset.rowIndex  = row.rowIndex;
+
+          // добавляем в массив
+          if ( !cellData.hasOwnProperty( row.rowIndex ) ){
+            cellData[row.rowIndex] = [];
+          }
+          cellData[row.rowIndex].push( { index: cell.cellIndex, query : cell.textContent } );
         }
       };
     };
     dataRow.style.display = 'none';
+    console.log( 'cellData:', cellData );
    },
   event = function event(){
     return nCoreTableEvent;

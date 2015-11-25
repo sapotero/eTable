@@ -41,22 +41,48 @@ nCore.events = (function(){
         nCore.document.root.publish('saveDocument', nCore.document.id() )
       }
     });
+
     // сохранение документа
     nCore.document.root.subscribe('saveDocument', function(data){
       
       // если документ новый - показываем модальное окошко с вводом имени
       if ( nCore.document.newDocument() ) {
         console.log('saveDocument', data);
+
+        // тест
+        nCore.query.post( 'queries.json', {data: 'test'})
+        .success(function(data){
+          console.log('post', data);
+        }).error(function(data){
+          console.error('[!] post', post, data)
+        });
+
+        nCore.query.get( 'queries.json', {data: 'test'})
+        .success(function(data){
+          console.log('get', data);
+        }).error(function(data){
+          console.error('[!] post', post, data)
+        });
+
+
+      }
+      
+      // если документ не новый - проверяем атрибуты
+      else {
+
       }
     });
     // изменение свойств документа
-    nCore.document.root.subscribe('setDocumentAttributes', function(saved){
+    nCore.document.root.subscribe('setDocumentAttributes', function(data){
+      console.log('[main] setDocumentAttributes:', data);
+
       // всё ок, пришло подтвереие что можно скрывать оверлай и документ сохряненн (+делаем крутилку что идёт процесс сохранения), или выводим ошибку
-      if ( saved === true ) {
+      if ( data === true ) {
         console.log('setDocumentAttributes true:', data);
       } else {
         console.log('setDocumentAttributes false:', data);
       }
+
     });
 
     nCore.modules.table.event.subscribe('generateQuery', function(data){
@@ -66,6 +92,10 @@ nCore.events = (function(){
           sideClass = data.sideClass;
 
       nCore.modules.table.tableQuery(table, headClass, sideClass);
+    });
+
+    nCore.modules.table.event.subscribe('cellSelect', function(data){
+      console.log('cellSelect', data);;
     });
   };
 

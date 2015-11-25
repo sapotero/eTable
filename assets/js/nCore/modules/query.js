@@ -4,6 +4,7 @@
 
 var nCore = nCore || {};
 nCore.query = (function(){
+  var host = 'http://localhost:3000/';
 
   var request, root, body, button,
   template = ' <form class="form-horizontal fm"> <div class="form-group"> <label for="nCoreTabConfigTextFontSize" class="col-lg-3 control-label">Поле</label> <div class="col-lg-9"> <select class="form-control" id="nCoreTabConfigTextFontSize"> </select> </div></div><div class="form-group" style="padding: 10px auto ;"> <label for="nCoreTabConfigTextFontSize" class="col-lg-3 control-label">Условие</label> <div class="col-lg-9"> <select class="form-control" id="nCoreTabConfigTextFontSize"> </select> </div></div><div class="form-group"> <label class="control-label col-lg-3 " for="focusedInput">Значение</label> <div class="col-lg-9"> <input class="form-control" id="focusedInput" type="text" value=""> </div></div></form>';
@@ -17,12 +18,12 @@ nCore.query = (function(){
    },
 
   // произвольный пост запрос
-  post = function( url ){
-    console.log('query -> post -> ', url);
+  post = function( url, data ){
+    return $.post( host + url, data );
    },
   // произвольный гет запрос
-  get  = function( url ){
-    console.log('query -> get -> ', url);
+  get  = function( url, data ){
+    return $.get( host + url, data );
    },
 
   // получаем критерии поиска
