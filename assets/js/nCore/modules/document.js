@@ -1,6 +1,7 @@
 "use strict";
 
-// var nCore.modules.table = nCore.modules.table || {};
+// модуль предоставляющий интерфейс для работы с документом (отчет, печатная форма, бизнес-процесс)
+
 var nCore = nCore || {};
 nCore.document = (function(){
   var nCoreDocumentId = Math.floor(Math.random() * (Number.MAX_SAFE_INTEGER)),

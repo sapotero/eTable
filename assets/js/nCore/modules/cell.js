@@ -1,6 +1,7 @@
 "use strict";
 
-// var nCore.modules.table = nCore.modules.table || {};
+// модуль предоставляющий интерфейс для "ячейки"
+
 var nCore = nCore || {};
 nCore.modules.cell = (function(){
   var cells = [], activeCell;

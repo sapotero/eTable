@@ -1,6 +1,7 @@
 "use strict";
 
-// var nCore.modules.table = nCore.modules.table || {};
+// модуль предоставляющий интерфейс для управления таблицами
+
 var nCore = nCore || {};
 nCore.modules.table = (function(){
 
@@ -75,17 +76,6 @@ nCore.modules.table = (function(){
     // clearSelection();
    },
   merge = function(mode){
-    // merge horizontal
-    // var rowIndexArray  = [],
-    //     cellIndexArray = [];
-    
-    // for (var key in mergeCells) {
-    //   var i = key.split('_');
-
-    //   rowIndexArray.push(i[0]);
-    //   cellIndexArray.push(i[1]);
-    //   console.log(i[0], i[1]);
-    // };
     switch (mode) {
       case 'h':
         for (var r = table.rows.length - 1; r >= 0; r--) {
@@ -191,7 +181,7 @@ nCore.modules.table = (function(){
     //   var row = table.rows[i];
     //   row.className = '';
     // };
-  },
+   },
   countMaxCells = function(){
     for(var i = 0; i<table.rows.length; i++){
       var row = table.rows[i];
@@ -369,8 +359,6 @@ nCore.modules.table = (function(){
     };
     dataRow.style.display = 'none';
   };
-
-
 
   return {
     init       : init,

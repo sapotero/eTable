@@ -1,8 +1,6 @@
 "use strict";
 
-// var nCore.modules.table = nCore.modules.table || {};
-// clone interact.jss
-// http://jsfiddle.net/dw3xdhch/
+// прототип модуля предоставляющий интерфейс для создания печатных форм
 
 var nCore = nCore || {};
 nCore.modules.elements = (function(config){
@@ -44,8 +42,6 @@ nCore.modules.elements = (function(config){
     var fragment = new DocumentFragment();
 
     for (var i = 0; i < e.length; i++) {
-      // для теста создаем элементы в таком виде
-      // <a href="#" class="list-group-item nCore-draggable"> Morbi leo risus </a>
       var a = document.createElement('a');
       a.href = "#";
       a.className = 'list-group-item draggable';
@@ -54,20 +50,16 @@ nCore.modules.elements = (function(config){
     };
 
     nCoreElements.appendChild(fragment);
-    // attachEvent();
 
     return new nCoreElement();
-  },
+   },
   create = function(options){
     var root     = init(),
         element  = root.create(options);
 
     elements.push(element);
     return element;
-  },
-  index = function(){
-
-  },
+   },
   attachEvent = function(){
     interact('.draggable')
       .draggable({
@@ -113,7 +105,7 @@ nCore.modules.elements = (function(config){
 
       // this is used later in the resizing and gesture demos
       window.dragMoveListener = dragMoveListener;
-  }
+   }
 
   return {
     init       : init,

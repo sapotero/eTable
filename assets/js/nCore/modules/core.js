@@ -1,6 +1,7 @@
 "use strict";
 
-// var nCore.modules.table = nCore.modules.table || {};
+// ядро
+
 var nCore = nCore || {};
 nCore.core = (function(){
   

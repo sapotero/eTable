@@ -1,6 +1,7 @@
 "use strict";
 
-// var nCore.modules.table = nCore.modules.table || {};
+// модуль для редактирования ячеек
+
 var nCore = nCore || {};
 nCore.modules.cellEditor = (function(){
   

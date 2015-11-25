@@ -1,6 +1,7 @@
 "use strict";
 
-// var nCore.modules.table = nCore.modules.table || {};
+// модуль предоставляющий интерфейс для взаимодействия по сети
+
 var nCore = nCore || {};
 nCore.query = (function(){
 
@@ -11,11 +12,9 @@ nCore.query = (function(){
   var init = function(config){
     root   = document.getElementById( config.nCoreQuery ),
     // button = document.getElementById( config.nCoreQueryAddButtom );
-
-
-    button.addEventListener('click', function (e) {
-    });
-   },
+    // button.addEventListener('click', function (e) {
+    // });
+   // },
 
   // произвольный пост запрос
   post = function( url ){
@@ -36,7 +35,7 @@ nCore.query = (function(){
     console.log('query -> getQueryParam -> ', config);
    },
 
-   // клик на добавление норвого критерия поиска
+  // клик на добавление норвого критерия поиска
   createSearchRequestForm = function(data){
     nCore.query.request.publish('createSearchRequestForm', data);
    };
