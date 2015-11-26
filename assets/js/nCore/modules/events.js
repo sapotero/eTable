@@ -5,7 +5,12 @@
 var nCore = nCore || {};
 nCore.events = (function(){
   var activeCell;
-  
+
+  function b64EncodeUnicode(str) {
+    return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, function(match, p1) {
+      return String.fromCharCode('0x' + p1);
+    }));
+  }
   var init = function init (){
     // события документа
     // новый документ
@@ -50,7 +55,7 @@ nCore.events = (function(){
         nCore.document.setName(data.elements.nCoreDocumnetName.value);
         nCore.document.setDescription(data.elements.nCoreDocumnetDescription.value);
       };
-      
+
       // если документ новый - показываем модальное окошко с вводом имени
       if ( nCore.document.newDocument() && data.nodeName !== 'FORM' ) {
         console.log('saveDocument', data);
@@ -86,7 +91,7 @@ nCore.events = (function(){
           name        : nCore.document.name,
           description : nCore.document.description,
           datetime    : new Date().getTime(),
-          body        : document.getElementById('paper').innerHTML,
+          body        : b64EncodeUnicode(document.getElementById('paper').innerHTML),
           query       : nCore.document.cellQuery() || '',
           author      : 'AuthorName'
         };
