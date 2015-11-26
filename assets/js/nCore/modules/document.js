@@ -10,7 +10,9 @@ nCore.document = (function(){
       nCoreDocumentEvent = {},
       nCoreIsNew = true,
       nCoreTitle,
-      nCoreDescription;
+      nCoreName = '',
+      nCoreDescription = '',
+      nCoreDocumentCellQuery;
 
   var init = function (config){
     nCoreRoot         = document.getElementById( config.nCoreDocumentId );
@@ -25,14 +27,26 @@ nCore.document = (function(){
   root = function root(){
     return nCoreRoot;
   },
-  title = function title(){
-    return nCoreTitle;
+  setName = function setName(name){
+    nCoreName = name;
+  },
+  name = function name(){
+    return nCoreName;
   },
   type = function type(){
     return nCoreType;
   },
+  setDescription = function setDescription(description){
+    nCoreDescription = description;
+  },
   description = function description(){
     return nCoreDescription;
+  },
+  setCellQuery = function setCellQuery(data){
+    nCoreDocumentCellQuery = data;
+  },
+  cellQuery = function cellQuery(){
+    return nCoreDocumentCellQuery;
   },
   event = function event(){
     return nCoreDocumentEvent;
@@ -41,20 +55,24 @@ nCore.document = (function(){
     return nCoreIsNew;
   },
   setAttributes = function setAttributes(data){
-    data.isNew = nCoreIsNew
-    nCore.document.root.publish('setDocumentAttribute', data);
+    nCoreIsNew = false;
+    nCore.document.root.publish('setDocumentAttributes', data);
   };
   
   return {
-    init          : init,
-    id            : id,
-    title         : title,
-    type          : type,
-    setAttributes : setAttributes,
-    description   : description,
-    root          : root,
-    event         : event,
-    newDocument   : newDocument
+    init           : init,
+    id             : id,
+    name           : name,
+    description    : description,
+    type           : type,
+    root           : root,
+    event          : event,
+    newDocument    : newDocument,
+    cellQuery      : cellQuery,
+    setName        : setName,
+    setDescription : setDescription,
+    setAttributes  : setAttributes,
+    setCellQuery   : setCellQuery
   };
 })();
 

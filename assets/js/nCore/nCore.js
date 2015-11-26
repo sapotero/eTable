@@ -1,7 +1,6 @@
 "use strict";
-
 // наш микро фреймворк nCore
-
+// 
 var nCore = nCore || {};
 
 nCore = (function(){

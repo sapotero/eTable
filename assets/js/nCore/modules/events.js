@@ -5,7 +5,7 @@
 var nCore = nCore || {};
 nCore.events = (function(){
   var activeCell;
-
+  
   var init = function init (){
     // события документа
     // новый документ
@@ -32,7 +32,7 @@ nCore.events = (function(){
         m.style.backgroundColor = '#fff';
         m.classList.toggle('mui-panel');
         m.classList.toggle('mui--z5');
-        m.innerHTML = '<form onsubmit="nCore.document.root.publish(\'saveDocument\', this)"><legend>Документ</legend><br><br><div class="mui-textfield mui-textfield--float-label"><input required><label>Название</label></div><div class="mui-textfield mui-textfield--float-label"><input type=text required><label>Описание</label></div><div class="mui--text-right"><button type=button onclick="mui.overlay(\'off\');" class="mui-btn mui-btn--raised mui-btn--danger">отмена</button><button type=submit class="mui-btn mui-btn--raised mui-btn--primary">сохранить</button></div></form>';
+        m.innerHTML = '<form onsubmit="nCore.document.root.publish(\'saveDocument\', this); return false;"><legend>Документ</legend><br><br><div class="mui-textfield mui-textfield--float-label"><input required name="nCoreDocumnetName"><label>Название</label></div><div class="mui-textfield mui-textfield--float-label"><input type=text required name="nCoreDocumnetDescription"><label>Описание</label></div><div class="mui--text-right"><button type=button onclick="mui.overlay(\'off\');" class="mui-btn mui-btn--raised mui-btn--danger">отмена</button><button type=submit class="mui-btn mui-btn--raised mui-btn--primary">сохранить</button></div></form>';
 
         mui.overlay('on', options, m);
       }
@@ -45,32 +45,61 @@ nCore.events = (function(){
 
     // сохранение документа
     nCore.document.root.subscribe('saveDocument', function(data){
+      // если передеали значения из формы
+      if ( data.nodeName === 'FORM' ) {
+        nCore.document.setName(data.elements.nCoreDocumnetName.value);
+        nCore.document.setDescription(data.elements.nCoreDocumnetDescription.value);
+      };
       
       // если документ новый - показываем модальное окошко с вводом имени
-      if ( nCore.document.newDocument() ) {
+      if ( nCore.document.newDocument() && data.nodeName !== 'FORM' ) {
         console.log('saveDocument', data);
-
+        nCore.document.root.publish('newDocument', true);
         // тест
-        nCore.query.post( 'queries.json', {data: 'test'})
-        .success(function(data){
-          console.log('post', data);
-        }).error(function(data){
-          console.error('[!] post', post, data)
-        });
+        // nCore.query.post( 'queries.json', {data: 'test'})
+        // .success(function(data){
+        //   console.log('post', data);
+        // }).error(function(data){
+        //   console.error('[!] post', post, data)
+        // });
 
-        nCore.query.get( 'queries.json', {data: 'test'})
-        .success(function(data){
-          console.log('get', data);
-        }).error(function(data){
-          console.error('[!] post', post, data)
-        });
-
-
+        // nCore.query.get( 'queries.json', {data: 'test'})
+        // .success(function(data){
+        //   console.log('get', data);
+        // }).error(function(data){
+        //   console.error('[!] post', post, data)
+        // });
       }
-      
       // если документ не новый - проверяем атрибуты
       else {
+        console.log('old doc');
+        
+        if (document.getElementById('mui-overlay')) {
+          mui.overlay('off');
+        };
 
+        // считаем табличку перед сохранением
+        // $.FroalaEditor.COMMANDS.calculator.callback()
+        var nCoreDocumentAttributes = {
+          id          : nCore.document.id(),
+          type        : 'report',
+          name        : nCore.document.name,
+          description : nCore.document.description,
+          datetime    : new Date().getTime(),
+          body        : document.getElementById('paper').innerHTML,
+          query       : nCore.document.cellQuery() || '',
+          author      : 'AuthorName'
+        };
+
+        nCore.document.setAttributes( nCoreDocumentAttributes );
+        console.log(nCoreDocumentAttributes);
+
+        nCore.query.post( 'queries.json', nCoreDocumentAttributes)
+        .success(function(data){
+          console.log('saveDocument', data);
+        }).error(function(data){
+          console.error('[!] saveDocument', post, data)
+        });
       }
     });
     // изменение свойств документа
@@ -78,14 +107,14 @@ nCore.events = (function(){
       console.log('[main] setDocumentAttributes:', data);
 
       // всё ок, пришло подтвереие что можно скрывать оверлай и документ сохряненн (+делаем крутилку что идёт процесс сохранения), или выводим ошибку
-      if ( data === true ) {
-        console.log('setDocumentAttributes true:', data);
-      } else {
-        console.log('setDocumentAttributes false:', data);
-      }
-
+      // if ( data === true ) {
+      //   console.log('setDocumentAttributes true:', data);
+      // } else {
+      //   console.log('setDocumentAttributes false:', data);
+      // }
     });
 
+    // события 
     nCore.modules.table.event.subscribe('generateQuery', function(data){
       console.log('generateQuery', data);
       var table     = data.table,
@@ -93,6 +122,18 @@ nCore.events = (function(){
           sideClass = data.sideClass;
 
       nCore.modules.table.tableQuery(table, headClass, sideClass);
+    });
+
+    nCore.modules.table.event.subscribe('calculateQuery', function(data){
+      console.log('calculateQuery', data);
+      nCore.document.setCellQuery(data);
+
+      nCore.query.post( 'queries.json', data)
+        .success(function(data){
+          console.log('post', data);
+        }).error(function(data){
+          console.error('[!] post', post, data)
+        });
     });
 
     nCore.modules.table.event.subscribe('cellSelect', function(data){
@@ -112,7 +153,6 @@ nCore.events = (function(){
       if ( showCellSettings && !document.getElementById('cellSettings').classList.contains('active') ) {
         document.getElementById('cellSettings').classList.toggle('active');
       };
-
     });
 
     nCore.modules.table.event.subscribe('cellSettingsChange', function(input){
@@ -143,7 +183,6 @@ nCore.events = (function(){
       if ( activeCell.dataset.hasOwnProperty('origin_name') ) {
         // console.log( 'origin_name:', activeCell.dataset.origin_name );
       };
-
     });
   };
 

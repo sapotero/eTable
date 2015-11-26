@@ -12731,7 +12731,7 @@ window.FDKModernizr = function(e, t, n) {
             "table.edit": "[_BUTTONS_]",
             "table.colors": "[_BUTTONS_][_COLORS_]"
         }), e.extend(e.FroalaEditor.DEFAULTS, {
-            tableInsertMaxSize: 10,
+            tableInsertMaxSize: 15,
             tableEditButtons: ["tableHeader", "tableRemove", "|", "tableRows", "tableColumns", "tableStyle", "-", "tableCells", "tableCellBackground", "tableCellVerticalAlign", "tableCellHorizontalAlign", "tableCellStyle"],
             tableInsertButtons: ["tableBack", "|"],
             tableResizerOffset: 5,
@@ -12810,7 +12810,7 @@ window.FDKModernizr = function(e, t, n) {
                         o = i.parent();
                     o.siblings(".fr-table-size-info").html(a + " &times; " + r), o.find("> span").removeClass("hover");
                     for (var s = 1; s <= t.opts.tableInsertMaxSize; s++)
-                        for (var l = 0; l <= t.opts.tableInsertMaxSize; l++) {
+                        for (var l = 0; l <= t.opts.tableInsertMaxSize*2; l++) {
                             var c = o.find('> span[data-row="' + s + '"][data-col="' + l + '"]');
                             a >= s && r >= l ? c.addClass("hover") : a + 1 >= s || 2 >= s && !t.helpers.isMobile() ? c.css("display", "inline-block") : s > 2 && !t.helpers.isMobile() && c.css("display", "none")
                         }
@@ -12821,7 +12821,7 @@ window.FDKModernizr = function(e, t, n) {
 
             function s() {
                 for (var e = '<div class="fr-table-size"><div class="fr-table-size-info">1 &times; 1</div><div class="fr-select-table-size">', n = 1; n <= t.opts.tableInsertMaxSize; n++) {
-                    for (var i = 1; i <= t.opts.tableInsertMaxSize; i++) {
+                    for (var i = 1; i <= t.opts.tableInsertMaxSize*2; i++) {
                         var a = "inline-block";
                         n > 2 && !t.helpers.isMobile() && (a = "none");
                         var r = "fr-table-cell ";

@@ -278,7 +278,7 @@ nCore.modules.table = (function(){
         maxCells = max;
       };
     }
-    console.log('max:', maxCells);
+    // console.log('max:', maxCells);
 
     // выбираем все элементы, которые отметил пользователь
     head_elements = table.getElementsByClassName( headClass );
@@ -297,7 +297,7 @@ nCore.modules.table = (function(){
     sideRows = uniq(sideRows);
 
     var _tmp = document.getElementById('dataRowForDelete');
-    console.log('tmp', _tmp);
+    // console.log('tmp', _tmp);
 
     if ( _tmp !== null ) {
       _tmp.parentNode.removeChild( _tmp );
@@ -327,7 +327,6 @@ nCore.modules.table = (function(){
     for (var i = 0; i < maxCells; i++) {
       var queryArray = [],
       dataCell = document.createElement('td');
-      // dataCell.dataset.cellType = 'data-cell';
       dataRow.appendChild(dataCell);
 
       var coordinates = dataCell.getBoundingClientRect();
@@ -336,14 +335,12 @@ nCore.modules.table = (function(){
       for (var b = 0; b < headRowsCenter.length; b++) {
         var el = document.elementFromPoint( (coordinates.left+coordinates.right)/2, headRowsCenter[b]);
         if ( el ) {
-          console.log('!!!', el, el.dataset)
           dataCell.innerHTML += JSON.stringify(el.dataset);
           queryArray.push( el );
-          // dataCell.dataset.cellType = 'data-cell';
           dataCell.dataset.query = JSON.stringify(el.dataset);
         };
       };
-      dataCell.innerHTML = uniq(queryArray).map(function(e){ return JSON.stringify(e.dataset)} ).join('|');
+      dataCell.innerHTML = uniq(queryArray).map(function(e){ return JSON.stringify(e.dataset)} ).join(',');
     };
 
     var rowRoot   = {};
@@ -358,36 +355,34 @@ nCore.modules.table = (function(){
         var cell = row.cells[n];
 
         if ( cell.classList.contains( sideClass ) && cell.rowSpan > 1 ) {
-          console.log('root: ',cell);
-          // rowRoot = cell.innerHTML;
           rowRoot = cell.dataset;
           index = 0;
         }
 
         if (cell.classList.contains( sideClass )){
-          // rowQuery = rowRoot +' -> '+ cell.innerHTML;
           rowQuery = [ JSON.stringify(rowRoot), JSON.stringify(cell.dataset) ]
         } else {
-          // rowQuery.push( dataRow.getElementsByTagName('td')[cell.cellIndex + index].dataset );
-          var _c = dataRow.getElementsByTagName('td')[cell.cellIndex + index];
-          // console.log('WATCH: ', _c, _c.dataset);
-          cell.innerHTML = rowQuery.join('`') + '``' + _c.innerHTML;
-          // cell.innerHTML = JSON.stringify(rowQuery);
+          cell.dataset.query = '['+ rowQuery.join(',') + ',' + dataRow.getElementsByTagName('td')[cell.cellIndex + index].innerHTML + ']';
+          
+          // обновим текст когда прилетят данные
+          // cell.textContent = '+';
 
           cell.dataset.cellType  = 'data-cell';
           cell.dataset.cellIndex = cell.cellIndex;
           cell.dataset.rowIndex  = row.rowIndex;
 
           // добавляем в массив
-          // if ( !cellData.hasOwnProperty( row.rowIndex ) ){
-          //   cellData[row.rowIndex] = [];
-          // }
-          // cellData[row.rowIndex].push( { index: cell.cellIndex, query : cell.textContent } );
+          if ( !cellData.hasOwnProperty( row.rowIndex ) ){
+            cellData[row.rowIndex] = [];
+          }
+          cellData[row.rowIndex].push( { cellIndex: cell.cellIndex, query : JSON.parse(cell.dataset.query) } );
         }
       };
     };
     dataRow.style.display = 'none';
     console.log( 'cellData:', cellData );
+    // console.log( 'str', JSON.stringify(cellData) );
+    nCore.modules.table.event.publish('calculateQuery', cellData);
    },
   event = function event(){
     return nCoreTableEvent;
