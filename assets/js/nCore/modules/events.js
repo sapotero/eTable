@@ -18,7 +18,7 @@ nCore.events = (function(){
       
       // если документ новый - показываем модальное окошко с вводом имени
       if ( nCore.document.newDocument() ) {
-        console.log('new doc');
+        // console.log('new doc');
         // turn on (returns overlay element)
         var overlayEl = mui.overlay('on');
 
@@ -43,7 +43,7 @@ nCore.events = (function(){
       }
       // если не новый  - сохраняем
       else {
-        console.log('old doc');
+        // console.log('old doc');
         nCore.document.root.publish('saveDocument', nCore.document.id() )
       }
     });
@@ -77,7 +77,6 @@ nCore.events = (function(){
       }
       // если документ не новый - проверяем атрибуты
       else {
-        console.log('old doc');
         
         if (document.getElementById('mui-overlay')) {
           mui.overlay('off');
@@ -88,8 +87,8 @@ nCore.events = (function(){
         var nCoreDocumentAttributes = {
           id          : nCore.document.id(),
           type        : 'report',
-          name        : nCore.document.name,
-          description : nCore.document.description,
+          name        : nCore.document.name(),
+          description : nCore.document.description(),
           datetime    : new Date().getTime(),
           body        : b64EncodeUnicode(document.getElementById('paper').innerHTML),
           query       : nCore.document.cellQuery() || '',
@@ -97,7 +96,6 @@ nCore.events = (function(){
         };
 
         nCore.document.setAttributes( nCoreDocumentAttributes );
-        console.log(nCoreDocumentAttributes);
 
         nCore.query.post( 'queries.json', nCoreDocumentAttributes)
         .success(function(data){
@@ -105,12 +103,20 @@ nCore.events = (function(){
         }).error(function(data){
           console.error('[!] saveDocument', post, data)
         });
+
       }
     });
     // изменение свойств документа
     nCore.document.root.subscribe('setDocumentAttributes', function(data){
       console.log('[main] setDocumentAttributes:', data);
 
+      // обновляем название и шапку
+      var headline = document.getElementById('nCoreDocumentHeadLine'),
+          author   = document.getElementById('nCoreDocumentAuthor');
+
+      headline.textContent = [data.type, data.name ].join(' ');
+      author.innerHTML   = ' '+data.author;
+      
       // всё ок, пришло подтвереие что можно скрывать оверлай и документ сохряненн (+делаем крутилку что идёт процесс сохранения), или выводим ошибку
       // if ( data === true ) {
       //   console.log('setDocumentAttributes true:', data);
