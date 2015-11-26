@@ -6,12 +6,15 @@ var nCore = nCore || {};
 nCore.events = (function(){
   var activeCell;
 
+  // функция которая валидно обрабатывает юникод
   function b64EncodeUnicode(str) {
     return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, function(match, p1) {
       return String.fromCharCode('0x' + p1);
     }));
   }
+
   var init = function init (){
+    
     // события документа
     // новый документ
     nCore.document.root.subscribe('newDocument', function(data){
@@ -47,7 +50,6 @@ nCore.events = (function(){
         nCore.document.root.publish('saveDocument', nCore.document.id() )
       }
     });
-
     // сохранение документа
     nCore.document.root.subscribe('saveDocument', function(data){
       // если передеали значения из формы
@@ -97,7 +99,7 @@ nCore.events = (function(){
 
         nCore.document.setAttributes( nCoreDocumentAttributes );
 
-        nCore.query.post( 'queries.json', nCoreDocumentAttributes)
+        nCore.query.post( 'documents.json', nCoreDocumentAttributes)
         .success(function(data){
           console.log('saveDocument', data);
         }).error(function(data){
@@ -125,7 +127,8 @@ nCore.events = (function(){
       // }
     });
 
-    // события 
+    // события для таблицы
+    // создание критериев поиска 
     nCore.modules.table.event.subscribe('generateQuery', function(data){
       console.log('generateQuery', data);
       var table     = data.table,
@@ -135,16 +138,27 @@ nCore.events = (function(){
       nCore.modules.table.tableQuery(table, headClass, sideClass);
     });
 
+    // расчёт критериев поиска и отправление их на сервер
     nCore.modules.table.event.subscribe('calculateQuery', function(data){
       console.log('calculateQuery', data);
       nCore.document.setCellQuery(data);
 
       nCore.query.post( 'queries.json', data)
         .success(function(data){
-          console.log('post', data);
+          console.log('calculateQuery -> post', data);
+          nCore.modules.table.event.publish('insertCellData', data )
         }).error(function(data){
-          console.error('[!] post', post, data)
+          console.error('[!] calculateQuery -> post', post, data)
         });
+    });
+
+    // вставка данных в таблицу
+    nCore.modules.table.event.subscribe('insertCellData', function(data){
+      console.log('insertCellData', data);
+      var table = document.querySelector('.fr-element.fr-view > table');
+      for (var i = 0; i < data.length; i++) {
+        table.rows[ data[i].rowIndex ].cells[ data[i].cellIndex ].textContent = data[i].value;
+      };
     });
 
     nCore.modules.table.event.subscribe('cellSelect', function(data){
