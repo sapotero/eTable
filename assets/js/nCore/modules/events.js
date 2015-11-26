@@ -15,7 +15,9 @@ nCore.events = (function(){
 
   var init = function init (){
     
-    // события документа
+    /**
+     * события документа
+     */
     // новый документ
     nCore.document.root.subscribe('newDocument', function(data){
       
@@ -127,7 +129,9 @@ nCore.events = (function(){
       // }
     });
 
-    // события для таблицы
+    /**
+     * события для таблицы
+     */
     // создание критериев поиска 
     nCore.modules.table.event.subscribe('generateQuery', function(data){
       console.log('generateQuery', data);
@@ -137,7 +141,6 @@ nCore.events = (function(){
 
       nCore.modules.table.tableQuery(table, headClass, sideClass);
     });
-
     // расчёт критериев поиска и отправление их на сервер
     nCore.modules.table.event.subscribe('calculateQuery', function(data){
       console.log('calculateQuery', data);
@@ -151,7 +154,6 @@ nCore.events = (function(){
           console.error('[!] calculateQuery -> post', post, data)
         });
     });
-
     // вставка данных в таблицу
     nCore.modules.table.event.subscribe('insertCellData', function(data){
       console.log('insertCellData', data);
@@ -160,7 +162,7 @@ nCore.events = (function(){
         table.rows[ data[i].rowIndex ].cells[ data[i].cellIndex ].textContent = data[i].value;
       };
     });
-
+    // выбор активной ячейки
     nCore.modules.table.event.subscribe('cellSelect', function(data){
       // console.log('cellSelect', data);
       var showCellSettings = true,
@@ -179,7 +181,7 @@ nCore.events = (function(){
         document.getElementById('cellSettings').classList.toggle('active');
       };
     });
-
+    // изменение критериев поиска активной ячейки
     nCore.modules.table.event.subscribe('cellSettingsChange', function(input){
       // console.log('cellSettingsChange', input);
 
