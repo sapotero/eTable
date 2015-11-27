@@ -98,7 +98,13 @@ nCore.router = (function(){
  */
 
 nCore.router.add('', function () {
-  document.title = 'INDEX'
+  document.title = 'INDEX';
+  nCore.templates.render('table/index', function(data){ 
+    if ( data ) {
+      var wrapper = document.getElementById('content-wrapper');
+      wrapper.innerHTML = data;
+    };
+  });
 });
 
 nCore.router.add('test', function () {
@@ -110,15 +116,22 @@ nCore.router.add('users/:name', function (r) {
 });
 
 nCore.router.add('tables', function (r) {
-  document.title = 'tables index';
-
-  var wrapper = document.getElementById('content-wrapper');
-  console.log('wrapper: ', wrapper);
-  
-  wrapper.innerHTML = '<div id="fadeCss"><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut </></div>';
+  // document.title = 'tables index';
+  nCore.templates.render('table/index', function(data){ 
+    if ( data ) {
+      var wrapper = document.getElementById('content-wrapper');
+      wrapper.innerHTML = data;
+    };
+  });
 });
 nCore.router.add('tables/:name', function (r) {
   document.title = 'tables '+ r.params.name;
+  nCore.templates.render('table/table', function(data){ 
+    if ( data ) {
+      var wrapper = document.getElementById('content-wrapper');
+      wrapper.innerHTML = data;
+    };
+  });
 });
 
 function processHash() {

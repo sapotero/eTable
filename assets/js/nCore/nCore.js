@@ -9,10 +9,11 @@
     module.exports = factory();
   } else {
     root.nCore = factory();
-    root.nCore.modules = {};
-    root.nCore.core    = {};
-    root.nCore.query   = {};
-    root.nCore.router  = {};
+    root.nCore.modules   = {};
+    root.nCore.core      = {};
+    root.nCore.query     = {};
+    root.nCore.router    = {};
+    root.nCore.templates = {};
   }
 }(this, function () {
 
@@ -44,9 +45,9 @@
 
     function loadModules(){
       var dependencies = {
-        core    : [ "core", "router" ],
-        modules : [ "document", "table", "cellEditor", "cell", "query", "events" ],
-        shared  : [ "jquery", "script", "fr", "mui.min", "transparency.min" ]
+        shared  : [ "jquery", "script", "fr", "mui.min", "transparency.min" ],
+        core    : [ "core", "router", "templates", "preloader", "query" ],
+        modules : [ "document", "table", "cellEditor", "cell", "events" ]
       };
       
       for (var type in dependencies){

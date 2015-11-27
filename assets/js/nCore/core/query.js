@@ -25,6 +25,10 @@ nCore.query = (function(){
   get  = function( url, data ){
     return $.get( host + url, data );
    },
+  // произвольный гет запрос
+  getTemplate  = function( url, data ){
+    return $.get( url, data );
+   },
 
   // получаем критерии поиска
   getQuery  = function( url ){
@@ -45,6 +49,7 @@ nCore.query = (function(){
     init                    : init,
     post                    : post,
     get                     : get,
+    getTemplate             : getTemplate,
     getQuery                : getQuery,
     getQueryParam           : getQueryParam,
     createSearchRequestForm : createSearchRequestForm,
