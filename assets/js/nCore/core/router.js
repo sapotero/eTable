@@ -111,10 +111,9 @@ nCore.router.add('users/:name', function (r) {
 
 nCore.router.add('tables', function (r) {
   document.title = 'tables index';
-  
+
   var wrapper = document.getElementById('content-wrapper');
   console.log('wrapper: ', wrapper);
-  // показываем крутилку
   
   wrapper.innerHTML = '<div id="fadeCss"><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut </></div>';
 });

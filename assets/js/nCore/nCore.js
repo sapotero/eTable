@@ -46,8 +46,8 @@
       var dependencies = {
         core    : [ "core", "router" ],
         modules : [ "document", "table", "cellEditor", "cell", "query", "events" ],
-        shared  : [ "jquery", "script", "fr", "mui.min" ]
-      };      
+        shared  : [ "jquery", "script", "fr", "mui.min", "transparency.min" ]
+      };
       
       for (var type in dependencies){
         dependencies.hasOwnProperty(type) ? load( type, dependencies[type], function(){}) : false;
