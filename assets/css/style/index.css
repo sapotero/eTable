@@ -343,3 +343,7 @@ buttons {
 .ellips {
   padding: 0 15px;
 }
+
+.mui-panel.each {
+    padding: 10px 10px 0 10px;
+}
