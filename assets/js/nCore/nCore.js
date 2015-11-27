@@ -15,22 +15,42 @@
     root.nCore.router  = {};
   }
 }(this, function () {
+
+    function load(type, scriptArray, callback) {
+      var head        = document.getElementsByTagName('head')[0],
+          scriptArray = scriptArray,
+          toLoad      = scriptArray.length,
+          hasCallback = callback.call;
+
+      function onScriptLoaded() {
+        var readyState = this.readyState;
+        if (!readyState || /ded|te/.test(readyState)) {
+          toLoad--;
+          if (!toLoad && hasCallback) {
+            callback();
+          }
+        }
+      }
+
+      var script;
+      for (var i = 0; i < toLoad; i++) {
+        script = document.createElement('script');
+        script.src = 'assets/js/nCore/'+type+'/'+scriptArray[i]+'.js';
+        script.async = true;
+        script.onload = script.onerror = script.onreadystatechange = onScriptLoaded;
+        head.appendChild(script);
+      }
+    };
+
     function loadModules(){
       var dependencies = {
-        core    : ["core", "router"],
-        modules : ["document", "table", "cellEditor", "cell", "query", "events"]
-      },
-      body = document.getElementsByTagName('body')[0];
+        core    : [ "core", "router" ],
+        modules : [ "document", "table", "cellEditor", "cell", "query", "events" ],
+        shared  : [ "jquery", "script", "fr", "mui.min" ]
+      };      
       
       for (var type in dependencies){
-        if ( dependencies.hasOwnProperty(type) ) {
-
-          for (var i in dependencies[type]){
-            var js_script = document.createElement('script');
-            js_script.src = 'assets/js/nCore/'+type+'/'+dependencies[type][i]+'.js';
-            body.appendChild(js_script);
-          }
-        };
+        dependencies.hasOwnProperty(type) ? load( type, dependencies[type], function(){}) : false;
       };
     };
 
