@@ -1,16 +1,10 @@
-(function (root, factory) {
-  var define = root.define;
+"use strict";
 
-  if (define && define.amd) {
-    define([], factory);
-  } else if (typeof module !== 'undefined' && module.exports) {
-    module.exports = factory();
-  } else {
-    root.nCore.router = factory();
-  }
-}(this, function () {
+// роутер
 
-  return function() {
+var nCore = nCore || {};
+nCore.router = (function(){
+
     var routes = {},
         decode = decodeURIComponent;
   
@@ -80,14 +74,12 @@
         }
   
         rules['@'] = handler;
-      },
-  
+       },
       exists: function (url) {
+
         return !!lookup(url).cb;
-      },
-  
+       },
       lookup: lookup,
-  
       run: function(url) {
         var result = lookup(url);
   
@@ -97,7 +89,21 @@
         });
   
         return !!result.cb;
-      }
+       }
     };
-  };
-}));
+
+})();
+
+nCore.router.add('', function () {
+  document.title = 'INDEX';
+});
+nCore.router.add('test', function () {
+  document.title = 'TEST:  ';
+});
+function processHash() {
+  var hash = location.hash || '#';
+  nCore.router.run(hash.slice(1));
+}
+
+window.addEventListener('hashchange', processHash);
+processHash();
