@@ -264,7 +264,7 @@ nCore.modules.table = (function(){
         sideRows       = [],
         headRowsCenter = [],
         sideRowsCenter = [],
-        cellData       = {},
+        cellData       = [],
         head_elements,
         side_elements;
 
@@ -372,10 +372,10 @@ nCore.modules.table = (function(){
           cell.dataset.rowIndex  = row.rowIndex;
 
           // добавляем в массив
-          if ( !cellData.hasOwnProperty( row.rowIndex ) ){
-            cellData[row.rowIndex] = [];
-          }
-          cellData[row.rowIndex].push( { cellIndex: cell.cellIndex, query : JSON.parse(cell.dataset.query) } );
+          // if ( !cellData.hasOwnProperty( row.rowIndex ) ){
+          //   cellData[row.rowIndex] = [];
+          // }
+          cellData.push( { rowIndex: row.rowIndex, cellIndex: cell.cellIndex, query : JSON.parse(cell.dataset.query) } );
         }
       };
     };

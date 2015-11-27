@@ -142,11 +142,11 @@ nCore.events = (function(){
       nCore.modules.table.tableQuery(table, headClass, sideClass);
     });
     // расчёт критериев поиска и отправление их на сервер
-    nCore.modules.table.event.subscribe('calculateQuery', function(data){
-      console.log('calculateQuery', data);
-      nCore.document.setCellQuery(data);
+    nCore.modules.table.event.subscribe('calculateQuery', function(cellData){
+      console.log('calculateQuery', cellData);
+      nCore.document.setCellQuery(cellData);
 
-      nCore.query.post( 'queries.json', data)
+      nCore.query.post( 'queries.json', {data: cellData})
         .success(function(data){
           console.log('calculateQuery -> post', data);
           nCore.modules.table.event.publish('insertCellData', data )

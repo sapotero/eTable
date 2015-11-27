@@ -91,15 +91,37 @@ nCore.router = (function(){
         return !!result.cb;
        }
     };
-
 })();
 
+/*
+ * Роутинг
+ */
+
 nCore.router.add('', function () {
-  document.title = 'INDEX';
+  document.title = 'INDEX'
 });
+
 nCore.router.add('test', function () {
   document.title = 'TEST:  ';
 });
+
+nCore.router.add('users/:name', function (r) {
+  document.title = 'User ' + r.params.name;
+});
+
+nCore.router.add('tables', function (r) {
+  document.title = 'tables index';
+  
+  var wrapper = document.getElementById('content-wrapper');
+  console.log('wrapper: ', wrapper);
+  // показываем крутилку
+  
+  wrapper.innerHTML = '<div id="fadeCss"><p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut </></div>';
+});
+nCore.router.add('tables/:name', function (r) {
+  document.title = 'tables '+ r.params.name;
+});
+
 function processHash() {
   var hash = location.hash || '#';
   nCore.router.run(hash.slice(1));
