@@ -7,10 +7,14 @@ nCore.update = (function(){
   // обновление кода на живую
   var init = function(){
 
+  },
+  update = function(){
+    console.log('update');
   };
 
   return {
-    init: init
+    init   : init,
+    update : update
   }
 })();
 nCore.update.init();

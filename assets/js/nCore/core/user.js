@@ -6,7 +6,9 @@ var nCore = nCore || {};
 nCore.user = (function(){
 
   var userPermissions = ['viewTable', 'viewTableIndex'],
-      userEvent = {};
+      userEvent       = {},
+      userName        = {},
+      userActive      = true;
 
   var init = function(){
     nCore.core.attachTo( nCore.user.event );
@@ -15,7 +17,7 @@ nCore.user = (function(){
     return userPermissions;
   },
   setPermissions = function(data){
-    // после первого раза запрещаем изменять пермишены
+    // после первого раза запрещаем изменять права доступа
     userPermissions = Object.freeze(data);
   },
   event = function(){

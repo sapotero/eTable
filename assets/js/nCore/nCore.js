@@ -50,7 +50,7 @@
     function loadModules(){
       var dependencies = {
         shared  : [ "jquery", "mui.min", "transparency.min", "fr", "script" ],
-        core    : [ "query", "core", "user", "roles", "router", "templates", "preloader", "update" ],
+        core    : [ "query", "core", "user", "roles", "router", "templates", "preloader", "update", "worker" ],
         modules : [ "document", "table", "cellEditor", "cell", "events" ]
       };
       
