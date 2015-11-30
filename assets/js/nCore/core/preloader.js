@@ -8,7 +8,9 @@ nCore.preloader = (function(){
   // получаем права доступа юзера
   
   var init = function(){
-
+    var user = {userId: 123};
+    nCore.user.event.publish('getUserPermissions',    user );
+    nCore.user.event.publish('getAvailableDocuments', user );
   };
 
   return {

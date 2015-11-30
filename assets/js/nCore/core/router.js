@@ -100,24 +100,6 @@ nCore.router = (function(){
 jQuery(function($) {
   nCore.router.add('', function () {
     document.title = 'INDEX';
-      nCore.templates.render('table/index', function(data){ 
-      if ( data ) {
-        var wrapper = document.getElementById('content-wrapper');
-        wrapper.innerHTML = data;
-      };
-    });
-  });
-
-  nCore.router.add('test', function () {
-    document.title = 'TEST:  ';
-  });
-
-  nCore.router.add('users/:name', function (r) {
-    document.title = 'User ' + r.params.name;
-  });
-
-  nCore.router.add('tables', function (r) {
-    // document.title = 'tables index';
     nCore.templates.render('table/index', function(data){ 
       if ( data ) {
         var wrapper = document.getElementById('content-wrapper');
@@ -137,16 +119,52 @@ jQuery(function($) {
 
       // рендерим превьюхи документа
       nCore.document.root.publish('renderSideMenuItem', items);
-
     });
+  });
+
+  nCore.router.add('test', function () {
+    document.title = 'TEST:  ';
+  });
+
+  nCore.router.add('users/:name', function (r) {
+    document.title = 'User ' + r.params.name;
+  });
+
+  nCore.router.add('tables', function (r) {
+    // есть ли у юзера право просматривать таблицы
+    if ( nCore.roles.check('viewTable') ) {
+      nCore.templates.render('table/index', function(data){ 
+        if ( data ) {
+          var wrapper = document.getElementById('content-wrapper');
+          wrapper.innerHTML = data;
+        };
+
+        // для теста!
+        // создаём 12 элементов 
+        var items = [];
+        for (var i = 0; i < 120; i++) {
+          items.push({
+            documentId    : Math.random(),
+            documentTitle : 'Title',
+            documentDate  : Math.random()
+          });
+        };
+
+        // рендерим превьюхи документа
+        nCore.document.root.publish('renderSideMenuItem', items);
+      });
+    } else {
+      nCore.templates.notPermit();
+    }
   });
   nCore.router.add('tables/:name', function (r) {
     document.title = 'tables '+ r.params.name;
+
     nCore.templates.render('table/table', function(data){ 
       if ( data ) {
         var wrapper = document.getElementById('content-wrapper');
         wrapper.innerHTML = data;
-        nCore.document.root.publish('initEditor', {});
+        nCore.document.root.publish('initEditor');
       };
     });
   });

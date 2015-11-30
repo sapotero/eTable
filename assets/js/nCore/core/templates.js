@@ -3,9 +3,9 @@
 var nCore = nCore || {};
 nCore.templates = (function(){
   
-  function init (){
-  };
-  function render(template, callback){
+  var init = function (){
+  },
+  render = function (template, callback){
     return nCore.query.getTemplate( 'assets/js/nCore/templates/' + template + '.html', {})
     .success(function(data){
       // console.log('getTemplate', data);
@@ -15,11 +15,22 @@ nCore.templates = (function(){
     }).error(function(data){
       console.error('[!] getTemplate', data)
     });
-  }
+  },
+  notPermit = function(permission){
+    render('shared/notPermit', function(data){ 
+      if ( data ) {
+        var wrapper = document.getElementById('content-wrapper');
+        wrapper.innerHTML = data;
+      };
+      // рендерим превьюхи документа
+      nCore.document.root.publish('renderNotPermit');
+    });
+  };
 
   return {
-    init   : init,
-    render : render
+    init      : init,
+    render    : render,
+    notPermit : notPermit
   }
 })();
 nCore.templates.init();

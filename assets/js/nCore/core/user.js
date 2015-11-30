@@ -4,12 +4,29 @@
 
 var nCore = nCore || {};
 nCore.user = (function(){
-  var init = function(){
 
+  var userPermissions = ['viewTable', 'viewTableIndex'],
+      userEvent = {};
+
+  var init = function(){
+    nCore.core.attachTo( nCore.user.event );
+  },
+  permissions = function(){
+    return userPermissions;
+  },
+  setPermissions = function(data){
+    // после первого раза запрещаем изменять пермишены
+    userPermissions = Object.freeze(data);
+  },
+  event = function(){
+    return userEvent;
   };
 
   return {
-    init: init
+    init           : init,
+    event          : event,
+    setPermissions : setPermissions,
+    permissions    : permissions
   }
 })();
 nCore.user.init();

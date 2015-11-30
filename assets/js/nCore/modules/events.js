@@ -146,7 +146,11 @@ nCore.events = (function(){
         // toolbarBottom: true
       });
     });
+  
 
+    /*
+     * События рендера
+     */
     nCore.document.root.subscribe('renderSideMenuItem', function(data){
       console.log('renderSideMenuItem', data);
       
@@ -171,10 +175,18 @@ nCore.events = (function(){
         }
       };
 
-      // $('#main').render(data, helper);
       Transparency.render(document.getElementById('main'), data, helper);
-
     });
+
+    nCore.document.root.subscribe('renderNotPermit', function(data){
+      // console.log('renderNotPermit', data);
+      var data = {
+        'textBad': 'Operation not permited'
+      };
+
+      Transparency.render(document.getElementById('content-wrapper'), data);
+    });
+
 
     /**
      * события для таблицы
@@ -258,6 +270,21 @@ nCore.events = (function(){
         // console.log( 'origin_name:', activeCell.dataset.origin_name );
       };
     });
+
+    /*
+     * События юзера
+     */
+    // получаем права доступа юзера
+    nCore.user.event.subscribe('getUserPermissions', function(data){
+      
+      console.log('getUserPermissions');
+    });
+    // получаем список доков доступных юзеру
+    nCore.user.event.subscribe('getAvailableDocuments', function(data){
+      
+      console.log('getAvailableDocuments');
+    });
+
   };
 
   return {
