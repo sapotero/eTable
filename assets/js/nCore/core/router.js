@@ -97,47 +97,50 @@ nCore.router = (function(){
  * Роутинг
  */
 
-nCore.router.add('', function () {
-  document.title = 'INDEX';
-  nCore.templates.render('table/index', function(data){ 
-    if ( data ) {
-      var wrapper = document.getElementById('content-wrapper');
-      wrapper.innerHTML = data;
-    };
+jQuery(function($) {
+  nCore.router.add('', function () {
+    document.title = 'INDEX';
+      nCore.templates.render('table/index', function(data){ 
+      if ( data ) {
+        var wrapper = document.getElementById('content-wrapper');
+        wrapper.innerHTML = data;
+      };
+    });
   });
-});
 
-nCore.router.add('test', function () {
-  document.title = 'TEST:  ';
-});
-
-nCore.router.add('users/:name', function (r) {
-  document.title = 'User ' + r.params.name;
-});
-
-nCore.router.add('tables', function (r) {
-  // document.title = 'tables index';
-  nCore.templates.render('table/index', function(data){ 
-    if ( data ) {
-      var wrapper = document.getElementById('content-wrapper');
-      wrapper.innerHTML = data;
-    };
+  nCore.router.add('test', function () {
+    document.title = 'TEST:  ';
   });
-});
-nCore.router.add('tables/:name', function (r) {
-  document.title = 'tables '+ r.params.name;
-  nCore.templates.render('table/table', function(data){ 
-    if ( data ) {
-      var wrapper = document.getElementById('content-wrapper');
-      wrapper.innerHTML = data;
-    };
+
+  nCore.router.add('users/:name', function (r) {
+    document.title = 'User ' + r.params.name;
   });
+
+  nCore.router.add('tables', function (r) {
+    // document.title = 'tables index';
+    nCore.templates.render('table/index', function(data){ 
+      if ( data ) {
+        var wrapper = document.getElementById('content-wrapper');
+        wrapper.innerHTML = data;
+      };
+    });
+  });
+  nCore.router.add('tables/:name', function (r) {
+    document.title = 'tables '+ r.params.name;
+    nCore.templates.render('table/table', function(data){ 
+      if ( data ) {
+        var wrapper = document.getElementById('content-wrapper');
+        wrapper.innerHTML = data;
+        nCore.document.root.publish('initEditor', {});
+      };
+    });
+  });
+
+  function processHash() {
+    var hash = location.hash || '#';
+    nCore.router.run(hash.slice(1));
+  }
+
+  window.addEventListener('hashchange', processHash);
+  processHash();
 });
-
-function processHash() {
-  var hash = location.hash || '#';
-  nCore.router.run(hash.slice(1));
-}
-
-window.addEventListener('hashchange', processHash);
-processHash();

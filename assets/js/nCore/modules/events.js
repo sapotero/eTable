@@ -129,6 +129,24 @@ nCore.events = (function(){
       // }
     });
 
+    // изменение свойств документа
+    nCore.document.root.subscribe('initEditor', function(data){
+      console.log('initEditor');
+      $('div#paper').froalaEditor({
+        toolbarButtons: ['file-o', 'floppy-o', '|', 'bold', 'italic', 'underline', 'strikeThrough', 'fontSize', '|', 'color', 'calculator', 'paragraphStyle', '|', 'paragraphFormat', '|','alignLeft', 'alignCenter', 'alignRight', '|','formatOL', 'formatUL', '|','outdent', 'indent', '|','insertImage', 'insertTable', '|', 'html', '|','undo', 'redo', '|', 'cog'],
+        language: 'ru',
+        charCounterCount: false,
+        toolbarSticky: false
+        // раскоментировать когда будет выкладывать в прод
+        // toolbarButtons: ['file-o', 'floppy-o', '|', 'bold', 'italic', 'underline', 'strikeThrough', 'fontSize', '|', 'color', 'inlineStyle', 'paragraphStyle', '|', 'paragraphFormat', '|','alignLeft', 'alignCenter', 'alignRight', '|','formatOL', 'formatUL', '|','outdent', 'indent', '|','insertImage', 'insertTable', '|', 'html', '|','undo', 'redo', '|', 'cog'],
+        // toolbarInline: true,
+        // theme: 'gray',
+        // tableEditButtons: ['tableRows', 'tableColumns', 'tableCells', 'tableCellVerticalAlign', 'tableRemove']
+        // toolbarStickyOffset: 100,
+        // toolbarBottom: true
+      });
+    });
+
     /**
      * события для таблицы
      */

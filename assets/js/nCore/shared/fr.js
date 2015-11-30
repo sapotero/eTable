@@ -23915,3 +23915,102 @@ window.FDKModernizr = function(e, t, n) {
             return $("html").removeClass("nav-in")
         }, $(document).on("page:fetch", e), $(document).on("page:load", t), $(document).on("page:load", FDK.refresh), $(document).on("ready", t)
     }.call(this);
+
+$.FroalaEditor.DefineIcon('alignLeft', {NAME: 'align-left'});
+$.FroalaEditor.RegisterCommand('alignLeft', {
+  title: 'left align',
+  focus: false,
+  undo: false,
+  refreshAfterCallback: false,
+  callback: function () {
+    console.log( this.align.apply('left') );
+  }
+});
+
+$.FroalaEditor.DefineIcon('alignRight', {NAME: 'align-right'});
+$.FroalaEditor.RegisterCommand('alignRight', {
+  title: 'right align',
+  focus: false,
+  undo: false,
+  refreshAfterCallback: false,
+  callback: function () {
+    console.log( this.align.apply('right') );
+  }
+});
+
+$.FroalaEditor.DefineIcon('alignCenter', {NAME: 'align-center'});
+$.FroalaEditor.RegisterCommand('alignCenter', {
+  title: 'center align',
+  focus: false,
+  undo: false,
+  refreshAfterCallback: false,
+  callback: function () {
+    console.log( this.align.apply('center') );
+  }
+});
+
+$.FroalaEditor.DefineIcon('cog', {NAME: 'cog'});
+$.FroalaEditor.RegisterCommand('cog', {
+  title: 'cog',
+  focus: false,
+  undo: false,
+  refreshAfterCallback: false,
+  callback: function () {
+    $('#cellSettings').toggleClass('active');
+  }
+});
+
+$.FroalaEditor.DefineIcon('floppy-o', {NAME: 'floppy-o'});
+$.FroalaEditor.RegisterCommand('floppy-o', {
+  title: 'floppy-o',
+  focus: false,
+  undo: false,
+  refreshAfterCallback: false,
+  callback: function () {
+      var id = nCore.document.id(),
+      body = $('.fr-element.fr-view')[0].innerHTML,
+      data = {
+        id          : id,
+        title       : "",
+        description : "",
+        body        : body
+      };
+    nCore.document.root.publish('saveDocument', data );
+  }
+});
+
+
+$.FroalaEditor.DefineIcon('file-o', {NAME: 'file-o'});
+$.FroalaEditor.RegisterCommand('file-o', {
+  title: 'file-o',
+  focus: false,
+  undo: false,
+  refreshAfterCallback: false,
+  callback: function () {
+    var id = nCore.document.id(),
+      body = $('.fr-element.fr-view')[0].innerHTML,
+      data = {
+        id          : id,
+        title       : "",
+        description : "",
+        body        : body
+      };
+    nCore.document.root.publish('newDocument', data );
+  }
+});
+
+$.FroalaEditor.DefineIcon('calculator', {NAME: 'calculator'});
+$.FroalaEditor.RegisterCommand('calculator', {
+  title: 'calculator',
+  focus: false,
+  undo: false,
+  refreshAfterCallback: false,
+  callback: function () {
+    var data = {
+      table: document.querySelector('.fr-element.fr-view > table'),
+      headClass: 'fr-highlighted',
+      sideClass: 'fr-thick'
+    };
+    nCore.modules.table.event.publish('generateQuery', data );
+  }
+});

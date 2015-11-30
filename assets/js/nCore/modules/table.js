@@ -375,7 +375,11 @@ nCore.modules.table = (function(){
           // if ( !cellData.hasOwnProperty( row.rowIndex ) ){
           //   cellData[row.rowIndex] = [];
           // }
-          cellData.push( { rowIndex: row.rowIndex, cellIndex: cell.cellIndex, query : JSON.parse(cell.dataset.query) } );
+          cellData.push({
+            rowIndex  : row.rowIndex,
+            cellIndex : cell.cellIndex,
+            query     : JSON.parse(cell.dataset.query)
+          });
         }
       };
     };

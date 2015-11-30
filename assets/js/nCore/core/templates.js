@@ -8,7 +8,7 @@ nCore.templates = (function(){
   function render(template, callback){
     return nCore.query.getTemplate( 'assets/js/nCore/templates/' + template + '.html', {})
     .success(function(data){
-      console.log('getTemplate', data);
+      // console.log('getTemplate', data);
       if (callback && typeof(callback) === 'function') {
         callback.call(this, data);
       };
