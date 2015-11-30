@@ -123,6 +123,21 @@ jQuery(function($) {
         var wrapper = document.getElementById('content-wrapper');
         wrapper.innerHTML = data;
       };
+
+      // для теста!
+      // создаём 12 элементов 
+      var items = [];
+      for (var i = 0; i < 120; i++) {
+        items.push({
+          documentId    : Math.random(),
+          documentTitle : 'Title',
+          documentDate  : Math.random()
+        });
+      };
+
+      // рендерим превьюхи документа
+      nCore.document.root.publish('renderSideMenuItem', items);
+
     });
   });
   nCore.router.add('tables/:name', function (r) {

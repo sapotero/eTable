@@ -8,17 +8,21 @@
   } else if (typeof module !== 'undefined' && module.exports) {
     module.exports = factory();
   } else {
-    root.nCore = factory();
+    root.nCore           = factory();
     root.nCore.modules   = {};
     root.nCore.core      = {};
     root.nCore.query     = {};
     root.nCore.router    = {};
     root.nCore.templates = {};
+    root.nCore.user      = {};
+    root.nCore.roles     = {};
+    root.nCore.update    = {};
+    root.nCore.preloader = {};
   }
 }(this, function () {
 
     function load(type, scriptArray, callback) {
-      var head        = document.getElementsByTagName('body')[0],
+      var head        = document.getElementsByTagName('head')[0],
           scriptArray = scriptArray,
           toLoad      = scriptArray.length,
           hasCallback = callback.call;
@@ -37,7 +41,7 @@
       for (var i = 0; i < toLoad; i++) {
         script = document.createElement('script');
         script.src = 'assets/js/nCore/'+type+'/'+scriptArray[i]+'.js';
-        // script.async = true;
+        script.async = true;
         script.onload = script.onerror = script.onreadystatechange = onScriptLoaded;
         head.appendChild(script);
       }
@@ -46,7 +50,7 @@
     function loadModules(){
       var dependencies = {
         shared  : [ "jquery", "mui.min", "transparency.min", "fr", "script" ],
-        core    : [ "query", "core", "router", "templates", "preloader" ],
+        core    : [ "query", "core", "router", "templates", "preloader", "user", "roles", "update" ],
         modules : [ "document", "table", "cellEditor", "cell", "events" ]
       };
       

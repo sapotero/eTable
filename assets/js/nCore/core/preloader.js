@@ -3,6 +3,16 @@
 // resourse preloader
 
 var nCore = nCore || {};
-(function(){
+nCore.preloader = (function(){
   // предзагрузка всех справочников и шаблонов перед стартом приложульки
+  // получаем права доступа юзера
+  
+  var init = function(){
+
+  };
+
+  return {
+    init: init
+  }
 })();
+nCore.preloader.init();

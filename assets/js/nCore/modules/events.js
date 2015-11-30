@@ -147,6 +147,35 @@ nCore.events = (function(){
       });
     });
 
+    nCore.document.root.subscribe('renderSideMenuItem', function(data){
+      console.log('renderSideMenuItem', data);
+      
+      var helper = {
+        documentTitle: {
+          text: function(params) {
+            return this.documentTitle;
+          }
+        },
+        documentDate: {
+          text: function(params) {
+            return this.documentDate || new Date();
+          }
+        },
+        documentId: {
+          href: function(params) {
+            return "#/tables/" + this.documentId || Math.random();
+          },
+          text: function(){
+            return ''
+          }
+        }
+      };
+
+      // $('#main').render(data, helper);
+      Transparency.render(document.getElementById('main'), data, helper);
+
+    });
+
     /**
      * события для таблицы
      */
