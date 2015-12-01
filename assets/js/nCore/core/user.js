@@ -11,7 +11,7 @@ nCore.user = (function(){
       userActive      = true;
 
   var init = function(){
-    nCore.core.attachTo( nCore.user.event );
+    nCore.attachTo( nCore.user.event );
   },
   permissions = function(){
     return userPermissions;

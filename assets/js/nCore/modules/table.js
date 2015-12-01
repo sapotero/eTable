@@ -12,7 +12,7 @@ nCore.modules.table = (function(){
       activeCell = {},
       mergeCells = [],
   init = function(config){
-    nCore.core.attachTo( nCore.modules.table.event );
+    nCore.attachTo( nCore.modules.table.event );
     var initialTable = document.getElementById(config.table);
     
     if ( typeof(initialTable) !== 'undefined' && initialTable !== null ) {
@@ -21,7 +21,7 @@ nCore.modules.table = (function(){
       countMaxCells();
       addEventListener();
 
-      nCore.core.attachTo( nCore.modules.table.activeCell );
+      nCore.attachTo( nCore.modules.table.activeCell );
     } else {
       return false;
     }

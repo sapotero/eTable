@@ -35,7 +35,7 @@ nCore = (function(){
         toLoad      = scriptArray.length,
         hasCallback = callback.call;
 
-    function onScriptLoaded(e) {
+    function onScriptLoaded(scriptName) {
       var readyState = this.readyState;
       if (!readyState || /ded|te/.test(readyState)) {
         toLoad--;
@@ -46,15 +46,13 @@ nCore = (function(){
     }
 
     function addToStorage(url, script){
-      // console.log('addToStorage', url, script);
-
-      $.get( url )
-      .done(function( data, textStatus ) {
+      jqxhr = $.ajax( url )
+      .done(function(data) {
         nCore.storage.setItem( script, data );
       })
-      .fail(function( jqxhr, settings, exception ) {
-        nCore.storage.setItem('[!]'+scriptName, jqxhr.responseText);
-        console.log( jqxhr, settings, exception );
+      .fail(function(data) {
+        var js_source = data.responseText;
+        nCore.storage.setItem( script, js_source );
       });
     };
 
@@ -69,16 +67,10 @@ nCore = (function(){
       if ( _storageAvailable && type !== 'shared' ) {
 
         if( nCore.storage.hasOwnProperty( scriptName ) ){
-          console.log('storageAvailable [script] -> ', scriptName);
-          script.src = 'data:text/javascript,' + encodeURI( nCore.storage[ scriptName ] );
-          // script.textContent = nCore.storage[ scriptName ];
-          // script.onload = script.onerror = script.onreadystatechange = '';
-          // script.src = 'assets/js/nCore/'+type+'/'+scriptName+'.js';
+          script.src = 'data:text/javascript,' + encodeURIComponent( nCore.storage[ scriptName ] );
         }
         else {
-          console.log('storageAvailable [noscript] -> ', scriptName);
           var url = 'assets/js/nCore/'+type+'/'+scriptName+'.js';
-
           script.src = url;
           script.async = true;
           script.onload = script.onerror = script.onreadystatechange = onScriptLoaded;
@@ -97,9 +89,9 @@ nCore = (function(){
 
   function loadModules(){
     var dependencies = {
+      modules : [ "document", "table", "cellEditor", "cell", "events" ],
       shared  : [ "jquery", "mui.min", "transparency.min", "fr", "script" ],
-      core    : [ "user", "query", "core", "roles", "templates", "update", "worker", "router", "preloader" ],
-      modules : [ "document", "table", "cellEditor", "cell", "events" ]
+      core    : [ "user", "query", "core", "roles", "templates", "update", "worker", "router", "preloader" ]
     };
     
     for (var type in dependencies){
@@ -121,8 +113,46 @@ nCore = (function(){
     loadModules();
   }
 
+  var subscribe = function(channel, fn) {
+    if ( !nCore.channels[channel] ) {
+      nCore.channels[channel] = [];
+    }
+
+    nCore.channels[channel].push({ context: this, callback: fn });
+    return this;
+   },
+
+  /**
+   * Публикация события]
+   * @function publish
+   * @param  {string} channel [Куда шлём событие]
+
+   */
+  publish = function(channel) {
+    if ( !nCore.channels[channel] ) {
+      return false;
+    }
+
+    var args = Array.prototype.slice.call(arguments, 1);
+
+    for (var i = 0, l = nCore.channels[channel].length; i < l; i++) {
+      var subscription = nCore.channels[channel][i];
+      subscription.callback.apply(subscription.context, args);
+    }
+    return this;
+   };
+
   return {
-    init: init
+    channels  : {},
+    init      : init,
+    
+    publish   : publish,
+    subscribe : subscribe,
+
+    attachTo  : function(obj){
+      obj.publish   = publish;
+      obj.subscribe = subscribe;
+    }
   };
 })();
 

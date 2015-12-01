@@ -19,7 +19,7 @@ nCore.document = (function(){
     nCoreDocumentSave = document.getElementById( config.nCoreDocumentSave );
 
     nCoreRoot.textContent += "_" + nCoreDocumentId;
-    nCore.core.attachTo( nCore.document.root );
+    nCore.attachTo( nCore.document.root );
   },
   id = function () {
     return nCoreDocumentId;

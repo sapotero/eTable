@@ -30,8 +30,8 @@ nCore.modules.cellEditor = (function(){
 
 
       // подписываемся на изменения параметров текста и размера
-      nCore.core.attachTo( nCore.modules.cellEditor.cellText );
-      nCore.core.attachTo( nCore.modules.cellEditor.fontSize );
+      nCore.attachTo( nCore.modules.cellEditor.cellText );
+      nCore.attachTo( nCore.modules.cellEditor.fontSize );
 
       // nCore.modules.table.activeCell.subscribe('setCell', function(cell){
       //   activeCell = cell;
