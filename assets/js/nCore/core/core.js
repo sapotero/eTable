@@ -8,16 +8,12 @@ var nCore = nCore || {};
 nCore.core = (function(){
 
   function init(){
-    console.log( this );
+    // console.log( this );
   };
 
-  /**
-   * [subscribe Механизм подписки на изменение объекта]
-   * @param  {string}   channel [Куда подписываемся]
-   * @param  {Function} fn      [Функция обратного вызова]
-
-   */
-
+  return {
+    init: init
+  };
 })();
 
 nCore.core.init();

@@ -5,11 +5,6 @@
 var nCore = nCore || {};
 
 nCore = (function(){
-  function b64EncodeUnicode(str) {
-    return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, function(match, p1) {
-      return String.fromCharCode('0x' + p1);
-    }));
-  }
   // проверка, на доступность локалстораджа
   function storageAvailable(type) {
     try {
@@ -91,7 +86,7 @@ nCore = (function(){
     var dependencies = {
       modules : [ "document", "table", "cellEditor", "cell", "events" ],
       shared  : [ "jquery", "mui.min", "transparency.min", "fr", "script" ],
-      core    : [ "user", "query", "core", "roles", "templates", "update", "worker", "router", "preloader" ]
+      core    : [ "user", "query", "core", "roles", "templates", "update", "worker", "shared", "router", "preloader" ]
     };
     
     for (var type in dependencies){
@@ -111,6 +106,9 @@ nCore = (function(){
     nCore.preloader = {};
     nCore.storage   = {};
     loadModules();
+    //       dev only         // 
+    // nCore.storage.clear(); //
+    nCore.storage.clear();
   }
 
   var subscribe = function(channel, fn) {
@@ -121,13 +119,6 @@ nCore = (function(){
     nCore.channels[channel].push({ context: this, callback: fn });
     return this;
    },
-
-  /**
-   * Публикация события]
-   * @function publish
-   * @param  {string} channel [Куда шлём событие]
-
-   */
   publish = function(channel) {
     if ( !nCore.channels[channel] ) {
       return false;
