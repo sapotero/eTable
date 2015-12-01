@@ -108,7 +108,7 @@ nCore = (function(){
     loadModules();
     //       dev only         // 
     // nCore.storage.clear(); //
-    nCore.storage.clear();
+    // nCore.storage.clear();
   }
 
   var subscribe = function(channel, fn) {

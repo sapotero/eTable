@@ -78,4 +78,29 @@ jQuery(function($) {
     nCore.modules.table.event.publish('cellSettingsChange', e );
   })
 
+  $('.AddDocument').live('click', function(){
+    var overlayEl = mui.overlay('on');
+
+    // set overlay options
+    var options = {
+      'keyboard': true,  // teardown when <esc> key is pressed (default: true)
+      'static'  : false, // maintain overlay when clicked (default: false)
+      'onclose' : function() {
+      }
+    };
+    // initialize with child element
+    var m = document.createElement('div');
+    m.style.width = '400px';
+    m.style.height = '100px';
+    m.style.margin = '10% auto';
+    m.style.padding = '10% auto';
+    m.style.backgroundColor = '#fff';
+    m.classList.toggle('mui-panel');
+    m.classList.toggle('mui--z5');
+    m.innerHTML = '<h4>Создание нового документа</h4><div class="loader"></div>';
+
+    mui.overlay('on', options, m);
+    setTimeout( function(){ mui.overlay('off'); location.hash = "#tables/new" },1000);
+  })
+
 });

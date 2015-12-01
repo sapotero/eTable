@@ -85,8 +85,8 @@ buttons {
   position: fixed;
   top: 0;
   bottom: 0;
-  width: 350px;
-  left: -350px;
+  width: 300px;
+  left: -300px;
   overflow: auto;
   z-index: 2;
   background-color: #FAFAFA;
@@ -97,8 +97,8 @@ buttons {
   position: fixed;
   top: 64px;
   bottom: 0;
-  width: 350px;
-  right: -350px;
+  width: 300px;
+  right: -300px;
   overflow: auto;
   /*z-index: 2;*/
   background-color: #FAFAFA;
@@ -126,7 +126,7 @@ buttons {
 
 @media (min-width: 768px) {
   #header {
-    left: 350px;
+    left: 300px;
     transition: left 0.2s;
     z-index: 3;
   }
@@ -142,7 +142,7 @@ buttons {
   }
   
   #footer {
-    margin-left: 350px;
+    margin-left: 300px;
     transition: margin-left 0.2s;
   }
   
@@ -152,7 +152,7 @@ buttons {
   }
   
   body.hide-sidedrawer #sidedrawer {
-    left: -350px;
+    left: -300px;
     margin: 0px;
   }
   
@@ -177,6 +177,31 @@ buttons {
   transition: left 0.2s;
 }
 
+#sidedrawer ul {
+  list-style: none;
+}
+
+#sidedrawer > ul {
+  padding-left: 0px;
+}
+
+#sidedrawer > ul > li:first-child {
+  padding-top: 15px;
+}
+
+#sidedrawer strong {
+  display: block;
+  padding: 15px 22px;
+  cursor: pointer;
+}
+
+#sidedrawer strong:hover {
+  background-color: #E0E0E0;
+}
+
+#sidedrawer strong + ul > li {
+  padding: 6px 0px;
+}
 
 /**
  * Header CSS
@@ -208,32 +233,6 @@ buttons {
   height: 64px;
   color: white;
   background: #F5F5F5;
-}
-
-#sidedrawer ul {
-  list-style: none;
-}
-
-#sidedrawer > ul {
-  padding-left: 0px;
-}
-
-#sidedrawer > ul > li:first-child {
-  padding-top: 15px;
-}
-
-#sidedrawer strong {
-  display: block;
-  padding: 15px 22px;
-  cursor: pointer;
-}
-
-#sidedrawer strong:hover {
-  background-color: #E0E0E0;
-}
-
-#sidedrawer strong + ul > li {
-  padding: 6px 0px;
 }
 
 
@@ -417,4 +416,46 @@ buttons {
 }
 .paperZoom {
   animation-name: fadeIn;
+}
+
+
+.loader {
+  height: 4px;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  background-color: #ddd;
+}
+.loader:before{
+  display: block;
+  position: absolute;
+  content: "";
+  left: -200px;
+  width: 200px;
+  height: 4px;
+  background-color: #2980b9;
+  animation: loading 2s linear infinite;
+}
+
+@keyframes loading {
+    from {left: -200px; width: 30%;}
+    50% {width: 30%;}
+    70% {width: 70%;}
+    80% { left: 50%;}
+    95% {left: 120%;}
+    to {left: 100%;}
+}
+
+.mui--overflow-hidden {
+     overflow: overlay!important; 
+}
+#mui-overlay {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 99999999;
+    background-color: rgba(0,0,0,.2);
+    overflow: hidden;
 }
