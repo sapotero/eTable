@@ -1,71 +1,129 @@
-"use strict";
+// "use strict";
 
-(function (root, factory) {
-  var define = root.define;
+// наш микро фреймворк nCore
 
-  if (define && define.amd) {
-    define([], factory);
-  } else if (typeof module !== 'undefined' && module.exports) {
-    module.exports = factory();
-  } else {
-    root.nCore           = factory();
-    root.nCore.modules   = {};
-    root.nCore.core      = {};
-    root.nCore.query     = {};
-    root.nCore.router    = {};
-    root.nCore.templates = {};
-    root.nCore.user      = {};
-    root.nCore.roles     = {};
-    root.nCore.update    = {};
-    root.nCore.preloader = {};
+var nCore = nCore || {};
+
+nCore = (function(){
+  function b64EncodeUnicode(str) {
+    return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, function(match, p1) {
+      return String.fromCharCode('0x' + p1);
+    }));
   }
-}(this, function () {
+  // проверка, на доступность локалстораджа
+  function storageAvailable(type) {
+    try {
+      var storage = window[type],
+        x = '__storage_test__';
+      storage.setItem(x, x);
+      storage.removeItem(x);
 
-    function load(type, scriptArray, callback) {
-      var head        = document.getElementsByTagName('head')[0],
-          scriptArray = scriptArray,
-          toLoad      = scriptArray.length,
-          hasCallback = callback.call;
+      nCore.storage = window[type];
+      // nCore.storage.clear();
+      return true;
+    }
+    catch(e) {
+      return false;
+    }
+  }
 
-      function onScriptLoaded() {
-        var readyState = this.readyState;
-        if (!readyState || /ded|te/.test(readyState)) {
-          toLoad--;
-          if (!toLoad && hasCallback) {
-            callback();
-          }
+  function load(type, scriptArray, callback) {
+    console.log('load', type, scriptArray);
+
+    var head        = document.getElementsByTagName('body')[0],
+        scriptArray = scriptArray,
+        toLoad      = scriptArray.length,
+        hasCallback = callback.call;
+
+    function onScriptLoaded(e) {
+      var readyState = this.readyState;
+      if (!readyState || /ded|te/.test(readyState)) {
+        toLoad--;
+        if (!toLoad && hasCallback) {
+          callback();
         }
       }
-
-      var script;
-      for (var i = 0; i < toLoad; i++) {
-        script = document.createElement('script');
-        script.src = 'assets/js/nCore/'+type+'/'+scriptArray[i]+'.js';
-        script.async = true;
-        script.onload = script.onerror = script.onreadystatechange = onScriptLoaded;
-        head.appendChild(script);
-      }
-    };
-
-    function loadModules(){
-      var dependencies = {
-        shared  : [ "jquery", "mui.min", "transparency.min", "fr", "script" ],
-        core    : [ "query", "core", "user", "roles", "router", "templates", "preloader", "update", "worker" ],
-        modules : [ "document", "table", "cellEditor", "cell", "events" ]
-      };
-      
-      for (var type in dependencies){
-        dependencies.hasOwnProperty(type) ? load( type, dependencies[type], function(){}) : false;
-      };
-    };
-
-    function init(){
-      loadModules();
     }
 
-    return {
-      init: init
+    function addToStorage(url, script){
+      // console.log('addToStorage', url, script);
+
+      $.get( url )
+      .done(function( data, textStatus ) {
+        nCore.storage.setItem( script, data );
+      })
+      .fail(function( jqxhr, settings, exception ) {
+        nCore.storage.setItem('[!]'+scriptName, jqxhr.responseText);
+        console.log( jqxhr, settings, exception );
+      });
     };
-}));
+
+
+    var script, _storageAvailable = storageAvailable('localStorage');
+
+    for (var i = 0; i < toLoad; i++) {
+      script = document.createElement('script');
+      var scriptName = scriptArray[i];
+      
+
+      if ( _storageAvailable && type !== 'shared' ) {
+
+        if( nCore.storage.hasOwnProperty( scriptName ) ){
+          console.log('storageAvailable [script] -> ', scriptName);
+          script.src = 'data:text/javascript,' + encodeURI( nCore.storage[ scriptName ] );
+          // script.textContent = nCore.storage[ scriptName ];
+          // script.onload = script.onerror = script.onreadystatechange = '';
+          // script.src = 'assets/js/nCore/'+type+'/'+scriptName+'.js';
+        }
+        else {
+          console.log('storageAvailable [noscript] -> ', scriptName);
+          var url = 'assets/js/nCore/'+type+'/'+scriptName+'.js';
+
+          script.src = url;
+          script.async = true;
+          script.onload = script.onerror = script.onreadystatechange = onScriptLoaded;
+          addToStorage(url, scriptName);
+        }
+      }
+      else {
+        script.src = 'assets/js/nCore/'+type+'/'+scriptName+'.js';
+        script.async = true;
+        script.onload = script.onerror = script.onreadystatechange = onScriptLoaded;
+      }
+
+      head.appendChild(script);
+    }
+  };
+
+  function loadModules(){
+    var dependencies = {
+      shared  : [ "jquery", "mui.min", "transparency.min", "fr", "script" ],
+      core    : [ "user", "query", "core", "roles", "templates", "update", "worker", "router", "preloader" ],
+      modules : [ "document", "table", "cellEditor", "cell", "events" ]
+    };
+    
+    for (var type in dependencies){
+      dependencies.hasOwnProperty(type) ? load( type, dependencies[type], function(){}) : false;
+    };
+  };
+
+  function init(){
+    nCore.modules   = {};
+    nCore.core      = {};
+    nCore.query     = {};
+    nCore.router    = {};
+    nCore.templates = {};
+    nCore.user      = {};
+    nCore.roles     = {};
+    nCore.update    = {};
+    nCore.preloader = {};
+    nCore.storage   = {};
+    loadModules();
+  }
+
+  return {
+    init: init
+  };
+})();
 
 nCore.init();
