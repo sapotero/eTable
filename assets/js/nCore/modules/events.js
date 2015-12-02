@@ -18,6 +18,7 @@ nCore.events = (function(){
     /**
      * события документа
      */
+    
     // новый документ
     nCore.document.root.subscribe('newDocument', function(data){
       
@@ -151,6 +152,7 @@ nCore.events = (function(){
     /*
      * События рендера
      */
+    
     nCore.document.root.subscribe('renderSideMenuItem', function(data){
       console.log('renderSideMenuItem', data);
       
@@ -191,6 +193,7 @@ nCore.events = (function(){
     /**
      * события для таблицы
      */
+    
     // создание критериев поиска 
     nCore.modules.table.event.subscribe('generateQuery', function(data){
       console.log('generateQuery', data);
@@ -291,6 +294,7 @@ nCore.events = (function(){
     /*
      * События юзера
      */
+    
     // получаем права доступа юзера
     nCore.user.event.subscribe('getUserPermissions', function(data){
       
@@ -300,6 +304,27 @@ nCore.events = (function(){
     nCore.user.event.subscribe('getAvailableDocuments', function(data){
       
       console.log('getAvailableDocuments');
+    });
+
+    /*
+     * События загрузчика
+     */
+    
+    // загружаем шаблоны
+    nCore.preloader.event.subscribe('loadTemplates', function(template){
+      
+        nCore.query.get( 'templates.json', { data: template } )
+        .success(function(data){
+          console.log('post', data);
+          nCore.preloader.setTemplates( load );
+        }).error(function(data){
+          console.error('[!] post', data)
+        });
+    });
+    // загружаем поля, справочники и критерии для поиска
+    nCore.preloader.event.subscribe('loadQuery', function(data){
+      
+      console.log('loadQuery');
     });
 
   };
