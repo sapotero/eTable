@@ -1,0 +1,112 @@
+<!-- Главная панелька с кнопками -->
+<table class="mui-table no-margin-bottom">
+  <tr>
+    <td class="mui-col-lg-2">&nbsp;</td>
+
+    <td class="mui-col-lg-8 bar ">
+      <div class="mui-panel mainbar  mui--z1" id="paperBar">
+      </div>
+    </td>
+    <td class="mui-col-lg-2">
+      <div id="cellSettings" class="mui--z1">
+        
+        <ul class="mui-tabs__bar s cellSettings mui-tabs__bar--justified">
+          <!-- <div class="mui--text-black-54 mui--text-display1"></div> -->
+
+          <li class="mui--is-active">
+            <a data-mui-toggle="tab" data-mui-controls="pane-default-1" class="mui--text-white">Поиск</a>
+          </li>
+          <li>
+            <a data-mui-toggle="tab" data-mui-controls="nCoreElements" class="mui--text-white">Данные</a>
+          </li>
+        </ul>
+        <div class="mui-divider"></div>
+
+        
+       <div class="mui-divider mui--divider-right "></div>
+        <div class="mui-tabs__pane mui--is-active" id="pane-default-1">
+            <!-- <legend>Свойства</legend> -->
+            <!-- <div class="mui-panel mui-col-lg-10 mui-col-lg-offset-1 bb mui--z2">
+              <form>
+                <legend>Свойства</legend>
+                
+                <div class="mui-textfield">
+                  <input id="nCoreTabConfigCellText" type="text">
+                  <label>Текст</label>
+                </div>
+                <label  class="mui-col-lg-2 control-label">Размер</label>
+              </form>
+            </div> -->
+
+            <div class="mui-panel mui-col-lg-10 mui-col-lg-offset-1 bb mui--z2">
+              <form id="cellSettingsForm" onsubmit="return false;">
+                <!-- <legend>Поиск</legend> -->
+                <!--
+                  condition    = equal   *
+                  value        = test    *
+                  origin_name  = comment *
+
+                  data_type    = String
+                  russian_name = russian_name
+                -->
+                <div class="mui-textfield">
+                  <div class="mui-select" > <!-- id="nCoreTabConfigTextFontSize"> -->
+                    <select name="origin_name">
+                      <option value="554c5fc85804000014000001" selected="selected">Комментарий</option>
+                      <option value="554c5fc858040000cf000001">Экземпляры. Кому</option>
+                      <option value="554c5fc858040000da000001">Штрих-код</option>
+                      <option value="554c5fc858040000e5000001">Гриф</option>
+                      <option value="554c5fc858040000f0000001">Дата регистрации</option>
+                      <option value="554c5fc858040000fb000001">Рег. №</option>
+                      <option value="55ad071ed09d000283000001">ФИО Подписавшего</option>
+                      <option value="560e5b950e2d000003000001">№ пост</option>
+                      <option value="562a3ae1c1aa00003d000001">Дата контроля (РКФ)2</option>
+                      <option value="562a3b0ec1aa000041000001">Дата контроля (РКФ)</option>
+                    </select>
+                  </div>
+                  <label>Поле</label>
+                </div>
+
+                <div class="mui-textfield">
+                  <div class="mui-select" > <!-- id="nCoreTabConfigTextFontSize"> -->
+                    <select name="conditions">
+                      <option value="equal">Точное совпадение</option>
+                      <option value="not_equal">Не</option>
+                      <option value="regexp">Частичное совпадение</option>
+                      <option value="full_text">Ключевые слова</option>
+                    </select>
+                  </div>
+                  <label>Условие</label>
+                </div>
+
+                <div class="mui-textfield">
+                  <input  type="text" name="value">
+                  <label>Значение</label>
+                </div>
+                <input type="hidden" name="data_type" value='string' required>
+                <input type="hidden" name="russian_name" >
+
+              </form>
+            </div>
+        </div>
+        <div class="mui-tabs__pane" id="nCoreElements">Pane-2</div>
+
+      </div>
+    </td>
+  </tr>
+</table>
+
+<!-- Отчет -->
+<table class="mui-table animatedSlow paperZoom">
+  <tr>
+    <td class="mui-col-lg-2">&nbsp;</td>
+
+    <!-- Лист -->
+    <td class="mui-col-lg-8 ">
+      <div class="mui-panel mui--z2" id="paper">
+      </div>
+    </td>
+
+    <td class="mui-col-lg-2">&nbsp;</td>
+  </tr>
+</table>

@@ -232,9 +232,26 @@ nCore.events = (function(){
           };
       activeCell = data;
 
-      data.dataset.hasOwnProperty('value') ? searchList['value'].value = data.dataset.value :searchList['value'].value = '';
-      data.dataset.hasOwnProperty('conditions') ? searchList['conditions'].value = data.dataset.conditions :searchList['conditions'].selectedIndex = -1;
-      data.dataset.hasOwnProperty('origin_name') ? searchList['origin_name'].value = data.dataset.origin_name :searchList['origin_name'].selectedIndex = -1;
+      if ( data.dataset.hasOwnProperty('value') ) {
+        searchList['value'].value = data.dataset.value
+      } else {
+        searchList['value'].value = '';
+        data.dataset.value = '-'
+      }
+
+      if ( data.dataset.hasOwnProperty('conditions') ) {
+        searchList['conditions'].value = data.dataset.conditions
+      } else {
+        searchList['conditions'].selectedIndex = -1;
+        data.dataset.conditions = searchList['conditions'].options[0].value;
+      }
+
+      if ( data.dataset.hasOwnProperty('origin_name') ) {
+        searchList['origin_name'].value = data.dataset.origin_name
+      } else {
+        searchList['origin_name'].selectedIndex = -1;
+        data.dataset.origin_name = searchList['origin_name'].options[0].value;
+      }
 
       if ( showCellSettings && !document.getElementById('cellSettings').classList.contains('active') ) {
         document.getElementById('cellSettings').classList.toggle('active');

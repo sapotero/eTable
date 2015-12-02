@@ -97,10 +97,10 @@ buttons {
   position: fixed;
   top: 64px;
   bottom: 0;
-  width: 300px;
-  right: -300px;
+  width: 360px;
+  right: -360px;
   overflow: auto;
-  /*z-index: 2;*/
+  z-index: 2;
   background-color: #FAFAFA;
   transition: right 0.2s;
 }

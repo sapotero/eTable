@@ -74,6 +74,7 @@ jQuery(function($) {
     // console.log( 'selected', this,'|', e );
     nCore.modules.table.event.publish('cellSelect', this );
   });
+  
   $('#cellSettingsForm').change(function(e){
     nCore.modules.table.event.publish('cellSettingsChange', e );
   })
@@ -100,7 +101,7 @@ jQuery(function($) {
     m.innerHTML = '<h4>Создание нового документа</h4><div class="loader"></div>';
 
     mui.overlay('on', options, m);
-    setTimeout( function(){ mui.overlay('off'); location.hash = "#tables/new" },1000);
+    setTimeout( function(){ mui.overlay('off'); $bodyEl.addClass('hide-sidedrawer'); location.hash = "#tables/new" },1000);
   })
 
 });

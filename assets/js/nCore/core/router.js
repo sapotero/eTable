@@ -157,6 +157,19 @@ jQuery(function($) {
       nCore.templates.notPermit();
     }
   });
+  
+  nCore.router.add('tables/new', function (r) {
+    document.title = 'tables new';
+
+    nCore.templates.render('table/new', function(data){ 
+      if ( data ) {
+        var wrapper = document.getElementById('content-wrapper');
+        wrapper.innerHTML = data;
+        nCore.document.root.publish('initEditor');
+      };
+    });
+  });
+
   nCore.router.add('tables/:name', function (r) {
     document.title = 'tables '+ r.params.name;
 
