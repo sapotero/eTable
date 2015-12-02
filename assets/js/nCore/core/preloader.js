@@ -31,6 +31,8 @@ nCore.preloader = (function(){
   };
   
   var init = function(){
+    nCore.attachTo( nCore.preloader.event );
+
     nCore.user.event.publish( 'getUserPermissions',    user );
     nCore.user.event.publish( 'getAvailableDocuments', user );
     
@@ -41,6 +43,7 @@ nCore.preloader = (function(){
     return templates;
   },
   setTemplates = function(data){
+    console.log('setTemplates', data);
     template = data;
   };
 

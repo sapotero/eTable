@@ -324,7 +324,7 @@ nCore.events = (function(){
     // загружаем поля, справочники и критерии для поиска
     nCore.preloader.event.subscribe('loadQuery', function(data){
       
-      console.log('loadQuery');
+      console.log('loadQuery', data);
     });
 
   };
