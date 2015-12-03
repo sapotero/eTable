@@ -130,4 +130,8 @@ jQuery(function($) {
     list.append( card );
   });
 
+  $('.criteriaMenuItem.remove').live('click', function(){
+    $(this).parents('.criteriaSelectorItem').detach();
+  })
+
 });

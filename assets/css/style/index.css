@@ -517,3 +517,21 @@ buttons {
 .criteriaSelectorGroupName{
   margin-top: 0px;
 }
+
+.addCriteriaItemToGroup{
+  margin: 0px;
+}
+.criteriaMenuItem{
+  padding: 5px;
+}
+.criteriaMenuItem:hover{
+  transition: 0.1s;
+  box-shadow: 0 3px 6px rgba(0,0,0,.06), 0 3px 6px rgba(0,0,0,.13);
+}
+.criteriaMenuItem:active{
+  transition: 0.1s;
+  box-shadow: 0 3px 6px rgba(0,0,0,.16), 0 3px 6px rgba(0,0,0,.23);
+}
+.criteriaMenuItem.remove{
+
+}
