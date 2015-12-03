@@ -4,7 +4,7 @@
 
 var nCore = nCore || {};
 nCore.shared = (function(){
-  var shared = new SharedWorker('assets/js/nCore/core/sharedBack.js');
+  var shared = new SharedWorker('assets/js/nCore/core/background/sharedBack.js');
   
   shared.port.onmessage = function(e) {
     console.log('Message received from worker', e);

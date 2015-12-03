@@ -312,14 +312,14 @@ nCore.events = (function(){
     
     // загружаем шаблоны
     nCore.preloader.event.subscribe('loadTemplates', function(template){
-      
-        nCore.query.get( 'templates.json', { data: template } )
-        .success(function(data){
-          console.log('post', data);
-          nCore.preloader.setTemplates( load );
-        }).error(function(data){
-          console.error('[!] post', data)
-        });
+      console.log('loadTemplates', template);
+      // nCore.query.get( 'templates.json', { data: template } )
+      // .success(function(data){
+      //   console.log('post', data);
+      //   nCore.preloader.setTemplates( load );
+      // }).error(function(data){
+      //   console.error('[!] post', data)
+      // });
     });
     // загружаем поля, справочники и критерии для поиска
     nCore.preloader.event.subscribe('loadQuery', function(data){

@@ -9,6 +9,7 @@ nCore.preloader = (function(){
   var queryConditions         = [],
       queryOriginName         = [],
       queryRelationConditions = [],
+      preloaderEvent          = {},
       user = {
         id      : 123,
         groupId : 12
@@ -45,13 +46,16 @@ nCore.preloader = (function(){
   setTemplates = function(data){
     console.log('setTemplates', data);
     template = data;
+  },
+  event = function event(){
+    return preloaderEvent;
   };
 
   return {
     init         : init,
     templates    : templates,
     setTemplates : setTemplates,
-    event        : {}
+    event        : event
   }
 })();
 nCore.preloader.init();
