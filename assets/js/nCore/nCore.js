@@ -68,7 +68,7 @@ nCore = (function(){
           script.src = url;
           script.async = true;
           script.onload = script.onerror = script.onreadystatechange = onScriptLoaded;
-          addToStorage(url, scriptName);
+          // addToStorage(url, scriptName);
         }
       }
       else {

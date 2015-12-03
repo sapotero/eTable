@@ -335,9 +335,10 @@ buttons {
 }
 
 .AddDocument {
-  position: fixed;
-  bottom: 50px;
-  right:  50px;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    font-size: 26px;
 }
 .ellips {
   padding: 0 15px;
@@ -523,15 +524,14 @@ buttons {
 }
 .criteriaMenuItem{
   padding: 5px;
+  cursor: pointer;
 }
 .criteriaMenuItem:hover{
+
   transition: 0.1s;
   box-shadow: 0 3px 6px rgba(0,0,0,.06), 0 3px 6px rgba(0,0,0,.13);
 }
 .criteriaMenuItem:active{
   transition: 0.1s;
   box-shadow: 0 3px 6px rgba(0,0,0,.16), 0 3px 6px rgba(0,0,0,.23);
-}
-.criteriaMenuItem.remove{
-
 }
