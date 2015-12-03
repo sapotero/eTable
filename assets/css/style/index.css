@@ -472,11 +472,29 @@ buttons {
   margin: 10px;
 }
 
-.addCriteriaGroup {
-    position: relative;
+.criteriaGroupTemplate {
+  /*  position: relative;
     bottom: 10px;
-    left: 200px;
+    left: 200px;*/
+  display: none;
 }
 .criteriaCard {
   height: auto;
+}
+
+.addCriteriaGroupButton{
+      margin: 5px 45%;
+}
+.criteriaSelectorItem {
+  width: 95%;
+  margin: 0 0 0 10px;
+  line-height: 0px;
+  padding: 14px;
+  list-style: none;
+}
+.criteriaSelectorItemName {
+  margin-top: 7px;
+}
+.criteriaSelectorItemTemplate {
+  display: none;
 }

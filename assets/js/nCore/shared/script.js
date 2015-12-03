@@ -104,17 +104,19 @@ jQuery(function($) {
     setTimeout( function(){ mui.overlay('off'); $bodyEl.addClass('hide-sidedrawer'); location.hash = "#tables/new" },1000);
   })
 
-  $('.criteriaNameButton').live('click', function(){
-    var criteriaHead  = $(this).parents('.criteriaHead'),
-        criteriaBody  = criteriaHead.next(),
-        criteriaCard  = criteriaBody.children('.criteriaCard'),
-        criteriaGroup = $('.criteriaGroupTemplate');
+  $('.addCriteriaGroupButton').live('click', function(){
+    var list  = $(".criteriaSelector"),
+        cardTemplate  = $('.criteriaSelectorItemTemplate').first();
 
-    var card = criteriaCard.clone();
-    // card.toggleClass('mui--hide');
-    criteriaBody.append( card );
+    var card = cardTemplate.clone();
+    card.removeClass('criteriaSelectorItemTemplate');
+    card.removeClass('mui--hide');
 
-    $('select[name="conditions"]').select2();
+    $('.firstTimeCriteria').addClass('mui--hide');
+    
+    list.append( card );
+
+    // $('select[name="conditions"]').select2();
   });
 
 });
