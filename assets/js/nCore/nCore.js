@@ -57,8 +57,6 @@ nCore = (function(){
     for (var i = 0; i < toLoad; i++) {
       script = document.createElement('script');
       var scriptName = scriptArray[i];
-      
-      console.log('*** scriptName: ',scriptName);
 
       if ( _storageAvailable && !( type in [ 'shared', 'background' ] ) ) {
 
@@ -107,6 +105,7 @@ nCore = (function(){
     nCore.update    = {};
     nCore.preloader = {};
     nCore.storage   = {};
+
     loadModules();
     //       dev only         // 
     // nCore.storage.clear(); //

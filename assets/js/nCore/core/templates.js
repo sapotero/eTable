@@ -6,7 +6,7 @@ nCore.templates = (function(){
   var init = function (){
   },
   render = function (template, callback){
-    return nCore.query.getTemplate( 'assets/js/nCore/templates/' + template + '.html', {})
+    return nCore.query.getTemplate( 'templates/' + template + '.html', {})
     .success(function(data){
       // console.log('getTemplate', data);
       if (callback && typeof(callback) === 'function') {

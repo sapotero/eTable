@@ -4,7 +4,7 @@
 
 var nCore = nCore || {};
 nCore.worker = (function(){
-  var worker = new Worker('assets/js/nCore/core/background/workerBack.js');
+  var worker = new Worker('assets/js/nCore/background/workerBack.js');
   
   var init = function(){
     // job(worker);
