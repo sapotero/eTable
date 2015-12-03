@@ -58,7 +58,7 @@ nCore = (function(){
       script = document.createElement('script');
       var scriptName = scriptArray[i];
 
-      if ( _storageAvailable && !( type in [ 'shared', 'background' ] ) ) {
+      if ( _storageAvailable && [ 'shared', 'background' ].indexOf(type) === -1 ) {
 
         if( nCore.storage.hasOwnProperty( scriptName ) ){
           script.src = 'data:text/javascript,' + encodeURIComponent( nCore.storage[ scriptName ] );
@@ -83,7 +83,7 @@ nCore = (function(){
 
   function loadModules(){
     var dependencies = {
-      shared     : [ "jquery", "mui.min", "transparency.min", "fr", "script" ],
+      shared     : [ "jquery", "mui.min", "transparency.min", "fr", "script", "select2.full" ],
       core       : [ "user", "query", "core", "roles", "templates", "router", "preloader" ],
       modules    : [ "document", "table", "cellEditor", "cell", "events" ],
       background : [ "worker", "workerBack", "shared", "sharedBack", "update" ]

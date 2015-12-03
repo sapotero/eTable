@@ -104,4 +104,17 @@ jQuery(function($) {
     setTimeout( function(){ mui.overlay('off'); $bodyEl.addClass('hide-sidedrawer'); location.hash = "#tables/new" },1000);
   })
 
+  $('.criteriaNameButton').live('click', function(){
+    var criteriaHead  = $(this).parents('.criteriaHead'),
+        criteriaBody  = criteriaHead.next(),
+        criteriaCard  = criteriaBody.children('.criteriaCard'),
+        criteriaGroup = $('.criteriaGroupTemplate');
+
+    var card = criteriaCard.clone();
+    // card.toggleClass('mui--hide');
+    criteriaBody.append( card );
+
+    $('select[name="conditions"]').select2();
+  });
+
 });

@@ -171,7 +171,7 @@ jQuery(function($) {
   });
 
   nCore.router.add('tables/:name', function (r) {
-    document.title = 'tables '+ r.params.name;
+    document.title = 'tables/:name '+ r.params.name;
 
     nCore.templates.render('table/table', function(data){ 
       if ( data ) {

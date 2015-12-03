@@ -459,3 +459,24 @@ buttons {
     background-color: rgba(0,0,0,.2);
     overflow: hidden;
 }
+
+.criteriaSelector {
+  padding: 0px;
+}
+
+.criteriaName {
+  padding: 12px 10px;
+}
+
+.criteriaNameButton {
+  margin: 10px;
+}
+
+.addCriteriaGroup {
+    position: relative;
+    bottom: 10px;
+    left: 200px;
+}
+.criteriaCard {
+  height: auto;
+}
