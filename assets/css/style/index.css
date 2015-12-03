@@ -487,11 +487,11 @@ buttons {
       margin: 5px 45%;
 }
 .criteriaSelectorItem {
-  width: 95%;
-  margin: 0 0 0 10px;
-  line-height: 0px;
-  padding: 14px;
-  list-style: none;
+    width: 95%;
+    margin: 5px 0 0 10px;
+    line-height: normal;
+    padding: 0px;
+    list-style: none;
 }
 .criteriaSelectorItemName {
   margin-top: 7px;
@@ -534,4 +534,27 @@ buttons {
 .criteriaMenuItem:active{
   transition: 0.1s;
   box-shadow: 0 3px 6px rgba(0,0,0,.16), 0 3px 6px rgba(0,0,0,.23);
+}
+
+.criteriaSelectorItemHeader:hover{
+  cursor: pointer;
+  transition: 0.1s;
+  background: rgba(0,0,0,0.02);
+  /*box-shadow: 0 3px 6px rgba(0,0,0,.16), 0 3px 6px rgba(0,0,0,.23);*/
+}
+.criteriaSelectorItemHeader.active {
+  background: rgba(33, 150, 243,0.02);
+}
+
+.criteriaSelectorItemHeader {
+  padding: 5px 10px 10px;
+}
+
+.criteriaForm{
+  transition: 0.1s;
+  display: block;
+}
+.criteriaForm.hide{
+  transition: 0.1s;
+  display: none;
 }

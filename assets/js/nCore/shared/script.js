@@ -112,9 +112,15 @@ jQuery(function($) {
     group.removeClass('criteriaSelectorGroupTemplate');
     group.removeClass('mui--hide');
 
+    if (  $('.firstTimeCriteria').hasClass('mui--hide') ) {
+      $('.criteriaSelector > div> .connectionGroup').last().toggleClass('mui--hide');
+    };
+
     $('.firstTimeCriteria').addClass('mui--hide');
 
     list.append( group );
+
+
 
     // $('select[name="conditions"]').select2();
   });
@@ -132,6 +138,23 @@ jQuery(function($) {
 
   $('.criteriaMenuItem.remove').live('click', function(){
     $(this).parents('.criteriaSelectorItem').detach();
+  })
+
+  $('.criteriaMenuItem.settings, .criteriaSelectorItemHeader').live('click', function(e){
+
+    var el = ( $(this).hasClass('criteriaSelectorItem') ? $(this) : $(this).parents('.criteriaSelectorItem') );
+    var child    = el.children('.criteriaForm');
+    
+    $.each( child.children('select'), function(i, el){
+      if ( !$(el).hasClass('s2')) {
+        $(el).addClass('s2');
+        $(el).select2();
+      };
+    });
+    child[0].classList.toggle('hide');
+    
+    // e.preventDefault();
+    return false;
   })
 
 });

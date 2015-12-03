@@ -11,7 +11,6 @@
       <div id="cellSettings" class="mui--z1">
         
         <ul class="mui-tabs__bar s cellSettings mui-tabs__bar--justified">
-          <!-- <div class="mui--text-black-54 mui--text-display1"></div> -->
 
           <li class="mui--is-active">
             <a data-mui-toggle="tab" data-mui-controls="criteriaGroupTab" class="mui--text-white">Поиск</a>
@@ -20,90 +19,8 @@
             <a data-mui-toggle="tab" data-mui-controls="nCoreElements" class="mui--text-white">Данные</a>
           </li>
         </ul>
-        <!-- <div class="mui-divider"></div> -->
 
-        
-       <!-- <div class="mui-divider mui--divider-right "></div> -->
         <div class="mui-tabs__pane mui--is-active" id="criteriaGroupTab">
-
-          <!-- Старый шаблон карточки на добавление -->
-          <div class="criteriaGroupTemplate">
-            
-            <!-- Верхня панелька с названием группы и кнопкой добавления нового критерия -->
-            <div class="criteriaHead">
-              <span class="mui--pull-left mui--text-subhead criteriaName"> Новая группа </span>
-              <span class="mui--pull-right">
-                <button class="mui-btn mui-btn--primary mui-btn--small criteriaNameButton"> Добавить </button>
-              </span>
-              <div class="mui--clearfix"></div>
-            </div>
-
-            <div class="criteriaBody">
-              <!-- Группа с критериями поиска -->
-              <div class="mui-panel mui-col-md-10 mui-col-md-offset-1 bb mui--z1 criteriaCard">
-                <form id="cellSettingsForm" onsubmit="return false;">
-                  <div class="mui-textfield">
-                    <div class="mui-select" > <!-- id="nCoreTabConfigTextFontSize"> -->
-                      <select name="origin_name">
-                        <option value="554c5fc85804000014000001" selected="selected">Комментарий</option>
-                        <option value="554c5fc858040000cf000001">Экземпляры. Кому</option>
-                        <option value="554c5fc858040000da000001">Штрих-код</option>
-                        <option value="554c5fc858040000e5000001">Гриф</option>
-                        <option value="554c5fc858040000f0000001">Дата регистрации</option>
-                        <option value="554c5fc858040000fb000001">Рег. №</option>
-                        <option value="55ad071ed09d000283000001">ФИО Подписавшего</option>
-                        <option value="560e5b950e2d000003000001">№ пост</option>
-                        <option value="562a3ae1c1aa00003d000001">Дата контроля (РКФ)2</option>
-                        <option value="562a3b0ec1aa000041000001">Дата контроля (РКФ)</option>
-                      </select>
-                    </div>
-                    <label>Поле</label>
-                  </div>
-                  <div class="mui-textfield">
-                    <div class="mui-select" > <!-- id="nCoreTabConfigTextFontSize"> -->
-                      <select name="conditions">
-                        <option value="equal">Точное совпадение</option>
-                        <option value="not_equal">Не</option>
-                        <option value="regexp">Частичное совпадение</option>
-                        <option value="full_text">Ключевые слова</option>
-                      </select>
-                    </div>
-                    <label>Условие</label>
-                  </div>
-                  <div class="mui-textfield">
-                    <input  type="text" name="value">
-                    <label>Значение</label>
-                  </div>
-                  <input type="hidden" name="data_type" value='string' required>
-                  <input type="hidden" name="russian_name" >
-                </form>
-              </div>
-            </div>
-          </div>
-
-          <!-- шаблон критерия -->
-          <li class="criteriaSelectorItemTemplate criteriaSelectorItem mui-panel mui-col-md-12  mui--text-center mui--align-middle">
-            <div>
-              <div class="criteriaSelectorItemName mui--pull-left">Name</div>
-              <span class="criteriaSelectorItemOptions mui--pull-right">
-                <!-- <i class="fa fa-sort-down"></i> -->
-                <i class="fa fa-reorder criteriaMenuItem"></i>
-                <i class="fa fa-trash-o criteriaMenuItem remove"></i>
-              </span>
-              <div class="mui--clearfix"></div>
-            </div>
-          </li>
-
-          <!-- шаблон группы -->
-          <li class="criteriaSelectorGroupTemplate mui-col-md-12 mui-panel mui-panel-group criteriaSelectorGroup ">
-            <span class="criteriaSelectorGroupName mui--pull-left"> Группа </span>
-            <span class="criteriaSelectorGroupName mui--pull-right">
-              <button class="mui-btn mui-btn--primary mui-btn--small addCriteriaItemToGroup">+</button>
-            </span>
-            <ul class="criteriaSelectorGroupList mui-row">
-            </ul>
-          </li>
-
 
           <div class="mui-col-md-12 firstTimeCriteria">
             <div class="mui--text-center"> Нет критериев поиска</div>
@@ -139,3 +56,136 @@
     <td class="mui-col-md-2">&nbsp;</td>
   </tr>
 </table>
+
+
+
+
+<!-- Старый шаблон карточки на добавление -->
+<div class="criteriaGroupTemplate">
+  
+  <!-- Верхня панелька с названием группы и кнопкой добавления нового критерия -->
+  <div class="criteriaHead">
+    <span class="mui--pull-left mui--text-subhead criteriaName"> Новая группа </span>
+    <span class="mui--pull-right">
+      <button class="mui-btn mui-btn--primary mui-btn--small criteriaNameButton"> Добавить </button>
+    </span>
+    <div class="mui--clearfix"></div>
+  </div>
+
+  <div class="criteriaBody">
+    <!-- Группа с критериями поиска -->
+    <div class="mui-panel mui-col-md-10 mui-col-md-offset-1 bb mui--z1 criteriaCard">
+      <form id="cellSettingsForm" onsubmit="return false;">
+        <div class="mui-textfield">
+          <div class="mui-select" > <!-- id="nCoreTabConfigTextFontSize"> -->
+            <select name="origin_name">
+              <option value="554c5fc85804000014000001" selected="selected">Комментарий</option>
+              <option value="554c5fc858040000cf000001">Экземпляры. Кому</option>
+              <option value="554c5fc858040000da000001">Штрих-код</option>
+              <option value="554c5fc858040000e5000001">Гриф</option>
+              <option value="554c5fc858040000f0000001">Дата регистрации</option>
+              <option value="554c5fc858040000fb000001">Рег. №</option>
+              <option value="55ad071ed09d000283000001">ФИО Подписавшего</option>
+              <option value="560e5b950e2d000003000001">№ пост</option>
+              <option value="562a3ae1c1aa00003d000001">Дата контроля (РКФ)2</option>
+              <option value="562a3b0ec1aa000041000001">Дата контроля (РКФ)</option>
+            </select>
+          </div>
+          <label>Поле</label>
+        </div>
+        <div class="mui-textfield">
+          <div class="mui-select" > <!-- id="nCoreTabConfigTextFontSize"> -->
+            <select name="conditions">
+              <option value="equal">Точное совпадение</option>
+              <option value="not_equal">Не</option>
+              <option value="regexp">Частичное совпадение</option>
+              <option value="full_text">Ключевые слова</option>
+            </select>
+          </div>
+          <label>Условие</label>
+        </div>
+        <div class="mui-textfield">
+          <input  type="text" name="value">
+          <label>Значение</label>
+        </div>
+        <input type="hidden" name="data_type" value='string' required>
+        <input type="hidden" name="russian_name" >
+      </form>
+    </div>
+  </div>
+</div>
+
+
+<!-- шаблон группы -->
+<div class="criteriaSelectorGroupTemplate">
+  <li class=" mui-col-md-12 mui-panel mui-panel-group criteriaSelectorGroup ">
+    <span class="criteriaSelectorGroupName mui--pull-left"> Группа </span>
+    <span class="criteriaSelectorGroupName mui--pull-right">
+      <button class="mui-btn mui-btn--primary mui-btn--small addCriteriaItemToGroup">+</button>
+    </span>
+    <ul class="criteriaSelectorGroupList mui-row">
+    </ul>
+  </li>
+  <div class="mui-select mui-col-md-12 connectionGroup mui--hide">
+    <select>
+      <option value="" disabled selected>Связь</option>
+      <option value="and">И</option>
+      <option value="or">ИЛИ</option>
+    </select>
+  </div>
+</div>
+
+<!-- шаблон критерия -->
+<li class="criteriaSelectorItemTemplate criteriaSelectorItem mui-panel mui-col-md-12  mui--text-center mui--align-middle">
+  <div class="criteriaSelectorItemHeader">
+    <div class="criteriaSelectorItemName mui--pull-left">Критерий</div>
+    <span class="criteriaSelectorItemOptions mui--pull-right">
+      <!-- <i class="fa fa-sort-down"></i> -->
+      <!-- <i class="fa fa-reorder criteriaMenuItem settings"></i> -->
+      <i class="fa fa-trash-o criteriaMenuItem remove"></i>
+    </span>
+    <div class="mui--clearfix"></div>
+  </div>
+  <div class="criteriaForm hide">
+      <select name="table_name" style="width: 92%; padding: 15px auto;padding-top: 15px; margin-bottom: 20px;">
+        <option value="554c5fc85804000014000001" selected="selected">Справочник</option>
+        <option value="554c5fc858040000cf000001">Справочник</option>
+        <option value="554c5fc858040000da000001">Справочник</option>
+        <option value="554c5fc858040000e5000001">Справочник</option>
+        <option value="554c5fc858040000f0000001">Справочник</option>
+        <option value="554c5fc858040000fb000001">Справочник</option>
+        <option value="55ad071ed09d000283000001">Справочник</option>
+        <option value="560e5b950e2d000003000001">Справочник</option>
+        <option value="562a3ae1c1aa00003d000001">Справочник</option>
+        <option value="562a3b0ec1aa000041000001">Справочник</option>
+      </select>
+
+      <select name="origin_name" style="width: 92%; padding: 15px auto;padding-top: 15px; margin-bottom: 20px;">
+        <option value="554c5fc85804000014000001" selected="selected">Поле</option>
+        <option value="554c5fc858040000cf000001">Экземпляры. Кому</option>
+        <option value="554c5fc858040000da000001">Штрих-код</option>
+        <option value="554c5fc858040000e5000001">Гриф</option>
+        <option value="554c5fc858040000f0000001">Дата регистрации</option>
+        <option value="554c5fc858040000fb000001">Рег. №</option>
+        <option value="55ad071ed09d000283000001">ФИО Подписавшего</option>
+        <option value="560e5b950e2d000003000001">№ пост</option>
+        <option value="562a3ae1c1aa00003d000001">Дата контроля (РКФ)2</option>
+        <option value="562a3b0ec1aa000041000001">Дата контроля (РКФ)</option>
+      </select>
+      
+      <select name="conditions" style="width: 92%; padding: 15px auto;padding-top: 15px; margin-bottom: 20px; text-align: left;">
+        <option value="equal">Точное совпадение</option>
+        <option value="not_equal">Не</option>
+        <option value="regexp">Частичное совпадение</option>
+        <option value="full_text">Ключевые слова</option>
+      </select>
+      
+      <div class="mui-textfield mui-col-md-12">
+        <input  type="text" name="value" placeholder="Значение">
+        <!-- <label></label> -->
+      </div>
+      
+      <input type="hidden" name="data_type" value='string' >
+      <input type="hidden" name="russian_name" >
+  </div>
+</li>
