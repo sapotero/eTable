@@ -106,17 +106,28 @@ jQuery(function($) {
 
   $('.addCriteriaGroupButton').live('click', function(){
     var list  = $(".criteriaSelector"),
-        cardTemplate  = $('.criteriaSelectorItemTemplate').first();
+        groupTemplate  = $('.criteriaSelectorGroupTemplate').first();
 
+    var group = groupTemplate.clone();
+    group.removeClass('criteriaSelectorGroupTemplate');
+    group.removeClass('mui--hide');
+
+    $('.firstTimeCriteria').addClass('mui--hide');
+
+    list.append( group );
+
+    // $('select[name="conditions"]').select2();
+  });
+
+  $('.addCriteriaItemToGroup').live('click', function(){
+    var root  = $(this).parents('.criteriaSelectorGroup'),
+        list  = root.children('.criteriaSelectorGroupList'),
+        cardTemplate  = $('.criteriaSelectorItemTemplate').first();
     var card = cardTemplate.clone();
     card.removeClass('criteriaSelectorItemTemplate');
     card.removeClass('mui--hide');
 
-    $('.firstTimeCriteria').addClass('mui--hide');
-    
     list.append( card );
-
-    // $('select[name="conditions"]').select2();
   });
 
 });
