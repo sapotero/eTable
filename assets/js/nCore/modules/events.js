@@ -228,16 +228,17 @@ nCore.events = (function(){
     nCore.modules.table.event.subscribe('cellSelect', function(cell){
       // console.log('cellSelect', cell);
       var showCellSettings = true,
+          tab = document.getElementsByClassName('criteriaSelector')[0],
           cellQuery;
+
       activeCell = cell;
+      tab.textContent = '';
 
       if ( activeCell ) {
-          
+        // если есть query
         if (activeCell.dataset.hasOwnProperty('query') ) {
-          var queryArray = JSON.parse(activeCell.dataset.query);
-          
-          var tab = document.getElementsByClassName('criteriaSelector')[0];
-          tab.textContent = '';
+          var queryArray = JSON.parse(activeCell.dataset.query),
+              _selectedIindex = -1;
 
           for (var z = 0; z < queryArray.length; z++) {
             var group      = queryArray[z],
@@ -247,14 +248,46 @@ nCore.events = (function(){
             console.log('criterias',  criterias);
             console.log('conditions', conditions);
 
+            var groupTemplate        = document.getElementsByClassName('criteriaSelectorGroupTemplate')[0],
+                groupSelectCondition = groupTemplate.getElementsByTagName('select')[0];
+
+            if ( conditions ) {
+              for (var v = 0; v < groupSelectCondition.options.length; v++) {
+                if (groupSelectCondition[v].value === conditions) {
+                  _selectedIindex = v;
+                  break;
+                };
+              };
+
+              groupTemplate.getElementsByClassName('connectionGroup')[0].classList.remove('mui--hide');
+            };
+
+
+            var group = groupTemplate.cloneNode(true),
+                groupSelectCondition = group.getElementsByTagName('select')[0].selectedIndex = _selectedIindex;
+
+            console.log('groupSelectCondition ', groupSelectCondition);
+
+            group.classList.remove('criteriaSelectorGroupTemplate');
+            group.classList.remove('mui--hide');
+
+
             for (var x = 0; x < criterias.length; x++) {
               var item = criterias[x];
               console.log('item ->', item);
             };
 
+            // if (  $('.firstTimeCriteria').hasClass('mui--hide') ) {
+            //   $('.criteriaSelector > div> .connectionGroup').last().toggleClass('mui--hide');
+            // };
+            // $('.firstTimeCriteria').addClass('mui--hide');
+            tab.appendChild(group);
+            document.getElementsByClassName('firstTimeCriteria')[0].classList.add('mui--hide');
           };
 
-        };
+        } else {
+          document.getElementsByClassName('firstTimeCriteria')[0].classList.remove('mui--hide');
+        }
 
 
       };
