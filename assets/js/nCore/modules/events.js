@@ -218,43 +218,43 @@ nCore.events = (function(){
     });
     // вставка данных в таблицу
     nCore.modules.table.event.subscribe('insertCellData', function(data){
-      console.log('insertCellData', data);
+      // console.log('insertCellData', data);
       var table = document.querySelector('.fr-element.fr-view > table');
       for (var i = 0; i < data.length; i++) {
         table.rows[ data[i].rowIndex ].cells[ data[i].cellIndex ].textContent = data[i].value;
       };
     });
     // выбор активной ячейки
-    nCore.modules.table.event.subscribe('cellSelect', function(data){
-      // console.log('cellSelect', data);
+    nCore.modules.table.event.subscribe('cellSelect', function(cell){
+      // console.log('cellSelect', cell);
       var showCellSettings = true,
-          searchList = {
-            conditions  :document.getElementsByName('conditions')[0],
-            value       :document.getElementsByName('value')[0],
-            origin_name :document.getElementsByName('origin_name')[0]
-          };
-      activeCell = data;
+          cellQuery;
+      activeCell = cell;
 
-      if ( data.dataset.hasOwnProperty('value') ) {
-        searchList['value'].value = data.dataset.value
-      } else {
-        searchList['value'].value = '';
-        data.dataset.value = '-'
-      }
+      if ( activeCell ) {
+        console.log('cellQuery', cellQuery, activeCell);
+      };
 
-      if ( data.dataset.hasOwnProperty('conditions') ) {
-        searchList['conditions'].value = data.dataset.conditions
-      } else {
-        searchList['conditions'].selectedIndex = -1;
-        data.dataset.conditions = searchList['conditions'].options[0].value;
-      }
+      // if ( cell.dataset.hasOwnProperty('value') ) {
+      //   searchList['value'].value = cell.dataset.value
+      // } else {
+      //   searchList['value'].value = '';
+      //   cell.dataset.value = '-'
+      // }
 
-      if ( data.dataset.hasOwnProperty('origin_name') ) {
-        searchList['origin_name'].value = data.dataset.origin_name
-      } else {
-        searchList['origin_name'].selectedIndex = -1;
-        data.dataset.origin_name = searchList['origin_name'].options[0].value;
-      }
+      // if ( cell.dataset.hasOwnProperty('conditions') ) {
+      //   searchList['conditions'].value = cell.dataset.conditions
+      // } else {
+      //   searchList['conditions'].selectedIndex = -1;
+      //   cell.dataset.conditions = searchList['conditions'].options[0].value;
+      // }
+
+      // if ( cell.dataset.hasOwnProperty('origin_name') ) {
+      //   searchList['origin_name'].value = cell.dataset.origin_name
+      // } else {
+      //   searchList['origin_name'].selectedIndex = -1;
+      //   cell.dataset.origin_name = searchList['origin_name'].options[0].value;
+      // }
 
       if ( showCellSettings && !document.getElementById('cellSettings').classList.contains('active') ) {
         document.getElementById('cellSettings').classList.toggle('active');
@@ -291,10 +291,11 @@ nCore.events = (function(){
       };
     });
 
-    nCore.modules.table.event.subscribe('newCellSettingsChange', function(list){
-      console.log('newCellSettingsChange', list);
+    nCore.modules.table.event.subscribe('newCellSettingsChange', function(){
+      // console.log('newCellSettingsChange', list);
 
       var _query     = [],
+      list = $(".criteriaSelector"),
       criterias = list.children('div');
       // console.log('*** criterias: ', criterias);
 
@@ -318,18 +319,24 @@ nCore.events = (function(){
               head = item.children('.criteriaSelectorItemHeader'),
               form = item.children('.criteriaForm');
 
+          // console.log( 'input',  );
           data.query.push({
             criteia_condition : head.children('.criteriaSelectorItemOptions').children('.criteriaSelectorItemCondition')[0].value,
-            conditions         : form.children('select[name="conditions"]').val(),
+            conditions        : form.children('select[name="conditions"]').val(),
             origin_name       : form.children('select[name="origin_name"]').val(),
-            value             : form.children('input[name="value"]').val()
+            value             : form.children('.mui-textfield').children('input[name="value"]').val()
           });
         };
 
         _query.push( data );
       };
 
-      console.log('***event -> newCellSettingsChange', _query)
+      console.log('before: ', activeCell)
+      if (activeCell) {
+        activeCell.dataset.query = JSON.stringify({query: _query});
+      };
+
+      // console.log('newCellSettings | activeCell -> ',activeCell,  JSON.stringify(_query) )
     });
 
 

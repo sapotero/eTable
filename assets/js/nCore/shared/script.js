@@ -75,9 +75,9 @@ jQuery(function($) {
     nCore.modules.table.event.publish('cellSelect', this );
   });
   
-  $('#cellSettingsForm').change(function(e){
-    nCore.modules.table.event.publish('cellSettingsChange', e );
-  })
+  // $('#cellSettingsForm').change(function(e){
+  //   nCore.modules.table.event.publish('cellSettingsChange', e );
+  // })
 
   $('.AddDocument').live('click', function(){
     var overlayEl = mui.overlay('on');
@@ -121,12 +121,12 @@ jQuery(function($) {
 
     // черновой вариант как мы обходимноды для 
     // того чтобы собрать критерии в один запрос
-    nCore.modules.table.event.publish('newCellSettingsChange',  $(".criteriaSelector") );
+    nCore.modules.table.event.publish('newCellSettingsChange' );
 
   });
 
   $('.criteriaSelectorItemCondition').live('click', function(){
-    nCore.modules.table.event.publish('newCellSettingsChange',  $(".criteriaSelector") );
+    nCore.modules.table.event.publish('newCellSettingsChange' );
     return false;
   });
 
@@ -139,12 +139,12 @@ jQuery(function($) {
     card.removeClass('mui--hide');
 
     list.append( card );
-    nCore.modules.table.event.publish('newCellSettingsChange',  $(".criteriaSelector") );
+    nCore.modules.table.event.publish('newCellSettingsChange' );
   });
 
   
-  $('select').live('change', function(){
-    nCore.modules.table.event.publish('newCellSettingsChange',  $(".criteriaSelector") );
+  $('select, input[name="value"]').live('change', function(){
+    nCore.modules.table.event.publish('newCellSettingsChange' );
     return false;
   })
 
@@ -166,7 +166,7 @@ jQuery(function($) {
     child[0].classList.toggle('hide');
     
     // e.preventDefault();
-    nCore.modules.table.event.publish('newCellSettingsChange',  $(".criteriaSelector") );
+    nCore.modules.table.event.publish('newCellSettingsChange' );
     return false;
   })
 
