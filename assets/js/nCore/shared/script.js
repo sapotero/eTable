@@ -125,6 +125,10 @@ jQuery(function($) {
     // $('select[name="conditions"]').select2();
   });
 
+  $('.criteriaSelectorItemCondition').live('click', function(){
+    return false;
+  });
+
   $('.addCriteriaItemToGroup').live('click', function(){
     var root  = $(this).parents('.criteriaSelectorGroup'),
         list  = root.children('.criteriaSelectorGroupList'),
@@ -132,6 +136,15 @@ jQuery(function($) {
     var card = cardTemplate.clone();
     card.removeClass('criteriaSelectorItemTemplate');
     card.removeClass('mui--hide');
+
+    // criteriaSelectorItemCondition
+    // var itemConditions = list.children('li').
+    //   children('.criteriaSelectorItemHeader').
+    //   children('.criteriaSelectorItemOptions').
+    //   children('.criteriaSelectorItemCondition');
+
+    // itemConditions.length > 1 ? itemConditions.last().toggleClass('mui--hide') : false;
+    
 
     list.append( card );
   });
