@@ -262,6 +262,30 @@ nCore.events = (function(){
               groupTemplate.getElementsByClassName('connectionGroup')[0].classList.remove('mui--hide');
             };
 
+            for (var b = 0; b < criterias.length; b++) {
+              var item  = criterias[b],
+                  list  = groupTemplate.getElementsByClassName('criteriaSelectorGroupList')[0],
+                  cardTemplate  = document.getElementsByClassName('criteriaSelectorItemTemplate')[0];
+              
+              var card = cardTemplate.cloneNode(true);
+              card.classList.remove('criteriaSelectorItemTemplate');
+              card.classList.remove('mui--hide');
+
+              var form = card.getElementsByClassName('criteriaForm')[0];
+
+              var table_name  = form.querySelector('select[name="table_name"]')[0],
+                  origin_name = form.querySelector('select[name="origin_name"]')[0],
+                  conditions  = form.querySelector('select[name="conditions"]')[0],
+                  value       = form.querySelector('input[name="value"]')[0];
+
+              console.log(table_name, origin_name, conditions, value);
+
+              var criteriaCondition = card.getElementsByClassName('criteriaSelectorItemCondition')[0].value = item.criteriaCondition;
+
+              list.appendChild( card );
+              nCore.modules.table.event.publish('newCellSettingsChange' );
+            };
+
 
             var group = groupTemplate.cloneNode(true),
                 groupSelectCondition = group.getElementsByTagName('select')[0].selectedIndex = _selectedIindex;
