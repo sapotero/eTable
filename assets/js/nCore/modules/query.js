@@ -11,6 +11,10 @@ nCore.query = (function(){
 
   // рисуем форму поиска
   var init = function(config){
+    var config = {
+      nCoreQuery: 'nCoreQuery',
+    };
+    
     root   = document.getElementById( config.nCoreQuery );
     // button = document.getElementById( config.nCoreQueryAddButtom );
     // button.addEventListener('click', function (e) {
@@ -56,8 +60,3 @@ nCore.query = (function(){
     request : request
   }
 })();
-
-nCore.query.init({
-  nCoreQuery: 'nCoreQuery',
-});
-// var data = nCore.query.getQuery('http://localhost:3000/query/index.json');

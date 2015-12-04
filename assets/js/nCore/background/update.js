@@ -17,4 +17,3 @@ nCore.update = (function(){
     update : update
   }
 })();
-nCore.update.init();

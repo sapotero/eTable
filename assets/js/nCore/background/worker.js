@@ -23,4 +23,3 @@ nCore.worker = (function(){
     post : post
   }
 })();
-nCore.worker.init();

@@ -28,4 +28,3 @@ nCore.shared = (function(){
     obj : shared
   }
 })();
-nCore.shared.init();

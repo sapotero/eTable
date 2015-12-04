@@ -35,7 +35,9 @@ nCore = (function(){
       if (!readyState || /ded|te/.test(readyState)) {
         toLoad--;
         if (!toLoad && hasCallback) {
-          callback();
+          if (type !== 'shared') {
+            callback(type, scriptArray);
+          };
         }
       }
     }
@@ -83,14 +85,28 @@ nCore = (function(){
 
   function loadModules(){
     var dependencies = {
-      shared     : [ "jquery", "mui.min", "transparency.min", "fr", "script", "select2.full" ],
       core       : [ "user", "query", "core", "roles", "templates", "router", "preloader" ],
+      shared     : [ "jquery", "mui.min", "transparency.min", "fr", "script", "select2.full" ],
       modules    : [ "document", "table", "cellEditor", "cell", "events" ],
       background : [ "worker", "workerBack", "shared", "sharedBack", "update" ]
     };
     
     for (var type in dependencies){
-      dependencies.hasOwnProperty(type) ? load( type, dependencies[type], function(){}) : false;
+      dependencies.hasOwnProperty(type) ? load( type, dependencies[type], function(type, array){
+        // console.log('callback: ', type, array);
+        for(var index in array ){
+          var module = array[ index ];
+
+          if ( nCore.hasOwnProperty(module) && nCore[ module ].hasOwnProperty('init') ) {
+            // console.log('module: ', module );
+            nCore[module].init();
+          }
+          else if( nCore.modules.hasOwnProperty( module ) ){
+            // console.log('modules: ', module );
+            nCore.modules[module].init()
+          };
+        };
+      }) : false;
     };
   };
 

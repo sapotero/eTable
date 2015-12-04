@@ -15,5 +15,3 @@ nCore.core = (function(){
     init: init
   };
 })();
-
-nCore.core.init();

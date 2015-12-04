@@ -89,7 +89,8 @@ nCore.router = (function(){
         });
   
         return !!result.cb;
-       }
+       },
+      init: function(){}
     };
 })();
 

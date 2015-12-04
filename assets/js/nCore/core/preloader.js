@@ -58,4 +58,3 @@ nCore.preloader = (function(){
     event        : event
   }
 })();
-nCore.preloader.init();
