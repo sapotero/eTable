@@ -232,7 +232,31 @@ nCore.events = (function(){
       activeCell = cell;
 
       if ( activeCell ) {
-        console.log('cellQuery', cellQuery, activeCell);
+          
+        if (activeCell.dataset.hasOwnProperty('query') ) {
+          var queryArray = JSON.parse(activeCell.dataset.query);
+          
+          var tab = document.getElementsByClassName('criteriaSelector')[0];
+          tab.textContent = '';
+
+          for (var z = 0; z < queryArray.length; z++) {
+            var group      = queryArray[z],
+                conditions = group.conditions,
+                criterias  = group.query;
+
+            console.log('criterias',  criterias);
+            console.log('conditions', conditions);
+
+            for (var x = 0; x < criterias.length; x++) {
+              var item = criterias[x];
+              console.log('item ->', item);
+            };
+
+          };
+
+        };
+
+
       };
 
       // if ( cell.dataset.hasOwnProperty('value') ) {
@@ -331,9 +355,9 @@ nCore.events = (function(){
         _query.push( data );
       };
 
-      console.log('before: ', activeCell)
+      // console.log('before: ', activeCell)
       if (activeCell) {
-        activeCell.dataset.query = JSON.stringify({query: _query});
+        activeCell.dataset.query = JSON.stringify(_query);
       };
 
       // console.log('newCellSettings | activeCell -> ',activeCell,  JSON.stringify(_query) )

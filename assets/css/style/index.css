@@ -521,7 +521,7 @@ buttons {
 }
 
 .addCriteriaItemToGroup{
-  margin: 0px;
+     margin: 0px -7px 2px 0px;
 }
 .criteriaMenuItem{
   padding: 5px;
