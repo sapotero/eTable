@@ -115,17 +115,18 @@ jQuery(function($) {
     if (  $('.firstTimeCriteria').hasClass('mui--hide') ) {
       $('.criteriaSelector > div> .connectionGroup').last().toggleClass('mui--hide');
     };
-
     $('.firstTimeCriteria').addClass('mui--hide');
 
     list.append( group );
 
+    // черновой вариант как мы обходимноды для 
+    // того чтобы собрать критерии в один запрос
+    nCore.modules.table.event.publish('newCellSettingsChange',  $(".criteriaSelector") );
 
-
-    // $('select[name="conditions"]').select2();
   });
 
   $('.criteriaSelectorItemCondition').live('click', function(){
+    nCore.modules.table.event.publish('newCellSettingsChange',  $(".criteriaSelector") );
     return false;
   });
 
@@ -137,17 +138,15 @@ jQuery(function($) {
     card.removeClass('criteriaSelectorItemTemplate');
     card.removeClass('mui--hide');
 
-    // criteriaSelectorItemCondition
-    // var itemConditions = list.children('li').
-    //   children('.criteriaSelectorItemHeader').
-    //   children('.criteriaSelectorItemOptions').
-    //   children('.criteriaSelectorItemCondition');
-
-    // itemConditions.length > 1 ? itemConditions.last().toggleClass('mui--hide') : false;
-    
-
     list.append( card );
+    nCore.modules.table.event.publish('newCellSettingsChange',  $(".criteriaSelector") );
   });
+
+  
+  $('select').live('change', function(){
+    nCore.modules.table.event.publish('newCellSettingsChange',  $(".criteriaSelector") );
+    return false;
+  })
 
   $('.criteriaMenuItem.remove').live('click', function(){
     $(this).parents('.criteriaSelectorItem').detach();
@@ -161,13 +160,16 @@ jQuery(function($) {
     $.each( child.children('select'), function(i, el){
       if ( !$(el).hasClass('s2')) {
         $(el).addClass('s2');
-        $(el).select2();
+        $(el).select2().on('change', function(){nCore.modules.table.event.publish('newCellSettingsChange',  $(".criteriaSelector") )});
       };
     });
     child[0].classList.toggle('hide');
     
     // e.preventDefault();
+    nCore.modules.table.event.publish('newCellSettingsChange',  $(".criteriaSelector") );
     return false;
   })
+
+
 
 });

@@ -213,7 +213,7 @@ nCore.events = (function(){
           console.log('calculateQuery -> post', data);
           nCore.modules.table.event.publish('insertCellData', data )
         }).error(function(data){
-          console.error('[!] calculateQuery -> post', post, data)
+          console.error('[!] calculateQuery -> post', data)
         });
     });
     // вставка данных в таблицу
@@ -291,20 +291,62 @@ nCore.events = (function(){
       };
     });
 
+    nCore.modules.table.event.subscribe('newCellSettingsChange', function(list){
+      console.log('newCellSettingsChange', list);
+
+      var _query     = [],
+      criterias = list.children('div');
+      // console.log('*** criterias: ', criterias);
+
+      for (var i = 0; i < criterias.length; i++) {
+        var criteria          = $(criterias[i]),
+            criteriaItemsRoot = criteria.children('.criteriaSelectorGroup'),
+            criteriaItems     = criteriaItemsRoot.children('.criteriaSelectorGroupList').children('.criteriaSelectorItem');
+
+        // console.log('criteria', criteria, criteriaItems );
+
+
+        var data = {
+          query      : [],
+          conditions : criteria.children('.connectionGroup').children('select').val()
+        };
+
+        var criteriaItemQuery = {};
+
+        for (var z = 0; z < criteriaItems.length; z++) {
+          var item = $(criteriaItems[z]),
+              head = item.children('.criteriaSelectorItemHeader'),
+              form = item.children('.criteriaForm');
+
+          data.query.push({
+            criteia_condition : head.children('.criteriaSelectorItemOptions').children('.criteriaSelectorItemCondition')[0].value,
+            conditions         : form.children('select[name="conditions"]').val(),
+            origin_name       : form.children('select[name="origin_name"]').val(),
+            value             : form.children('input[name="value"]').val()
+          });
+        };
+
+        _query.push( data );
+      };
+
+      console.log('***event -> newCellSettingsChange', _query)
+    });
+
+
     /*
      * События юзера
      */
     
     // получаем права доступа юзера
-    nCore.user.event.subscribe('getUserPermissions', function(data){
+    // nCore.user.event.subscribe('getUserPermissions', function(data){
       
-      console.log('getUserPermissions');
-    });
-    // получаем список доков доступных юзеру
-    nCore.user.event.subscribe('getAvailableDocuments', function(data){
+    //   console.log('getUserPermissions');
+    // });
+    // // получаем список доков доступных юзеру
+    // nCore.user.event.subscribe('getAvailableDocuments', function(data){
       
-      console.log('getAvailableDocuments');
-    });
+    //   console.log('getAvailableDocuments');
+    // });
 
     /*
      * События загрузчика

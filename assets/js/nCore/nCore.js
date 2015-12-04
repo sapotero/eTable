@@ -68,14 +68,14 @@ nCore = (function(){
         else {
           var url = 'assets/js/nCore/'+type+'/'+scriptName+'.js';
           script.src = url;
-          script.async = true;
+          // script.async = true;
           script.onload = script.onerror = script.onreadystatechange = onScriptLoaded;
           // addToStorage(url, scriptName);
         }
       }
       else {
         script.src = 'assets/js/nCore/'+type+'/'+scriptName+'.js';
-        script.async = true;
+        // script.async = true;
         script.onload = script.onerror = script.onreadystatechange = onScriptLoaded;
       }
 
@@ -85,10 +85,10 @@ nCore = (function(){
 
   function loadModules(){
     var dependencies = {
-      core       : [ "user", "query", "core", "roles", "templates", "router", "preloader" ],
       shared     : [ "jquery", "mui.min", "transparency.min", "fr", "script", "select2.full" ],
-      modules    : [ "document", "table", "cellEditor", "cell", "events" ],
-      background : [ "worker", "workerBack", "shared", "sharedBack", "update" ]
+      core       : [ "user", "query", "core", "roles", "templates", "router", "preloader" ],
+      background : [ "worker", "workerBack", "shared", "sharedBack", "update" ],
+      modules    : [ "document", "table", "cellEditor", "cell", "events" ]
     };
     
     for (var type in dependencies){

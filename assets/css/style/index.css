@@ -565,8 +565,9 @@ buttons {
   -webkit-animation-name: mui-node-inserted;
   animation-name: mui-node-inserted;
   display: inline-block;
-  height: 32px;
+  /*height: 32px;*/
   /*width: 100%;*/
+  text-align: center!important;
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
