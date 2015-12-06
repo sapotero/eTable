@@ -427,6 +427,7 @@ buttons {
   overflow: hidden;
   background-color: #ddd;
 }
+
 .loader:before{
   display: block;
   position: absolute;
@@ -435,7 +436,29 @@ buttons {
   width: 200px;
   height: 4px;
   background-color: #2980b9;
-  animation: loading 2s linear infinite;
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s;
+  /*-webkit-animation-fill-mode: both;*/
+  /*animation-fill-mode: both;*/
+  -webkit-animation-iteration-count: infinite;
+  animation-iteration-count: infinite;
+
+  animation-name: loading;
+  -webkit-animation-name: loading;
+}
+
+@-webkit-keyframes loading {
+/*    from {left: -200px; width: 30%;}
+    50% {width: 15%;}
+    60% {width: 30%;}
+    70% {left: 60%;}
+    95% {left: 90%;}
+    to {left: 120%;}*/
+    from {left: -30%; width: 15%;}
+    50% {width: 25%;}
+    80% {left: 55%;}
+    95% {left: 85%;width: 45%;}
+    to {left: 130%;}
 }
 
 @keyframes loading {
