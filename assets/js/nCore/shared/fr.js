@@ -12731,11 +12731,11 @@ window.FDKModernizr = function(e, t, n) {
             "table.edit": "[_BUTTONS_]",
             "table.colors": "[_BUTTONS_][_COLORS_]"
         }), e.extend(e.FroalaEditor.DEFAULTS, {
-            tableInsertMaxSize: 15,
+            tableInsertMaxSize: 6,
             tableEditButtons: ["tableHeader", "tableRemove", "|", "tableRows", "tableColumns", "tableStyle", "-", "tableCells", "tableCellBackground", "tableCellVerticalAlign", "tableCellHorizontalAlign", "tableCellStyle"],
             tableInsertButtons: ["tableBack", "|"],
             tableResizerOffset: 5,
-            tableResizingLimit: 30,
+            tableResizingLimit: 15,
             tableColorsButtons: ["tableBack", "|"],
             tableColors: ["#61BD6D", "#1ABC9C", "#54ACD2", "#2C82C9", "#9365B8", "#475577", "#CCCCCC", "#41A85F", "#00A885", "#3D8EB9", "#2969B0", "#553982", "#28324E", "#000000", "#F7DA64", "#FBA026", "#EB6B56", "#E25041", "#A38F84", "#EFEFEF", "#FFFFFF", "#FAC51C", "#F37934", "#D14841", "#B8312F", "#7C706B", "#D1D5D8", "REMOVE"],
             tableColorsStep: 7,
