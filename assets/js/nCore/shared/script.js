@@ -75,9 +75,9 @@ jQuery(function($) {
     nCore.modules.table.event.publish('cellSelect', this );
   });
   
-  $('#cellSettingsForm').change(function(e){
-    nCore.modules.table.event.publish('cellSettingsChange', e );
-  })
+  // $('#cellSettingsForm').change(function(e){
+  //   nCore.modules.table.event.publish('cellSettingsChange', e );
+  // })
 
   $('.AddDocument').live('click', function(){
     var overlayEl = mui.overlay('on');
@@ -115,14 +115,19 @@ jQuery(function($) {
     if (  $('.firstTimeCriteria').hasClass('mui--hide') ) {
       $('.criteriaSelector > div> .connectionGroup').last().toggleClass('mui--hide');
     };
-
     $('.firstTimeCriteria').addClass('mui--hide');
 
     list.append( group );
 
+    // черновой вариант как мы обходимноды для 
+    // того чтобы собрать критерии в один запрос
+    nCore.modules.table.event.publish('newCellSettingsChange' );
 
+  });
 
-    // $('select[name="conditions"]').select2();
+  $('.criteriaSelectorItemCondition').live('click', function(){
+    nCore.modules.table.event.publish('newCellSettingsChange' );
+    return false;
   });
 
   $('.addCriteriaItemToGroup').live('click', function(){
@@ -134,7 +139,14 @@ jQuery(function($) {
     card.removeClass('mui--hide');
 
     list.append( card );
+    nCore.modules.table.event.publish('newCellSettingsChange' );
   });
+
+  
+  $('select, input[name="value"]').live('change', function(){
+    nCore.modules.table.event.publish('newCellSettingsChange' );
+    return false;
+  })
 
   $('.criteriaMenuItem.remove').live('click', function(){
     $(this).parents('.criteriaSelectorItem').detach();
@@ -148,13 +160,16 @@ jQuery(function($) {
     $.each( child.children('select'), function(i, el){
       if ( !$(el).hasClass('s2')) {
         $(el).addClass('s2');
-        $(el).select2();
+        $(el).select2().on('change', function(){nCore.modules.table.event.publish('newCellSettingsChange',  $(".criteriaSelector") )});
       };
     });
     child[0].classList.toggle('hide');
     
     // e.preventDefault();
+    nCore.modules.table.event.publish('newCellSettingsChange' );
     return false;
   })
+
+
 
 });

@@ -78,8 +78,12 @@ nCore.modules.cell = (function(){
     return cell;
   };
 
+  var init = function(){
+  };
+
   return {
     newCell: newCell,
-    cells: cells
+    cells: cells,
+    init: init
   }
 })();

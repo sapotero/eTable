@@ -213,48 +213,129 @@ nCore.events = (function(){
           console.log('calculateQuery -> post', data);
           nCore.modules.table.event.publish('insertCellData', data )
         }).error(function(data){
-          console.error('[!] calculateQuery -> post', post, data)
+          console.error('[!] calculateQuery -> post', data)
         });
     });
     // вставка данных в таблицу
     nCore.modules.table.event.subscribe('insertCellData', function(data){
-      console.log('insertCellData', data);
+      // console.log('insertCellData', data);
       var table = document.querySelector('.fr-element.fr-view > table');
       for (var i = 0; i < data.length; i++) {
         table.rows[ data[i].rowIndex ].cells[ data[i].cellIndex ].textContent = data[i].value;
       };
     });
     // выбор активной ячейки
-    nCore.modules.table.event.subscribe('cellSelect', function(data){
-      // console.log('cellSelect', data);
+    nCore.modules.table.event.subscribe('cellSelect', function(cell){
+      // console.log('cellSelect', cell);
       var showCellSettings = true,
-          searchList = {
-            conditions  :document.getElementsByName('conditions')[0],
-            value       :document.getElementsByName('value')[0],
-            origin_name :document.getElementsByName('origin_name')[0]
+          tab = document.getElementsByClassName('criteriaSelector')[0],
+          cellQuery;
+
+      activeCell = cell;
+      tab.textContent = '';
+
+      if ( activeCell ) {
+        // если есть query
+        if (activeCell.dataset.hasOwnProperty('query') ) {
+          var queryArray = JSON.parse(activeCell.dataset.query),
+              _selectedIindex = -1;
+
+          for (var z = 0; z < queryArray.length; z++) {
+            var group      = queryArray[z],
+                conditions = group.conditions,
+                criterias  = group.query;
+
+            console.log('criterias',  criterias);
+            console.log('conditions', conditions);
+
+            var groupTemplate        = document.getElementsByClassName('criteriaSelectorGroupTemplate')[0],
+                groupSelectCondition = groupTemplate.getElementsByTagName('select')[0];
+
+            if ( conditions ) {
+              for (var v = 0; v < groupSelectCondition.options.length; v++) {
+                if (groupSelectCondition[v].value === conditions) {
+                  _selectedIindex = v;
+                  break;
+                };
+              };
+
+              groupTemplate.getElementsByClassName('connectionGroup')[0].classList.remove('mui--hide');
+            };
+
+            for (var b = 0; b < criterias.length; b++) {
+              var item  = criterias[b],
+                  list  = groupTemplate.getElementsByClassName('criteriaSelectorGroupList')[0],
+                  cardTemplate  = document.getElementsByClassName('criteriaSelectorItemTemplate')[0];
+              
+              var card = cardTemplate.cloneNode(true);
+              card.classList.remove('criteriaSelectorItemTemplate');
+              card.classList.remove('mui--hide');
+
+              var form = card.getElementsByClassName('criteriaForm')[0];
+
+              var table_name  = form.querySelector('select[name="table_name"]')[0],
+                  origin_name = form.querySelector('select[name="origin_name"]')[0],
+                  conditions  = form.querySelector('select[name="conditions"]')[0],
+                  value       = form.querySelector('input[name="value"]')[0];
+
+              console.log(table_name, origin_name, conditions, value);
+
+              var criteriaCondition = card.getElementsByClassName('criteriaSelectorItemCondition')[0].value = item.criteriaCondition;
+
+              list.appendChild( card );
+              nCore.modules.table.event.publish('newCellSettingsChange' );
+            };
+
+
+            var group = groupTemplate.cloneNode(true),
+                groupSelectCondition = group.getElementsByTagName('select')[0].selectedIndex = _selectedIindex;
+
+            console.log('groupSelectCondition ', groupSelectCondition);
+
+            group.classList.remove('criteriaSelectorGroupTemplate');
+            group.classList.remove('mui--hide');
+
+
+            for (var x = 0; x < criterias.length; x++) {
+              var item = criterias[x];
+              console.log('item ->', item);
+            };
+
+            // if (  $('.firstTimeCriteria').hasClass('mui--hide') ) {
+            //   $('.criteriaSelector > div> .connectionGroup').last().toggleClass('mui--hide');
+            // };
+            // $('.firstTimeCriteria').addClass('mui--hide');
+            tab.appendChild(group);
+            document.getElementsByClassName('firstTimeCriteria')[0].classList.add('mui--hide');
           };
-      activeCell = data;
 
-      if ( data.dataset.hasOwnProperty('value') ) {
-        searchList['value'].value = data.dataset.value
-      } else {
-        searchList['value'].value = '';
-        data.dataset.value = '-'
-      }
+        } else {
+          document.getElementsByClassName('firstTimeCriteria')[0].classList.remove('mui--hide');
+        }
 
-      if ( data.dataset.hasOwnProperty('conditions') ) {
-        searchList['conditions'].value = data.dataset.conditions
-      } else {
-        searchList['conditions'].selectedIndex = -1;
-        data.dataset.conditions = searchList['conditions'].options[0].value;
-      }
 
-      if ( data.dataset.hasOwnProperty('origin_name') ) {
-        searchList['origin_name'].value = data.dataset.origin_name
-      } else {
-        searchList['origin_name'].selectedIndex = -1;
-        data.dataset.origin_name = searchList['origin_name'].options[0].value;
-      }
+      };
+
+      // if ( cell.dataset.hasOwnProperty('value') ) {
+      //   searchList['value'].value = cell.dataset.value
+      // } else {
+      //   searchList['value'].value = '';
+      //   cell.dataset.value = '-'
+      // }
+
+      // if ( cell.dataset.hasOwnProperty('conditions') ) {
+      //   searchList['conditions'].value = cell.dataset.conditions
+      // } else {
+      //   searchList['conditions'].selectedIndex = -1;
+      //   cell.dataset.conditions = searchList['conditions'].options[0].value;
+      // }
+
+      // if ( cell.dataset.hasOwnProperty('origin_name') ) {
+      //   searchList['origin_name'].value = cell.dataset.origin_name
+      // } else {
+      //   searchList['origin_name'].selectedIndex = -1;
+      //   cell.dataset.origin_name = searchList['origin_name'].options[0].value;
+      // }
 
       if ( showCellSettings && !document.getElementById('cellSettings').classList.contains('active') ) {
         document.getElementById('cellSettings').classList.toggle('active');
@@ -291,20 +372,69 @@ nCore.events = (function(){
       };
     });
 
+    nCore.modules.table.event.subscribe('newCellSettingsChange', function(){
+      // console.log('newCellSettingsChange', list);
+
+      var _query     = [],
+      list = $(".criteriaSelector"),
+      criterias = list.children('div');
+      // console.log('*** criterias: ', criterias);
+
+      for (var i = 0; i < criterias.length; i++) {
+        var criteria          = $(criterias[i]),
+            criteriaItemsRoot = criteria.children('.criteriaSelectorGroup'),
+            criteriaItems     = criteriaItemsRoot.children('.criteriaSelectorGroupList').children('.criteriaSelectorItem');
+
+        // console.log('criteria', criteria, criteriaItems );
+
+
+        var data = {
+          query      : [],
+          conditions : criteria.children('.connectionGroup').children('select').val()
+        };
+
+        var criteriaItemQuery = {};
+
+        for (var z = 0; z < criteriaItems.length; z++) {
+          var item = $(criteriaItems[z]),
+              head = item.children('.criteriaSelectorItemHeader'),
+              form = item.children('.criteriaForm');
+
+          // console.log( 'input',  );
+          data.query.push({
+            criteia_condition : head.children('.criteriaSelectorItemOptions').children('.criteriaSelectorItemCondition')[0].value,
+            conditions        : form.children('select[name="conditions"]').val(),
+            origin_name       : form.children('select[name="origin_name"]').val(),
+            value             : form.children('.mui-textfield').children('input[name="value"]').val()
+          });
+        };
+
+        _query.push( data );
+      };
+
+      // console.log('before: ', activeCell)
+      if (activeCell) {
+        activeCell.dataset.query = JSON.stringify(_query);
+      };
+
+      // console.log('newCellSettings | activeCell -> ',activeCell,  JSON.stringify(_query) )
+    });
+
+
     /*
      * События юзера
      */
     
     // получаем права доступа юзера
-    nCore.user.event.subscribe('getUserPermissions', function(data){
+    // nCore.user.event.subscribe('getUserPermissions', function(data){
       
-      console.log('getUserPermissions');
-    });
-    // получаем список доков доступных юзеру
-    nCore.user.event.subscribe('getAvailableDocuments', function(data){
+    //   console.log('getUserPermissions');
+    // });
+    // // получаем список доков доступных юзеру
+    // nCore.user.event.subscribe('getAvailableDocuments', function(data){
       
-      console.log('getAvailableDocuments');
-    });
+    //   console.log('getAvailableDocuments');
+    // });
 
     /*
      * События загрузчика
@@ -333,5 +463,3 @@ nCore.events = (function(){
     init  : init,
   };
 })();
-
-nCore.events.init();

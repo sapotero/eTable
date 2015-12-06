@@ -12,6 +12,8 @@ nCore.modules.table = (function(){
       activeCell = {},
       mergeCells = [],
   init = function(config){
+    var config = { table: 'nCoreTable' };
+    
     nCore.attachTo( nCore.modules.table.event );
     var initialTable = document.getElementById(config.table);
     
@@ -414,4 +416,3 @@ nCore.modules.table = (function(){
     tableQuery : generateQueryFromTable
   }
 })();
-nCore.modules.table.init({ table: 'nCoreTable' });

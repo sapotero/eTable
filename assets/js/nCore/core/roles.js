@@ -17,4 +17,3 @@ nCore.roles = (function(){
     check : check
   }
 })();
-nCore.roles.init();

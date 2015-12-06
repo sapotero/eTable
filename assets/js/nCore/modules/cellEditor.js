@@ -23,6 +23,12 @@ nCore.modules.cellEditor = (function(){
 
   return {
     init: function(config){
+      var config = {
+        tab:      'nCoreTabConfigText',
+        fontSize: 'nCoreTabConfigTextFontSize',
+        cellText: 'nCoreTabConfigCellText'
+      };
+
       root     = document.getElementById( config.tab );
       cellText = document.getElementById( config.cellText );
       fontSize = document.getElementById( config.fontSize );
@@ -51,10 +57,4 @@ nCore.modules.cellEditor = (function(){
      }
   }
 })();
-
-nCore.modules.cellEditor.init( {
-  tab:      'nCoreTabConfigText',
-  fontSize: 'nCoreTabConfigTextFontSize',
-  cellText: 'nCoreTabConfigCellText'
-});
 

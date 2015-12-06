@@ -36,6 +36,10 @@ nCore.modules.elements = (function(config){
   }
 
   var init = function(config){
+    var config = {
+      nCoreElements: 'nCoreElements'
+    };
+    
     nCoreElements = document.getElementById( config.nCoreElements );
 
     var e = [ 'label', 'input' ];
@@ -113,6 +117,3 @@ nCore.modules.elements = (function(config){
     elements   : elements
   }
 })();
-nCore.modules.elements.init({
-  nCoreElements: 'nCoreElements'
-});

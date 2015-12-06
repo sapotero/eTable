@@ -15,6 +15,11 @@ nCore.document = (function(){
       nCoreDocumentCellQuery;
 
   var init = function (config){
+    var config = {
+      nCoreDocumentId   : 'nCoreDocumentId',
+      nCoreDocumentSave : 'nCoreDocumentSave'
+    };
+
     nCoreRoot         = document.getElementById( config.nCoreDocumentId );
     nCoreDocumentSave = document.getElementById( config.nCoreDocumentSave );
 
@@ -75,8 +80,3 @@ nCore.document = (function(){
     setCellQuery   : setCellQuery
   };
 })();
-
-nCore.document.init({
-  nCoreDocumentId   : 'nCoreDocumentId',
-  nCoreDocumentSave : 'nCoreDocumentSave'
-});
