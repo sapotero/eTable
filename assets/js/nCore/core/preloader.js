@@ -18,7 +18,7 @@ nCore.preloader = (function(){
     // nCore.user.event.publish( 'getAvailableDocuments', user );
     
     nCore.preloader.event.publish( 'loadItem', preloadItems );
-    nCore.preloader.event.publish( 'loadCriteria', preloadItems );
+    nCore.preloader.event.publish( 'loadCriteria' );
 
     dropProgress();
 

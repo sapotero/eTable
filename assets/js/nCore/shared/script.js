@@ -148,6 +148,21 @@ jQuery(function($) {
     return false;
   })
 
+  $('select[name="table_name"]').live('change', function(e){
+    var select = this.nextElementSibling.nextElementSibling;
+    select.innerHTML = '';
+    var _df = new DocumentFragment();
+    var originTable = JSON.parse( nCore.storage.getItem( this.value) );
+    for (var q = 0; q < originTable.origin.length; q++) {
+      var option = document.createElement('option');
+      option.value = originTable.origin[q].value;
+      option.text  = originTable.origin[q].name;
+      _df.appendChild(option);
+    };
+    select.appendChild(_df);
+    return false;
+  })
+
   $('.criteriaMenuItem.remove').live('click', function(){
     $(this).parents('.criteriaSelectorItem').detach();
   })
@@ -156,11 +171,28 @@ jQuery(function($) {
 
     var el = ( $(this).hasClass('criteriaSelectorItem') ? $(this) : $(this).parents('.criteriaSelectorItem') );
     var child    = el.children('.criteriaForm');
+
     
     $.each( child.children('select'), function(i, el){
       if ( !$(el).hasClass('s2')) {
+        if ( el.name === 'table_name'  ) {
+          var _df = new DocumentFragment();
+          var criteriaKeys = JSON.parse(nCore.storage.criteriaKeys);
+          for (var q = 0; q < criteriaKeys.length; q++) {
+            var option = document.createElement('option');
+            option.value = criteriaKeys[q].value;
+            option.text  = criteriaKeys[q].name;
+            _df.appendChild(option);
+          };
+          el.appendChild(_df);
+        };
+
         $(el).addClass('s2');
-        $(el).select2().on('change', function(){nCore.modules.table.event.publish('newCellSettingsChange',  $(".criteriaSelector") )});
+
+        $(el).select2().on('change', function(){
+          nCore.modules.table.event.publish('newCellSettingsChange',  $(".criteriaSelector") )
+        });
+
       };
     });
     child[0].classList.toggle('hide');

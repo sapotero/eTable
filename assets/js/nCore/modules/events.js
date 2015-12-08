@@ -199,7 +199,6 @@ nCore.events = (function(){
         _mui_rows[i].classList.add('mui--hide')
       };
 
-      console.log('_active_row', _active_row);
       _active_row.classList.remove('mui--hide');
       
     });
@@ -479,14 +478,40 @@ nCore.events = (function(){
         else {
           nCore.query.get( item+'.json')
           .success(function(data){
-            console.log('loadItem -> post', data);
+            console.log('loadItem -> get', data);
             nCore.storage.setItem('documents', JSON.stringify(data) );
             nCore.document.root.publish( nCore.storage.getItem('indexViewType') );
           }).error(function(data){
-            console.error('[!] loadItem -> post', data )
+            console.error('[!] loadItem -> get', data )
           });
         };
       };
+    });
+
+    nCore.preloader.event.subscribe('loadCriteria', function(data){
+      console.log('loadCriteria', data);
+      
+      nCore.query.get( 'sources.json')
+      .success(function(data){
+        console.log('loadCriteria -> get', data);
+        
+        for (var i = 0; i < data.length; i++) {
+          var source = data[i];
+          nCore.storage.setItem(source.value, JSON.stringify(source) );
+        };
+
+        var keys = [];
+        data.filter(function(v) {
+          keys.push({
+            value: v.value,
+            name: v.name
+          });
+        });
+        
+        nCore.storage.setItem('criteriaKeys', JSON.stringify(keys) );
+      }).error(function(data){
+        console.error('[!] loadCriteria -> get', data )
+      });
     });
 
   };
