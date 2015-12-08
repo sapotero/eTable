@@ -176,6 +176,10 @@ jQuery(function($) {
     nCore.document.root.publish('changeRenderType', type)
   })
 
+  $('.layoutSideMenuItem').live('click', function(){
+    $bodyEl.toggleClass('hide-sidedrawer');
+  });
+
 
 
 });

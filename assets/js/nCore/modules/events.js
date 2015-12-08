@@ -182,6 +182,11 @@ nCore.events = (function(){
           text: function(){
             return ''
           }
+        },
+        documentUser: {
+          text: function(){
+            return this.user
+          }
         }
       };
 
