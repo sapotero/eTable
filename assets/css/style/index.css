@@ -115,7 +115,7 @@ buttons {
   margin-left: -200px;
   transition: margin-left 0.2s;
   
-  /*margin-top: 42px;*/
+  margin-top: 42px;
   /* sticky bottom */
   margin-bottom: -160px;
   padding-bottom: 160px;

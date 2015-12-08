@@ -153,23 +153,26 @@ nCore.events = (function(){
      * События рендера
      */
     
-    nCore.document.root.subscribe('renderSideMenuItem', function(data){
-      console.log('renderSideMenuItem', data);
+    nCore.document.root.subscribe('renderIndexView', function(data){
+      // console.log('renderIndexView', data);
+
+      var items = JSON.parse( nCore.storage.getItem('documents') );
+      // console.log('storage: ', items);
       
       var helper = {
         documentTitle: {
           text: function(params) {
-            return this.documentTitle;
+            return this.name;
           }
         },
         documentDate: {
           text: function(params) {
-            return this.documentDate || new Date();
+            return this.date || new Date();
           }
         },
         documentId: {
           href: function(params) {
-            return "#/tables/" + this.documentId || Math.random();
+            return "#/tables/" + this.id || Math.random();
           },
           text: function(){
             return ''
@@ -177,7 +180,7 @@ nCore.events = (function(){
         }
       };
 
-      Transparency.render(document.getElementById('main'), data, helper);
+      Transparency.render(document.getElementById('main'), items, helper);
     });
 
     nCore.document.root.subscribe('renderNotPermit', function(data){
@@ -441,25 +444,29 @@ nCore.events = (function(){
      */
     
     // загружаем шаблоны
-    nCore.preloader.event.subscribe('loadTemplates', function(template){
-      console.log('loadTemplates', template);
-      // nCore.query.get( 'templates.json', { data: template } )
-      // .success(function(data){
-      //   console.log('post', data);
-      //   nCore.preloader.setTemplates( load );
-      // }).error(function(data){
-      //   console.error('[!] post', data)
-      // });
-    });
-    // загружаем поля, справочники и критерии для поиска
-    nCore.preloader.event.subscribe('loadQuery', function(data){
+    nCore.preloader.event.subscribe('loadItem', function(items){
+      console.log('loadItem', items);
       
-      console.log('loadQuery', data);
-    });
+      for (var z = 0; z < items.length; z++) {
+        var item = items[z];
 
-    nCore.preloader.event.subscribe('loadDocuments', function(data){
-      
-      console.log('loadDocuments', data);
+        // если шаблон - грузим их локально 
+        if (item === 'templates') {
+
+        }
+        // или загружаем из приложульки
+        else {
+          nCore.query.get( item+'.json')
+          .success(function(data){
+            console.log('loadItem -> post', data);
+            nCore.storage.setItem('documents', JSON.stringify(data) );
+            nCore.document.root.publish('renderIndexView');
+            // nCore.modules.table.event.publish('insertCellData', data )
+          }).error(function(data){
+            console.error('[!] loadItem -> post', data )
+          });
+        };
+      };
     });
 
   };

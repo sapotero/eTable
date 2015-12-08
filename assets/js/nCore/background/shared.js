@@ -6,18 +6,17 @@ var nCore = nCore || {};
 nCore.shared = (function(){
   var shared = new SharedWorker('assets/js/nCore/background/sharedBack.js');
   
-  shared.port.onmessage = function(e) {
-    console.log('Message received from worker', e);
+  shared.port.onmessage = function(data) {
+    console.log('Message received from worker', data);
   };
 
   var init = function(){
-    // job(shared);
     return shared
   },
   post = function(data){
     shared.port.postMessage({
-      command: 'foobard',
-      data: ''
+      command: 'load',
+      data: data
     });
   };
 

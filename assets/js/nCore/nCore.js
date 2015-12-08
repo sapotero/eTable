@@ -108,7 +108,12 @@ nCore = (function(){
     };
 
     // хак для медленного соединения
-    setTimeout(function(){nCore.preloader.init()}, 1000);
+    var _i = setInterval(function(){
+      if ( nCore.preloader.hasOwnProperty('init') && typeof(nCore.preloader.init) === 'function' ) {
+        nCore.preloader.init();
+        clearInterval(_i);
+      };
+    }, 10);
   };
 
   function init(){
