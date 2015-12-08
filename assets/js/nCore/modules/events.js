@@ -457,6 +457,11 @@ nCore.events = (function(){
       console.log('loadQuery', data);
     });
 
+    nCore.preloader.event.subscribe('loadDocuments', function(data){
+      
+      console.log('loadDocuments', data);
+    });
+
   };
 
   return {

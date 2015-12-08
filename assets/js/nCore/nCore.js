@@ -90,24 +90,25 @@ nCore = (function(){
       background : [ "worker", "workerBack", "shared", "sharedBack", "update" ],
       modules    : [ "document", "table", "cellEditor", "cell", "events" ]
     };
+    var _init = [];
     
     for (var type in dependencies){
       dependencies.hasOwnProperty(type) ? load( type, dependencies[type], function(type, array){
-        // console.log('callback: ', type, array);
         for(var index in array ){
           var module = array[ index ];
 
           if ( nCore.hasOwnProperty(module) && nCore[ module ].hasOwnProperty('init') ) {
-            // console.log('module: ', module );
             nCore[module].init();
           }
           else if( nCore.modules.hasOwnProperty( module ) ){
-            // console.log('modules: ', module );
             nCore.modules[module].init()
           };
         };
       }) : false;
     };
+
+    // хак для медленного соединения
+    setTimeout(function(){nCore.preloader.init()}, 1000);
   };
 
   function init(){
@@ -125,7 +126,6 @@ nCore = (function(){
     loadModules();
     //       dev only         // 
     // nCore.storage.clear(); //
-    // nCore.storage.clear();
   }
 
   var subscribe = function(channel, fn) {

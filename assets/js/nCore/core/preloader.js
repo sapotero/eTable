@@ -32,13 +32,16 @@ nCore.preloader = (function(){
   };
   
   var init = function(){
+    console.log('preloader init');
+
     nCore.attachTo( nCore.preloader.event );
 
-    nCore.user.event.publish( 'getUserPermissions',    user );
-    nCore.user.event.publish( 'getAvailableDocuments', user );
-    
-    nCore.preloader.event.publish( 'loadTemplates', template );
-    nCore.preloader.event.publish( 'loadQuery' );
+    // когда будет пользак, тогда будем получать пермишены и информацию о нем
+    // nCore.user.event.publish( 'getUserPermissions',    user );
+    // nCore.user.event.publish( 'getAvailableDocuments', user );
+    var items = [ 'templates', 'documents' ];
+    nCore.preloader.event.publish( 'loadItem', items );
+
   },
   templates = function(){
     return templates;
