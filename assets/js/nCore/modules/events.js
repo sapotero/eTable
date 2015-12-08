@@ -152,8 +152,13 @@ nCore.events = (function(){
     /*
      * События рендера
      */
-    
-    nCore.document.root.subscribe('renderIndexView', function(data){
+    // изменяем тип отображения
+    nCore.document.root.subscribe('changeRenderType', function(type){
+      nCore.storage.setItem('indexViewType', type);
+      nCore.document.root.publish('renderIndexView', type);
+    });
+
+    nCore.document.root.subscribe('renderIndexView', function(type){
       // console.log('renderIndexView', data);
 
       var items = JSON.parse( nCore.storage.getItem('documents') );
@@ -180,7 +185,18 @@ nCore.events = (function(){
         }
       };
 
-      Transparency.render(document.getElementById('main'), items, helper);
+      Transparency.render(document.getElementById( nCore.storage.getItem('indexViewType') ), items, helper);
+      
+      var _mui_rows = document.getElementsByClassName('mui-row _indexView');
+      var _active_row = document.getElementsByClassName('_indexView '+nCore.storage.getItem('indexViewType') )[0];
+
+      for (var i = 0; i < _mui_rows.length; i++) {
+        _mui_rows[i].classList.add('mui--hide')
+      };
+
+      console.log('_active_row', _active_row);
+      _active_row.classList.remove('mui--hide');
+      
     });
 
     nCore.document.root.subscribe('renderNotPermit', function(data){
@@ -460,8 +476,7 @@ nCore.events = (function(){
           .success(function(data){
             console.log('loadItem -> post', data);
             nCore.storage.setItem('documents', JSON.stringify(data) );
-            nCore.document.root.publish('renderIndexView');
-            // nCore.modules.table.event.publish('insertCellData', data )
+            nCore.document.root.publish( nCore.storage.getItem('indexViewType') );
           }).error(function(data){
             console.error('[!] loadItem -> post', data )
           });

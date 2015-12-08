@@ -170,6 +170,12 @@ jQuery(function($) {
     return false;
   })
 
+  $('.indexViewChange').live('click', function(){
+    var type = this.dataset.viewType;
+
+    nCore.document.root.publish('changeRenderType', type)
+  })
+
 
 
 });

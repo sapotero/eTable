@@ -129,6 +129,10 @@ nCore = (function(){
     nCore.storage   = {};
 
     loadModules();
+
+    if ( !nCore.storage.getItem('indexViewType') ) {
+      nCore.storage.setItem('indexViewType', 'renderThumbIndexView')
+    };
     //       dev only         // 
     // nCore.storage.clear(); //
   }
