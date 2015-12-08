@@ -120,7 +120,7 @@ nCore.events = (function(){
           author   = document.getElementById('nCoreDocumentAuthor');
 
       headline.textContent = [data.type, data.name ].join(' ');
-      author.innerHTML   = ' '+data.author;
+      author.textContent   = ' '+data.author;
       
       // всё ок, пришло подтвереие что можно скрывать оверлай и документ сохряненн (+делаем крутилку что идёт процесс сохранения), или выводим ошибку
       // if ( data === true ) {
