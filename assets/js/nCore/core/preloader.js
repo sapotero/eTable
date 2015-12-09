@@ -2,6 +2,13 @@
 
 // resourse preloader
 
+/**
+ * core module
+ * @module nCore/preloader
+ * @see module:nCore/core
+ * @see {@link http://github.com|GitHub}
+ */
+
 var nCore = nCore || {};
 nCore.preloader = (function(){
   // предзагрузка всех справочников и шаблонов перед стартом приложульки
@@ -10,6 +17,10 @@ nCore.preloader = (function(){
       preloadProgress       = document.getElementById('loaderProgress'),
       preloadItems = [ 'documents', 'templates' ];
 
+  /**
+   * @function init
+   * @description Выполняется при загрузке модуля
+   */
   var init = function(){
     nCore.attachTo( nCore.preloader.event );
 

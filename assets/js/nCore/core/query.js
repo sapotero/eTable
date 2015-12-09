@@ -1,7 +1,10 @@
 "use strict";
 
 // модуль предоставляющий интерфейс для взаимодействия по сети
-
+/**
+ * core module
+ * @module nCore/query
+ */
 var nCore = nCore || {};
 nCore.query = (function(){
   var host = 'http://localhost/rails/';
@@ -10,6 +13,10 @@ nCore.query = (function(){
   template = ' <form class="form-horizontal fm"> <div class="form-group"> <label for="nCoreTabConfigTextFontSize" class="col-lg-3 control-label">Поле</label> <div class="col-lg-9"> <select class="form-control" id="nCoreTabConfigTextFontSize"> </select> </div></div><div class="form-group" style="padding: 10px auto ;"> <label for="nCoreTabConfigTextFontSize" class="col-lg-3 control-label">Условие</label> <div class="col-lg-9"> <select class="form-control" id="nCoreTabConfigTextFontSize"> </select> </div></div><div class="form-group"> <label class="control-label col-lg-3 " for="focusedInput">Значение</label> <div class="col-lg-9"> <input class="form-control" id="focusedInput" type="text" value=""> </div></div></form>';
 
   // рисуем форму поиска
+  /**
+   * @function init
+   * @description Выполняется при загрузке модуля
+   */
   var init = function(config){
     var config = { nCoreQuery: 'nCoreQuery' }
     root   = document.getElementById( config.nCoreQuery );

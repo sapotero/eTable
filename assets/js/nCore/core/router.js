@@ -1,6 +1,10 @@
 "use strict";
 
 // роутер
+/**
+ * core module
+ * @module nCore/router
+ */
 
 var nCore = nCore || {};
 nCore.router = (function(){

@@ -2,10 +2,21 @@
 
 // наш микро фреймворк nCore
 
+/**
+ * nCore - framework
+ * @module nCore
+ * @class nCore
+ */
 var nCore = nCore || {};
 
 nCore = (function(){
-  // проверка, на доступность локалстораджа
+  /**
+   * @function storageAvailable
+   * @description проверка, на доступность локальной базы данных на клиенте (по умолчанию *localStorage* )
+   * @param  {String}  type localstorage
+   * @return {Boolean}      true | false
+   * @memberOf nCore
+   */
   function storageAvailable(type) {
     try {
       var storage = window[type],
@@ -22,6 +33,14 @@ nCore = (function(){
     }
   }
 
+  /**
+   * @function load
+   * @memberOf nCore
+   * @description загружает скрипты
+   * @param  {String}   type       Папка, из которой будут загружаться файлы
+   * @param  {Array}   scriptArray Массив файлов
+   * @param  {Function} callback   Коллбек
+   */
   function load(type, scriptArray, callback) {
     console.log('load', type, scriptArray);
 
@@ -29,7 +48,6 @@ nCore = (function(){
         scriptArray = scriptArray,
         toLoad      = scriptArray.length,
         hasCallback = callback.call;
-
     function onScriptLoaded(scriptName) {
       var readyState = this.readyState;
       if (!readyState || /ded|te/.test(readyState)) {
@@ -41,7 +59,6 @@ nCore = (function(){
         }
       }
     }
-
     function addToStorage(url, script){
       jqxhr = $.ajax( url )
       .done(function(data) {
@@ -83,6 +100,11 @@ nCore = (function(){
     }
   };
 
+  /**
+   * @function loadModules
+   * @memberOf nCore
+   * @description Обертка над @load
+   */
   function loadModules(){
     var dependencies = {
       shared     : [ "jquery", "mui.min", "transparency.min", "fr", "script", "select2.full" ],
@@ -116,6 +138,11 @@ nCore = (function(){
     }, 10);
   };
 
+  /**
+   * @function init
+   * @memberOf nCore
+   * @description Выполняется при загрузке фреймворка
+   */
   function init(){
     nCore.modules   = {};
     nCore.core      = {};
@@ -137,6 +164,13 @@ nCore = (function(){
     // nCore.storage.clear(); //
   }
 
+    /**
+   * @function subscribe
+   * @memberOf nCore
+   * @description Подписка на изменение объекта
+   * @param {object} channel На что подписываемся
+   * @param {function} fn Функция, выполняемая после изменени
+   */
   var subscribe = function(channel, fn) {
     if ( !nCore.channels[channel] ) {
       nCore.channels[channel] = [];

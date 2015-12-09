@@ -1,6 +1,10 @@
 "use strict";
 
 // resourse user
+/**
+ * core module
+ * @module nCore/user
+ */
 
 var nCore = nCore || {};
 nCore.user = (function(){
