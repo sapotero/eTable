@@ -13565,7 +13565,7 @@ window.FDKModernizr = function(e, t, n) {
         }), e.FroalaEditor.DefineIcon("tableRemove", {
             NAME: "trash"
         }), e.FroalaEditor.RegisterCommand("tableRemove", {
-            title: "Remove Table",
+            title: "Удалить таблицу",
             focus: !1,
             callback: function() {
                 this.table.remove()
@@ -13573,7 +13573,7 @@ window.FDKModernizr = function(e, t, n) {
         }), e.FroalaEditor.DefineIcon("tableStyle", {
             NAME: "paint-brush"
         }), e.FroalaEditor.RegisterCommand("tableStyle", {
-            title: "Table Style",
+            title: "Стиль таблицы",
             type: "dropdown",
             focus: !1,
             html: function() {
@@ -18479,7 +18479,7 @@ window.FDKModernizr = function(e, t, n) {
             Strikethrough: "\u0417\u0430\u0447\u0435\u0440\u043a\u043d\u0443\u0442\u044b\u0439",
             Insert: "\u0412\u0441\u0442\u0430\u0432\u0438\u0442\u044c",
             Delete: "\u0423\u0434\u0430\u043b\u0438\u0442\u044c",
-            Cancel: "\u041e\u0442\u043c\u0435\u043d\u0438\u0442\u044c",
+            Cancel: "Отмена",
             OK: "OK",
             Back: "\u043d\u0430\u0437\u0430\u0434",
             Remove: "\u0423\u0434\u0430\u043b\u0438\u0442\u044c",

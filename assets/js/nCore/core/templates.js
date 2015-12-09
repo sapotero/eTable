@@ -20,7 +20,6 @@ nCore.templates = (function(){
       console.error('[!] getTemplate', data)
     });
   },
-  ]
   notPermit = function(permission){
     render('shared/notPermit', function(data){ 
       if ( data ) {
