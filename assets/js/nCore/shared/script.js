@@ -70,8 +70,8 @@ jQuery(function($) {
     $paper.toggleClass('book');
   });
 
+  // клик по ячейке в таблице
   $('td.fr-selected-cell').live('click', function(e){
-    // console.log( 'selected', this,'|', e );
     nCore.modules.table.event.publish('cellSelect', this );
   });
   
@@ -79,6 +79,7 @@ jQuery(function($) {
   //   nCore.modules.table.event.publish('cellSettingsChange', e );
   // })
 
+  // добвление нового документа
   $('.AddDocument').live('click', function(){
     var overlayEl = mui.overlay('on');
 
@@ -104,6 +105,7 @@ jQuery(function($) {
     setTimeout( function(){ mui.overlay('off'); $bodyEl.addClass('hide-sidedrawer'); location.hash = "#tables/new" },1000);
   })
 
+  // добавление группы критериев
   $('.addCriteriaGroupButton').live('click', function(){
     var list  = $(".criteriaSelector"),
         groupTemplate  = $('.criteriaSelectorGroupTemplate').first();
@@ -119,17 +121,18 @@ jQuery(function($) {
 
     list.append( group );
 
-    // черновой вариант как мы обходимноды для 
+    // черновой вариант как мы обходим ноды для 
     // того чтобы собрать критерии в один запрос
     nCore.modules.table.event.publish('newCellSettingsChange' );
-
   });
 
+  // изменения типа связи у критерия в группе
   $('.criteriaSelectorItemCondition').live('click', function(){
     nCore.modules.table.event.publish('newCellSettingsChange' );
     return false;
   });
 
+  // добавление критерия в группу
   $('.addCriteriaItemToGroup').live('click', function(){
     var root  = $(this).parents('.criteriaSelectorGroup'),
         list  = root.children('.criteriaSelectorGroupList'),
@@ -142,40 +145,52 @@ jQuery(function($) {
     nCore.modules.table.event.publish('newCellSettingsChange' );
   });
 
-  
+  // изменение значения полей -> обновляем значения в ячейке
   $('select, input[name="value"]').live('change', function(){
     nCore.modules.table.event.publish('newCellSettingsChange' );
     return false;
   })
 
+  // выбор справочника -> меняем значения в origin_name
   $('select[name="table_name"]').live('change', function(e){
-    var select = this.nextElementSibling.nextElementSibling;
-    select.innerHTML = '';
-    var _df = new DocumentFragment();
-    var originTable = JSON.parse( nCore.storage.getItem( this.value) );
-    for (var q = 0; q < originTable.origin.length; q++) {
-      var option = document.createElement('option');
-      option.value = originTable.origin[q].value;
-      option.text  = originTable.origin[q].name;
-      _df.appendChild(option);
+    
+    // console.log('select[name="table_name"]', this);
+
+    if ( !this.dataset.old) {
+      var select = this.nextElementSibling.nextElementSibling;
+      select.innerHTML = '';
+      
+      var _df = new DocumentFragment();
+      var originTable = JSON.parse( nCore.storage.getItem( this.value) );
+      for (var q = 0; q < originTable.origin.length; q++) {
+        var option = document.createElement('option');
+        option.value = originTable.origin[q].value;
+        option.text  = originTable.origin[q].name;
+        _df.appendChild(option);
+      };
+      select.appendChild(_df);
+      return false;
     };
-    select.appendChild(_df);
-    return false;
+
+    
   })
 
+  // удаление критерия
   $('.criteriaMenuItem.remove').live('click', function(){
     $(this).parents('.criteriaSelectorItem').detach();
   })
 
+  // клик по критерию
   $('.criteriaMenuItem.settings, .criteriaSelectorItemHeader').live('click', function(e){
 
     var el = ( $(this).hasClass('criteriaSelectorItem') ? $(this) : $(this).parents('.criteriaSelectorItem') );
     var child    = el.children('.criteriaForm');
 
-    
+    // console.log('.criteriaMenuItem.settings');
+
     $.each( child.children('select'), function(i, el){
       if ( !$(el).hasClass('s2')) {
-        if ( el.name === 'table_name'  ) {
+        if ( el.name === 'table_name' ) {
           var _df = new DocumentFragment();
           var criteriaKeys = JSON.parse(nCore.storage.criteriaKeys);
           for (var q = 0; q < criteriaKeys.length; q++) {
@@ -186,10 +201,28 @@ jQuery(function($) {
           };
           el.appendChild(_df);
         };
+        // console.log('.criteriaMenuItem.settings > populate');
 
         $(el).addClass('s2');
 
         $(el).select2().on('change', function(){
+          console.log('select change', this, this.name);
+          // console.log('select[name="table_name"]', this);
+          if ( this.name === 'table_name' ) {
+            var select = this.nextElementSibling.nextElementSibling;
+            select.innerHTML = '';
+            
+            var _df = new DocumentFragment();
+            var originTable = JSON.parse( nCore.storage.getItem( this.value ) );
+            for (var q = 0; q < originTable.origin.length; q++) {
+              var option = document.createElement('option');
+              option.value = originTable.origin[q].value;
+              option.text  = originTable.origin[q].name;
+              _df.appendChild(option);
+            };
+            select.appendChild(_df);
+          };
+          
           nCore.modules.table.event.publish('newCellSettingsChange',  $(".criteriaSelector") )
         });
 
@@ -202,6 +235,7 @@ jQuery(function($) {
     return false;
   })
 
+  // изменение отображение элементов на странице
   $('.indexViewChange').live('click', function(){
     var type = this.dataset.viewType;
 

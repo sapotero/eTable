@@ -130,7 +130,7 @@ nCore.events = (function(){
       // }
     });
 
-    // изменение свойств документа
+    // [NEW] изменение свойств документа
     nCore.document.root.subscribe('initEditor', function(data){
       console.log('initEditor');
       $('div#paper').froalaEditor({
@@ -256,6 +256,7 @@ nCore.events = (function(){
 
       activeCell = cell;
       tab.textContent = '';
+      var __elements_to_update = [];
 
       if ( activeCell ) {
         // если есть query
@@ -263,20 +264,25 @@ nCore.events = (function(){
           var queryArray = JSON.parse(activeCell.dataset.query),
               _selectedIindex = -1;
 
+
+
+          // console.log('*** queryArray', queryArray)
           for (var z = 0; z < queryArray.length; z++) {
-            var group      = queryArray[z],
-                conditions = group.conditions,
-                criterias  = group.query;
+          
+            var group           = queryArray[z],
+                groupConditions = group.conditions,
+                criterias       = group.query;
 
-            console.log('criterias',  criterias);
-            console.log('conditions', conditions);
+            // console.log('criterias',  criterias);
+            // console.log('conditions', groupConditions);
 
-            var groupTemplate        = document.getElementsByClassName('criteriaSelectorGroupTemplate')[0],
+            var _groupTemplate       = document.getElementsByClassName('criteriaSelectorGroupTemplate')[0],
+                groupTemplate        = _groupTemplate.cloneNode(true),
                 groupSelectCondition = groupTemplate.getElementsByTagName('select')[0];
 
-            if ( conditions ) {
+            if ( groupConditions ) {
               for (var v = 0; v < groupSelectCondition.options.length; v++) {
-                if (groupSelectCondition[v].value === conditions) {
+                if (groupSelectCondition[v].value === groupConditions) {
                   _selectedIindex = v;
                   break;
                 };
@@ -284,11 +290,15 @@ nCore.events = (function(){
 
               groupTemplate.getElementsByClassName('connectionGroup')[0].classList.remove('mui--hide');
             };
-
+            
             for (var b = 0; b < criterias.length; b++) {
+              var _elements_to_update = [];
               var item  = criterias[b],
                   list  = groupTemplate.getElementsByClassName('criteriaSelectorGroupList')[0],
                   cardTemplate  = document.getElementsByClassName('criteriaSelectorItemTemplate')[0];
+
+              console.log('!! criteria', item);
+              
               
               var card = cardTemplate.cloneNode(true);
               card.classList.remove('criteriaSelectorItemTemplate');
@@ -296,107 +306,102 @@ nCore.events = (function(){
 
               var form = card.getElementsByClassName('criteriaForm')[0];
 
-              var table_name  = form.querySelector('select[name="table_name"]')[0],
-                  origin_name = form.querySelector('select[name="origin_name"]')[0],
-                  conditions  = form.querySelector('select[name="conditions"]')[0],
-                  value       = form.querySelector('input[name="value"]')[0];
+              var table_name  = form.querySelector('select[name="table_name"]'),
+                  origin_name = form.querySelector('select[name="origin_name"]'),
+                  conditions  = form.querySelector('select[name="conditions"]'),
+                  value       = form.querySelector('input[name="value"]');
 
-              console.log(table_name, origin_name, conditions, value);
+              // на основании того какой спровачник был
+              // выбран показываем те или иные значения
+              var _df = new DocumentFragment();
+              var criteriaKeys = JSON.parse(nCore.storage.criteriaKeys);
+              for (var j = 0; j < criteriaKeys.length; j++) {
+                var option = document.createElement('option');
+                option.value = criteriaKeys[j].value;
+                option.text  = criteriaKeys[j].name;
+                _df.appendChild(option);
+                if ( item.source === criteriaKeys[j].value ) {
+                  _elements_to_update.push({name: 'table_name', val: item.source })
+                };
+              };
+              table_name.appendChild(_df);
 
+              _df = new DocumentFragment();
+              var originTable = JSON.parse( nCore.storage.getItem( item.source ) );
+              for (var q = 0; q < originTable.origin.length; q++) {
+                var option = document.createElement('option');
+                option.value = originTable.origin[q].value;
+                option.text  = originTable.origin[q].name;
+                if (item.origin_name === originTable.origin[q].value) {
+                  _elements_to_update.push({name: 'origin_name', val: item.origin_name  })
+                };
+                _df.appendChild(option);
+              };
+              origin_name.appendChild(_df);
+              
+              _elements_to_update.push({name: 'conditions', val: item.conditions })
+              
               var criteriaCondition = card.getElementsByClassName('criteriaSelectorItemCondition')[0].value = item.criteriaCondition;
-
+              
               list.appendChild( card );
+
+              for (var m = 0; m < _elements_to_update.length; m++) {
+                var el   = _elements_to_update[m];
+                el.element = card.querySelector('select[name="'+el.name+'"]');
+
+                console.log('* el', el.element);
+              };
+              console.log('* card', card);
+
+              var _tmp = card.querySelector('input[name="value"]');
+              _elements_to_update.push({ element: _tmp, val: item.value })
+              
+              __elements_to_update.push(_elements_to_update)
               nCore.modules.table.event.publish('newCellSettingsChange' );
+
+              
             };
 
+            var _group = groupTemplate,
+                groupSelectCondition = _group.getElementsByTagName('select')[0].selectedIndex = _selectedIindex;
 
-            var group = groupTemplate.cloneNode(true),
-                groupSelectCondition = group.getElementsByTagName('select')[0].selectedIndex = _selectedIindex;
+            _group.classList.remove('criteriaSelectorGroupTemplate');
+            _group.classList.remove('mui--hide');
 
-            console.log('groupSelectCondition ', groupSelectCondition);
+            // _total_elements_to_update.push(_elements_to_update);
 
-            group.classList.remove('criteriaSelectorGroupTemplate');
-            group.classList.remove('mui--hide');
-
-
-            for (var x = 0; x < criterias.length; x++) {
-              var item = criterias[x];
-              console.log('item ->', item);
-            };
-
-            // if (  $('.firstTimeCriteria').hasClass('mui--hide') ) {
-            //   $('.criteriaSelector > div> .connectionGroup').last().toggleClass('mui--hide');
-            // };
-            // $('.firstTimeCriteria').addClass('mui--hide');
-            tab.appendChild(group);
+            // _group.querySelector('input[name="value"]').value = item.value;
             document.getElementsByClassName('firstTimeCriteria')[0].classList.add('mui--hide');
-          };
+            tab.appendChild(_group);
 
+
+          };
         } else {
           document.getElementsByClassName('firstTimeCriteria')[0].classList.remove('mui--hide');
         }
-
-
       };
 
-      // if ( cell.dataset.hasOwnProperty('value') ) {
-      //   searchList['value'].value = cell.dataset.value
-      // } else {
-      //   searchList['value'].value = '';
-      //   cell.dataset.value = '-'
-      // }
+      for (var k = 0; k < __elements_to_update.length; k++) {
+        var _a = __elements_to_update[k];
+        for (var o = 0; o < _a.length; o++) {
+          
+          console.log('root ->', _a[o]);
+          if ( !_a[o].element.dataset.hasOwnProperty('old') ) { _a[o].element.dataset.old = 1; };
+          $(_a[o].element).val(_a[o].val).trigger('change');
+          $(_a[o].element).trigger('change');
+        };
+      };
+      console.log('group_array', tab);
+      console.log('_elements_to_update', __elements_to_update);
 
-      // if ( cell.dataset.hasOwnProperty('conditions') ) {
-      //   searchList['conditions'].value = cell.dataset.conditions
-      // } else {
-      //   searchList['conditions'].selectedIndex = -1;
-      //   cell.dataset.conditions = searchList['conditions'].options[0].value;
-      // }
-
-      // if ( cell.dataset.hasOwnProperty('origin_name') ) {
-      //   searchList['origin_name'].value = cell.dataset.origin_name
-      // } else {
-      //   searchList['origin_name'].selectedIndex = -1;
-      //   cell.dataset.origin_name = searchList['origin_name'].options[0].value;
-      // }
-
+      // показываем боковое меню по нажатию кнопки
       if ( showCellSettings && !document.getElementById('cellSettings').classList.contains('active') ) {
         document.getElementById('cellSettings').classList.toggle('active');
       };
     });
+
     // изменение критериев поиска активной ячейки
-    nCore.modules.table.event.subscribe('cellSettingsChange', function(input){
-      // console.log('cellSettingsChange', input);
-
-      switch( input.target.name ){
-        case 'conditions':
-          activeCell.dataset.conditions = input.target.value;
-          break;
-        case 'value':
-          activeCell.dataset.value = input.target.value;
-          break;
-        case 'origin_name':
-          activeCell.dataset.origin_name = input.target.value;
-          break;
-        default:
-          break;
-      };
-
-      if ( activeCell.dataset.hasOwnProperty('condition') ) {
-        // console.log( 'condition:', activeCell.dataset.condition );
-      };
-
-      if ( activeCell.dataset.hasOwnProperty('value') ) {
-        // console.log( 'value:', activeCell.dataset.value );
-      };
-
-      if ( activeCell.dataset.hasOwnProperty('origin_name') ) {
-        // console.log( 'origin_name:', activeCell.dataset.origin_name );
-      };
-    });
-
     nCore.modules.table.event.subscribe('newCellSettingsChange', function(){
-      // console.log('newCellSettingsChange', list);
 
       var _query     = [],
       list = $(".criteriaSelector"),
@@ -408,13 +413,14 @@ nCore.events = (function(){
             criteriaItemsRoot = criteria.children('.criteriaSelectorGroup'),
             criteriaItems     = criteriaItemsRoot.children('.criteriaSelectorGroupList').children('.criteriaSelectorItem');
 
-        // console.log('criteria', criteria, criteriaItems );
+        // console.log('newCellSettingsChange -> criteria['+i+']', criteria, criteriaItems );
 
 
         var data = {
           query      : [],
           conditions : criteria.children('.connectionGroup').children('select').val()
         };
+
 
         var criteriaItemQuery = {};
 
@@ -423,9 +429,9 @@ nCore.events = (function(){
               head = item.children('.criteriaSelectorItemHeader'),
               form = item.children('.criteriaForm');
 
-          // console.log( 'input',  );
           data.query.push({
             criteia_condition : head.children('.criteriaSelectorItemOptions').children('.criteriaSelectorItemCondition')[0].value,
+            source            : form.children('select[name="table_name"]').val(),
             conditions        : form.children('select[name="conditions"]').val(),
             origin_name       : form.children('select[name="origin_name"]').val(),
             value             : form.children('.mui-textfield').children('input[name="value"]').val()
@@ -434,6 +440,7 @@ nCore.events = (function(){
 
         _query.push( data );
       };
+      // console.log('newCellSettingsChange -> data -> ', data)
 
       // console.log('before: ', activeCell)
       if (activeCell) {
