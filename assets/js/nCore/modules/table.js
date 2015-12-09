@@ -280,7 +280,7 @@ nCore.modules.table = (function(){
         maxCells = max;
       };
     }
-    // console.log('max:', maxCells);
+    console.log('max:', maxCells);
 
     // выбираем все элементы, которые отметил пользователь
     head_elements = table.getElementsByClassName( headClass );
@@ -345,6 +345,7 @@ nCore.modules.table = (function(){
       dataCell.innerHTML = uniq(queryArray).map(function(e){ return JSON.stringify(e.dataset)} ).join(',');
     };
 
+
     var rowRoot   = {};
     for (var b = 0; b < sideRowsCenter.length; b++) {
       
@@ -352,6 +353,8 @@ nCore.modules.table = (function(){
           rowCenter = sideRowsCenter[b].center,
           rowQuery  = [],
           index     = 1;
+
+      console.log('row ->', row, row.cells);
 
       for (var n = 0; n < row.cells.length; n++) {
         var cell = row.cells[n];
@@ -361,10 +364,13 @@ nCore.modules.table = (function(){
           index = 0;
         }
 
+        
         if (cell.classList.contains( sideClass )){
           rowQuery = [ JSON.stringify(rowRoot), JSON.stringify(cell.dataset) ]
         } else {
-          cell.dataset.query = '['+ rowQuery.join(',') + ',' + dataRow.getElementsByTagName('td')[cell.cellIndex + index].innerHTML + ']';
+          console.log('cell -> ', dataRow.getElementsByTagName('td')[cell.cellIndex])
+
+          cell.dataset.query = '['+ rowQuery.join(',') + ',' + dataRow.getElementsByTagName('td')[cell.cellIndex].dataset.query + ']';
           
           // обновим текст когда прилетят данные
           // cell.textContent = '+';
