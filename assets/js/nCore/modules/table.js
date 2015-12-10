@@ -280,7 +280,7 @@ nCore.modules.table = (function(){
         maxCells = max;
       };
     }
-    console.log('max:', maxCells);
+    // console.log('max:', maxCells);
 
     // выбираем все элементы, которые отметил пользователь
     head_elements = table.getElementsByClassName( headClass );
@@ -323,7 +323,7 @@ nCore.modules.table = (function(){
       var coordinates = sideRows[v].getBoundingClientRect();
       sideRowsCenter.push( {center: (coordinates.top+coordinates.bottom)/2, el: sideRows[v] } );
     };
-    console.log(sideRowsCenter);
+    // console.log(sideRowsCenter);
 
     // создаем строку с данными
     for (var i = 0; i < maxCells; i++) {
@@ -354,7 +354,7 @@ nCore.modules.table = (function(){
           rowQuery  = [],
           index     = 1;
 
-      console.log('row ->', row, row.cells);
+      // console.log('row ->', row, row.cells);
 
       for (var n = 0; n < row.cells.length; n++) {
         var cell = row.cells[n];
@@ -368,7 +368,7 @@ nCore.modules.table = (function(){
         if (cell.classList.contains( sideClass )){
           rowQuery = [ JSON.stringify(rowRoot), JSON.stringify(cell.dataset) ]
         } else {
-          console.log('cell -> ', dataRow.getElementsByTagName('td')[cell.cellIndex])
+          // console.log('cell -> ', dataRow.getElementsByTagName('td')[cell.cellIndex])
 
           cell.dataset.query = '['+ rowQuery.join(',') + ',' + dataRow.getElementsByTagName('td')[cell.cellIndex].dataset.query + ']';
           
@@ -392,7 +392,7 @@ nCore.modules.table = (function(){
       };
     };
     dataRow.style.display = 'none';
-    console.log( 'cellData:', cellData );
+    // console.log( 'cellData:', cellData );
     // console.log( 'str', JSON.stringify(cellData) );
     nCore.modules.table.event.publish('calculateQuery', cellData);
    },

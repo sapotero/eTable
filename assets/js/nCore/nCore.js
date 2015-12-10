@@ -108,7 +108,7 @@ nCore = (function(){
   function loadModules(){
     var dependencies = {
       shared     : [ "jquery", "mui.min", "transparency.min", "fr", "script", "select2.full" ],
-      core       : [ "user", "query", "core", "roles", "templates", "router", "preloader" ],
+      core       : [ "user", "query", "core", "roles", "templates", "router", "preloader", "popUp" ],
       background : [ "worker", "workerBack", "shared", "sharedBack", "update" ],
       modules    : [ "document", "table", "cellEditor", "cell", "events" ]
     };
@@ -157,6 +157,9 @@ nCore = (function(){
 
     loadModules();
 
+    // if ( !nCore.storage.getItem('indexViewType') ) {
+    //   nCore.storage.setItem('indexViewType', 'renderThumbIndexView')
+    // };
     //       dev only         // 
     // nCore.storage.clear(); //
   }

@@ -27,8 +27,8 @@ nCore.preloader = (function(){
     // когда будет пользак, тогда будем получать пермишены и информацию о нем
     // nCore.user.event.publish( 'getUserPermissions',    user );
     // nCore.user.event.publish( 'getAvailableDocuments', user );
-    let preloadItems = [ 'documents', 'templates' ];
-    
+    var preloadItems = [ 'documents', 'templates' ];
+
     nCore.preloader.event.publish( 'loadItem', preloadItems );
     nCore.preloader.event.publish( 'loadCriteria' );
 

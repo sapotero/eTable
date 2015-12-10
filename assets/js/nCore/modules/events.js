@@ -161,6 +161,11 @@ nCore.events = (function(){
     nCore.document.root.subscribe('renderIndexView', function(type){
       // console.log('renderIndexView', data);
 
+      // если не был выбран вариант отображения страницы
+      if ( !nCore.storage.hasOwnProperty('indexViewType') ) {
+        nCore.storage.setItem('indexViewType', 'thumb');
+      };
+
       var items = JSON.parse( nCore.storage.getItem('documents') );
       // console.log('storage: ', items);
       
@@ -191,9 +196,10 @@ nCore.events = (function(){
       };
 
       Transparency.render(document.getElementById( nCore.storage.getItem('indexViewType') ), items, helper);
+
       
-      var _mui_rows = document.getElementsByClassName('mui-row _indexView');
-      var _active_row = document.getElementsByClassName('_indexView '+nCore.storage.getItem('indexViewType') )[0];
+      var _mui_rows  = document.getElementsByClassName('mui-row _indexView'),
+          _active_row = document.getElementsByClassName('_indexView '+nCore.storage.getItem('indexViewType') )[0];
 
       for (var i = 0; i < _mui_rows.length; i++) {
         _mui_rows[i].classList.add('mui--hide')
@@ -219,7 +225,7 @@ nCore.events = (function(){
     
     // создание критериев поиска 
     nCore.modules.table.event.subscribe('generateQuery', function(data){
-      console.log('generateQuery', data);
+      // console.log('generateQuery', data);
       var table     = data.table,
           headClass = data.headClass,
           sideClass = data.sideClass;
@@ -229,12 +235,12 @@ nCore.events = (function(){
 
     // расчёт критериев поиска и отправление их на сервер
     nCore.modules.table.event.subscribe('calculateQuery', function(cellData){
-      console.log('calculateQuery', cellData);
+      // console.log('calculateQuery', cellData);
       nCore.document.setCellQuery(cellData);
 
       nCore.query.post( 'queries.json', {data: cellData})
         .success(function(data){
-          console.log('calculateQuery -> post', data);
+          // console.log('calculateQuery -> post', data);
 
           nCore.modules.table.event.publish('insertCellData', data )
         }).error(function(data){
@@ -243,7 +249,7 @@ nCore.events = (function(){
     });
     // вставка данных в таблицу
     nCore.modules.table.event.subscribe('insertCellData', function(data){
-      console.log('insertCellData', data);
+      // console.log('insertCellData', data);
       var table = document.querySelector('.fr-element.fr-view > table');
 
       for (var i = 0; i < data.length; i++) {
@@ -496,15 +502,15 @@ nCore.events = (function(){
           });
         };
       };
-      nCore.document.root.publish('changeRenderType', 'thumb');
     });
 
     nCore.preloader.event.subscribe('loadCriteria', function(data){
       // console.log('loadCriteria', data);
       
       // если уже есть загруженные справочники
+      // то пока ничего не делаем
+      // TODO: запилить синхронизацию
       if ( nCore.storage.hasOwnProperty('criteriaKeys') ) {
-        // TODO: запилить синхронизацию
         return true;
       } else {
         nCore.query.get( 'sources.json')
