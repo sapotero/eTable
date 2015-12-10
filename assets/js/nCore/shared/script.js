@@ -210,7 +210,7 @@ jQuery(function($) {
   // изменение отображение элементов на странице
   $('.indexViewChange').live('click', function(){
     var type = this.dataset.viewType;
-
+    nCore.document.root.publish('attachListMenu');
     nCore.document.root.publish('changeRenderType', type)
   })
 

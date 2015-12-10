@@ -15,9 +15,10 @@ nCore.events = (function(){
 
   var init = function init (){
     
-    /**
-     * события документа
-     */
+    ///////////////////////
+    // Cобытия документа //
+    ///////////////////////
+
     
     // новый документ
     nCore.document.root.subscribe('newDocument', function(data){
@@ -191,11 +192,18 @@ nCore.events = (function(){
         location.hash = "#"+documentType+"/new"
       },1000);
     });
+
+    nCore.document.root.subscribe('attachListMenu', function(type){
+      console.log('attachListMenu', type);
+      nCore.menu.attach('.mui-panel.indexListView', '.menu');// new Menu().add();
+    });
+
   
 
-    /*
-     * События рендера
-     */
+    /////////////////////
+    // События рендера //
+    /////////////////////
+    
     // изменяем тип отображения
     nCore.document.root.subscribe('changeRenderType', function(type){
       nCore.storage.setItem('indexViewType', type);
@@ -262,9 +270,9 @@ nCore.events = (function(){
     });
 
 
-    /**
-     * события для таблицы
-     */
+    /////////////////////////
+    // Cобытия для таблицы //
+    /////////////////////////
     
     // создание критериев поиска 
     nCore.modules.table.event.subscribe('generateQuery', function(data){
@@ -503,10 +511,9 @@ nCore.events = (function(){
     });
 
 
-    /*
-     * События юзера
-     */
-    
+    ///////////////////
+    // События юзера //
+    ///////////////////
     // получаем права доступа юзера
     // nCore.user.event.subscribe('getUserPermissions', function(data){
       
@@ -518,9 +525,10 @@ nCore.events = (function(){
     //   console.log('getAvailableDocuments');
     // });
 
-    /*
-     * События загрузчика
-     */
+    ////////////////////////
+    // События загрузчика //
+    ////////////////////////
+    
     
     // загружаем шаблоны
     nCore.preloader.event.subscribe('loadItem', function(items){
@@ -579,6 +587,40 @@ nCore.events = (function(){
         });
       };
     });
+
+    nCore.preloader.event.subscribe('loadCriteria', function(data){
+      // console.log('loadCriteria', data);
+      
+      // если уже есть загруженные справочники
+      // то пока ничего не делаем
+      // TODO: запилить синхронизацию
+      if ( nCore.storage.hasOwnProperty('criteriaKeys') ) {
+        return true;
+      } else {
+        nCore.query.get( 'sources.json')
+        .success(function(data){
+          console.log('loadCriteria -> get', data);
+          
+          for (var i = 0; i < data.length; i++) {
+            var source = data[i];
+            nCore.storage.setItem(source.value, JSON.stringify(source) );
+          };
+
+          var keys = [];
+          data.filter(function(v) {
+            keys.push({
+              value: v.value,
+              name: v.name
+            });
+          });
+          
+          nCore.storage.setItem('criteriaKeys', JSON.stringify(keys) );
+        }).error(function(data){
+          console.error('[!] loadCriteria -> get', data )
+        });
+      };
+    });
+
   };
 
   return {

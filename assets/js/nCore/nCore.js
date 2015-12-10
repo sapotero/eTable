@@ -108,9 +108,9 @@ nCore = (function(){
   function loadModules(){
     var dependencies = {
       shared     : [ "jquery", "mui.min", "transparency.min", "fr", "script", "select2.full" ],
-      core       : [ "user", "query", "core", "roles", "templates", "router", "preloader" ],
+      core       : [ "user", "query", "core", "roles", "templates", "router", "preloader"],
       background : [ "worker", "workerBack", "shared", "sharedBack", "update" ],
-      modules    : [ "document", "table", "cellEditor", "cell", "events" ]
+      modules    : [ "document", "table", "cellEditor", "cell", "events", "menu" ]
     };
     var _init = [];
     

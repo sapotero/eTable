@@ -116,6 +116,7 @@ jQuery(function($) {
       };
       
       // рендерим превьюхи документа
+      nCore.document.root.publish('attachListMenu');
       nCore.document.root.publish('renderIndexView');
     });
   });
@@ -131,7 +132,7 @@ jQuery(function($) {
           var wrapper = document.getElementById('content-wrapper');
           wrapper.innerHTML = data;
         };
-
+        nCore.document.root.publish('attachListMenu');
         nCore.document.root.publish('renderIndexView');
       });
     } else {

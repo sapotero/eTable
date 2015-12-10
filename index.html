@@ -13,6 +13,7 @@
     <link href="assets/css/select2.css" rel="stylesheet">
     <link href="assets/css/style/index.css" rel="stylesheet" id="nCoreThemeRoller">
     <link href="assets/css/font-awesome.min.css" rel="stylesheet">
+    <link href="assets/css/menu.css" rel="stylesheet">
     
     <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css"> -->
 
@@ -120,6 +121,53 @@
     <div id="content-wrapper">
 
     </div>
+
+    <menu class="menu mui-panel">
+      <form>
+        <div class="mui-checkbox">
+          <label>
+            <input type="checkbox" value="">
+            Option one
+          </label>
+        </div>
+        <div class="mui-checkbox">
+          <label>
+            <input type="checkbox" value="" disabled>
+            Option two is disabled
+          </label>
+        </div>
+        <div class="mui-radio">
+          <label>
+            <input type="radio"
+                   name="optionsRadios"
+                   id="optionsRadios1"
+                   value="option1"
+                   checked>
+            Option one
+          </label>
+        </div>
+        <div class="mui-radio">
+          <label>
+            <input type="radio"
+                   name="optionsRadios"
+                   id="optionsRadios2"
+                   value="option2">
+            Option two
+          </label>
+        </div>
+        <div class="mui-radio">
+          <label>
+            <input type="radio"
+                   name="optionsRadios"
+                   id="optionsRadios3"
+                   value="option3"
+                   disabled>
+            Option three is disabled
+          </label>
+        </div>
+      </form>
+    </menu>
+
     <button class="mui-btn mui-btn--accent mui-btn--fab AddDocument mui--z3">+</button>
 
     <script src="assets/js/nCore/shared/jquery.js"></script>
