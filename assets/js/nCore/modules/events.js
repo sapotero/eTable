@@ -226,6 +226,7 @@ nCore.events = (function(){
 
       nCore.modules.table.tableQuery(table, headClass, sideClass);
     });
+
     // расчёт критериев поиска и отправление их на сервер
     nCore.modules.table.event.subscribe('calculateQuery', function(cellData){
       console.log('calculateQuery', cellData);
@@ -234,6 +235,7 @@ nCore.events = (function(){
       nCore.query.post( 'queries.json', {data: cellData})
         .success(function(data){
           console.log('calculateQuery -> post', data);
+
           nCore.modules.table.event.publish('insertCellData', data )
         }).error(function(data){
           console.error('[!] calculateQuery -> post', data)
@@ -241,8 +243,9 @@ nCore.events = (function(){
     });
     // вставка данных в таблицу
     nCore.modules.table.event.subscribe('insertCellData', function(data){
-      // console.log('insertCellData', data);
+      console.log('insertCellData', data);
       var table = document.querySelector('.fr-element.fr-view > table');
+
       for (var i = 0; i < data.length; i++) {
         table.rows[ data[i].rowIndex ].cells[ data[i].cellIndex ].textContent = data[i].value;
       };
@@ -430,7 +433,7 @@ nCore.events = (function(){
               form = item.children('.criteriaForm');
 
           data.query.push({
-            criteia_condition : head.children('.criteriaSelectorItemOptions').children('.criteriaSelectorItemCondition')[0].value,
+            criteria_condition : head.children('.criteriaSelectorItemOptions').children('.criteriaSelectorItemCondition')[0].value,
             source            : form.children('select[name="table_name"]').val(),
             conditions        : form.children('select[name="conditions"]').val(),
             origin_name       : form.children('select[name="origin_name"]').val(),
@@ -493,34 +496,40 @@ nCore.events = (function(){
           });
         };
       };
+      nCore.document.root.publish('changeRenderType', 'thumb');
     });
 
     nCore.preloader.event.subscribe('loadCriteria', function(data){
-      console.log('loadCriteria', data);
+      // console.log('loadCriteria', data);
       
-      nCore.query.get( 'sources.json')
-      .success(function(data){
-        console.log('loadCriteria -> get', data);
-        
-        for (var i = 0; i < data.length; i++) {
-          var source = data[i];
-          nCore.storage.setItem(source.value, JSON.stringify(source) );
-        };
+      // если уже есть загруженные справочники
+      if ( nCore.storage.hasOwnProperty('criteriaKeys') ) {
+        // TODO: запилить синхронизацию
+        return true;
+      } else {
+        nCore.query.get( 'sources.json')
+        .success(function(data){
+          console.log('loadCriteria -> get', data);
+          
+          for (var i = 0; i < data.length; i++) {
+            var source = data[i];
+            nCore.storage.setItem(source.value, JSON.stringify(source) );
+          };
 
-        var keys = [];
-        data.filter(function(v) {
-          keys.push({
-            value: v.value,
-            name: v.name
+          var keys = [];
+          data.filter(function(v) {
+            keys.push({
+              value: v.value,
+              name: v.name
+            });
           });
+          
+          nCore.storage.setItem('criteriaKeys', JSON.stringify(keys) );
+        }).error(function(data){
+          console.error('[!] loadCriteria -> get', data )
         });
-        
-        nCore.storage.setItem('criteriaKeys', JSON.stringify(keys) );
-      }).error(function(data){
-        console.error('[!] loadCriteria -> get', data )
-      });
+      };
     });
-
   };
 
   return {

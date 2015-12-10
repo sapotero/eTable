@@ -20,9 +20,6 @@ nCore.query = (function(){
   var init = function(config){
     var config = { nCoreQuery: 'nCoreQuery' }
     root   = document.getElementById( config.nCoreQuery );
-    // button = document.getElementById( config.nCoreQueryAddButtom );
-    // button.addEventListener('click', function (e) {
-    // });
    },
 
   // произвольный пост запрос
@@ -64,4 +61,3 @@ nCore.query = (function(){
     request : request
   }
 })();
-// var data = nCore.query.getQuery('http://localhost:3000/query/index.json');

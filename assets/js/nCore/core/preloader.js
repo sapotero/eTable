@@ -13,9 +13,9 @@ var nCore = nCore || {};
 nCore.preloader = (function(){
   // предзагрузка всех справочников и шаблонов перед стартом приложульки
   // получаем права доступа юзера
-  var preloaderEvent = {},
-      preloadProgress       = document.getElementById('loaderProgress'),
-      preloadItems = [ 'documents', 'templates' ];
+  var preloaderEvent  = {},
+      preloadProgress = document.getElementById('loaderProgress');
+      
 
   /**
    * @function init
@@ -27,6 +27,7 @@ nCore.preloader = (function(){
     // когда будет пользак, тогда будем получать пермишены и информацию о нем
     // nCore.user.event.publish( 'getUserPermissions',    user );
     // nCore.user.event.publish( 'getAvailableDocuments', user );
+    let preloadItems = [ 'documents', 'templates' ];
     
     nCore.preloader.event.publish( 'loadItem', preloadItems );
     nCore.preloader.event.publish( 'loadCriteria' );

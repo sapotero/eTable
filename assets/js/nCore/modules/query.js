@@ -4,6 +4,10 @@
 
 var nCore = nCore || {};
 nCore.query = (function(){
+  
+  // для тестов на локалкеб в конфиге nginx
+  // проксировать запросы с localhost/rails/
+  // на локально поднятое рельсовое приложение
   var host = 'http://localhost/rails/';
 
   var request, root, body, button,
