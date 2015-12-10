@@ -103,6 +103,10 @@ nCore.router = (function(){
  */
 
 jQuery(function($) {
+
+  /////////////////////////////
+  // показываем по умолчанию //
+  /////////////////////////////
   nCore.router.add('', function () {
     document.title = 'INDEX';
     nCore.templates.render('table/index', function(data){ 
@@ -116,15 +120,10 @@ jQuery(function($) {
     });
   });
 
-  nCore.router.add('test', function () {
-    document.title = 'TEST:  ';
-  });
-
-  nCore.router.add('users/:name', function (r) {
-    document.title = 'User ' + r.params.name;
-  });
-
-  nCore.router.add('tables', function (r) {
+  ///////////////////
+  // роуты отчетов //
+  ///////////////////
+  nCore.router.add('table', function (r) {
     // есть ли у юзера право просматривать таблицы
     if ( nCore.roles.check('viewTable') ) {
       nCore.templates.render('table/index', function(data){ 
@@ -140,8 +139,8 @@ jQuery(function($) {
     }
   });
   
-  nCore.router.add('tables/new', function (r) {
-    document.title = 'tables new';
+  nCore.router.add('table/new', function (r) {
+    document.title = 'table new';
 
     nCore.templates.render('table/new', function(data){ 
       if ( data ) {
@@ -152,8 +151,138 @@ jQuery(function($) {
     });
   });
 
-  nCore.router.add('tables/:name', function (r) {
+  nCore.router.add('table/:name', function (r) {
     document.title = 'tables/:name '+ r.params.name;
+
+    nCore.templates.render('table/table', function(data){ 
+      if ( data ) {
+        var wrapper = document.getElementById('content-wrapper');
+        wrapper.innerHTML = data;
+        nCore.document.root.publish('initEditor');
+      };
+    });
+  });
+
+  //////////////
+  // роуты БП //
+  //////////////
+  nCore.router.add('buiseness', function (r) {
+    // есть ли у юзера право просматривать таблицы
+    if ( nCore.roles.check('viewTable') ) {
+      nCore.templates.render('table/index', function(data){ 
+        if ( data ) {
+          var wrapper = document.getElementById('content-wrapper');
+          wrapper.innerHTML = data;
+        };
+
+        nCore.document.root.publish('renderIndexView');
+      });
+    } else {
+      nCore.templates.notPermit();
+    }
+  });
+  
+  nCore.router.add('buiseness/new', function (r) {
+    document.title = 'buiseness new';
+
+    nCore.templates.render('table/new', function(data){ 
+      if ( data ) {
+        var wrapper = document.getElementById('content-wrapper');
+        wrapper.innerHTML = data;
+        nCore.document.root.publish('initEditor');
+      };
+    });
+  });
+
+  nCore.router.add('buiseness/:name', function (r) {
+    document.title = 'buiseness/:name '+ r.params.name;
+
+    nCore.templates.render('table/table', function(data){ 
+      if ( data ) {
+        var wrapper = document.getElementById('content-wrapper');
+        wrapper.innerHTML = data;
+        nCore.document.root.publish('initEditor');
+      };
+    });
+  });
+
+  /////////////////////////
+  // роуты печатных форм //
+  /////////////////////////
+  nCore.router.add('print', function (r) {
+    // есть ли у юзера право просматривать таблицы
+    if ( nCore.roles.check('viewTable') ) {
+      nCore.templates.render('table/index', function(data){ 
+        if ( data ) {
+          var wrapper = document.getElementById('content-wrapper');
+          wrapper.innerHTML = data;
+        };
+
+        nCore.document.root.publish('renderIndexView');
+      });
+    } else {
+      nCore.templates.notPermit();
+    }
+  });
+  
+  nCore.router.add('print/new', function (r) {
+    document.title = 'print new';
+
+    nCore.templates.render('table/new', function(data){ 
+      if ( data ) {
+        var wrapper = document.getElementById('content-wrapper');
+        wrapper.innerHTML = data;
+        nCore.document.root.publish('initEditor');
+      };
+    });
+  });
+
+  nCore.router.add('print/:name', function (r) {
+    document.title = 'print/:name '+ r.params.name;
+
+    nCore.templates.render('table/table', function(data){ 
+      if ( data ) {
+        var wrapper = document.getElementById('content-wrapper');
+        wrapper.innerHTML = data;
+        nCore.document.root.publish('initEditor');
+      };
+    });
+  });
+
+
+  /////////////////////////
+  // роуты экранных форм //
+  /////////////////////////
+  nCore.router.add('web', function (r) {
+    // есть ли у юзера право просматривать таблицы
+    if ( nCore.roles.check('viewTable') ) {
+      nCore.templates.render('table/index', function(data){ 
+        if ( data ) {
+          var wrapper = document.getElementById('content-wrapper');
+          wrapper.innerHTML = data;
+        };
+
+        nCore.document.root.publish('renderIndexView');
+      });
+    } else {
+      nCore.templates.notPermit();
+    }
+  });
+  
+  nCore.router.add('web/new', function (r) {
+    document.title = 'web new';
+
+    nCore.templates.render('table/new', function(data){ 
+      if ( data ) {
+        var wrapper = document.getElementById('content-wrapper');
+        wrapper.innerHTML = data;
+        nCore.document.root.publish('initEditor');
+      };
+    });
+  });
+
+  nCore.router.add('web/:name', function (r) {
+    document.title = 'web/:name '+ r.params.name;
 
     nCore.templates.render('table/table', function(data){ 
       if ( data ) {

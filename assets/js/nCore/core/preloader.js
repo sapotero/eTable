@@ -63,6 +63,5 @@ nCore.preloader = (function(){
     progress     : progress,
     setProgress  : setProgress,
     dropProgress : dropProgress
-
   }
 })();

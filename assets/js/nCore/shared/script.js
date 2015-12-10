@@ -58,9 +58,7 @@ jQuery(function($) {
   // ==========================================================================
   var $titleEls = $('strong', $sidedrawerEl);
   
-  $titleEls
-    .next()
-    .hide();
+  $titleEls.next().hide();
   
   $titleEls.on('click', function() {
     $(this).next().slideToggle(200);
@@ -81,28 +79,7 @@ jQuery(function($) {
 
   // добвление нового документа
   $('.AddDocument').live('click', function(){
-    var overlayEl = mui.overlay('on');
-
-    // set overlay options
-    var options = {
-      'keyboard': true,  // teardown when <esc> key is pressed (default: true)
-      'static'  : false, // maintain overlay when clicked (default: false)
-      'onclose' : function() {
-      }
-    };
-    // initialize with child element
-    var m = document.createElement('div');
-    m.style.width = '400px';
-    m.style.height = '100px';
-    m.style.margin = '10% auto';
-    m.style.padding = '10% auto';
-    m.style.backgroundColor = '#fff';
-    m.classList.toggle('mui-panel');
-    m.classList.toggle('mui--z5');
-    m.innerHTML = '<h4>Создание нового документа</h4><div class="loader"></div>';
-
-    mui.overlay('on', options, m);
-    setTimeout( function(){ mui.overlay('off'); $bodyEl.addClass('hide-sidedrawer'); location.hash = "#tables/new" },1000);
+    nCore.document.root.publish('createNewDocument');
   })
 
   // добавление группы критериев
@@ -171,8 +148,6 @@ jQuery(function($) {
       select.appendChild(_df);
       return false;
     };
-
-    
   })
 
   // удаление критерия
@@ -185,8 +160,6 @@ jQuery(function($) {
 
     var el = ( $(this).hasClass('criteriaSelectorItem') ? $(this) : $(this).parents('.criteriaSelectorItem') );
     var child    = el.children('.criteriaForm');
-
-    // console.log('.criteriaMenuItem.settings');
 
     $.each( child.children('select'), function(i, el){
       if ( !$(el).hasClass('s2')) {
@@ -201,7 +174,6 @@ jQuery(function($) {
           };
           el.appendChild(_df);
         };
-        // console.log('.criteriaMenuItem.settings > populate');
 
         $(el).addClass('s2');
 
@@ -243,7 +215,11 @@ jQuery(function($) {
   })
 
   $('.layoutSideMenuItem').live('click', function(){
-    $bodyEl.toggleClass('hide-sidedrawer');
+    if ( this.dataset.hasOwnProperty('type') ) {
+      $bodyEl.toggleClass('hide-sidedrawer');
+      nCore.document.root.publish('setDocumentType', this.dataset.type);
+      nCore.document.root.publish('go', this.dataset.type);
+    };
   });
 
 

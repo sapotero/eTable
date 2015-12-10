@@ -147,6 +147,50 @@ nCore.events = (function(){
         // toolbarBottom: true
       });
     });
+    
+    // изменение типа документа
+    nCore.document.root.subscribe('setDocumentType', function(type){
+      nCore.document.setType( type );
+    });
+
+    nCore.document.root.subscribe('go', function(url){
+      location.hash = "#"+url;
+    });
+
+
+    // создание нового документа
+    nCore.document.root.subscribe('createNewDocument', function(type){
+      var documentType = nCore.document.type() || type;
+      console.log('setDocumentType', documentType);
+      nCore.document.setType( documentType );
+
+      var overlayEl = mui.overlay('on');
+
+      // set overlay options
+      var options = {
+        'keyboard': true,  // teardown when <esc> key is pressed (default: true)
+        'static'  : false, // maintain overlay when clicked (default: false)
+        'onclose' : function() {
+        }
+      };
+      // initialize with child element
+      var m = document.createElement('div');
+      m.style.width = '400px';
+      m.style.height = '100px';
+      m.style.margin = '10% auto';
+      m.style.padding = '10% auto';
+      m.style.backgroundColor = '#fff';
+      m.classList.toggle('mui-panel');
+      m.classList.toggle('mui--z5');
+      m.innerHTML = '<h4>Создание нового документа</h4><div class="loader"></div>';
+
+      mui.overlay('on', options, m);
+      setTimeout( function(){ 
+        mui.overlay('off');
+        document.body.classList.add('hide-sidedrawer');
+        location.hash = "#"+documentType+"/new"
+      },1000);
+    });
   
 
     /*
@@ -182,7 +226,7 @@ nCore.events = (function(){
         },
         documentId: {
           href: function(params) {
-            return "#/tables/" + this.id || Math.random();
+            return "#/table/" + this.id || Math.random();
           },
           text: function(){
             return ''
@@ -206,7 +250,6 @@ nCore.events = (function(){
       };
 
       _active_row.classList.remove('mui--hide');
-      
     });
 
     nCore.document.root.subscribe('renderNotPermit', function(data){

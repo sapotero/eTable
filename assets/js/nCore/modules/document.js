@@ -10,6 +10,7 @@ nCore.document = (function(){
       nCoreDocumentEvent = {},
       nCoreIsNew = true,
       nCoreTitle,
+      nCoreType = 'table',
       nCoreName = '',
       nCoreDescription = '',
       nCoreDocumentCellQuery;
@@ -41,6 +42,9 @@ nCore.document = (function(){
   type = function type(){
     return nCoreType;
   },
+  setType = function setType(type){
+    nCoreType = type;
+  },
   setDescription = function setDescription(description){
     nCoreDescription = description;
   },
@@ -62,6 +66,34 @@ nCore.document = (function(){
   setAttributes = function setAttributes(data){
     nCoreIsNew = false;
     nCore.document.root.publish('setDocumentAttributes', data);
+  },
+  createNew = function createNew(){
+    var overlayEl = mui.overlay('on');
+
+    // set overlay options
+    var options = {
+      'keyboard': true,  // teardown when <esc> key is pressed (default: true)
+      'static'  : false, // maintain overlay when clicked (default: false)
+      'onclose' : function() {
+      }
+    };
+    // initialize with child element
+    var m = document.createElement('div');
+    m.style.width = '400px';
+    m.style.height = '100px';
+    m.style.margin = '10% auto';
+    m.style.padding = '10% auto';
+    m.style.backgroundColor = '#fff';
+    m.classList.toggle('mui-panel');
+    m.classList.toggle('mui--z5');
+    m.innerHTML = '<h4>Создание нового документа</h4><div class="loader"></div>';
+
+    mui.overlay('on', options, m);
+    setTimeout( function(){ 
+      mui.overlay('off');
+      $bodyEl.addClass('hide-sidedrawer');
+      location.hash = "#tables/new"
+    },1000);
   };
   
   return {
@@ -75,6 +107,7 @@ nCore.document = (function(){
     newDocument    : newDocument,
     cellQuery      : cellQuery,
     setName        : setName,
+    setType        : setType,
     setDescription : setDescription,
     setAttributes  : setAttributes,
     setCellQuery   : setCellQuery
