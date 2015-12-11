@@ -83,7 +83,7 @@ nCore = (function(){
           script.src = 'data:text/javascript,' + encodeURIComponent( nCore.storage[ scriptName ] );
         }
         else {
-          var url = 'assets/js/nCore/'+type+'/'+scriptName+'.js';
+          var url = 'js/nCore/'+type+'/'+scriptName+'.js';
           script.src = url;
           // script.async = true;
           script.onload = script.onerror = script.onreadystatechange = onScriptLoaded;
@@ -91,7 +91,7 @@ nCore = (function(){
         }
       }
       else {
-        script.src = 'assets/js/nCore/'+type+'/'+scriptName+'.js';
+        script.src = 'js/nCore/'+type+'/'+scriptName+'.js';
         // script.async = true;
         script.onload = script.onerror = script.onreadystatechange = onScriptLoaded;
       }

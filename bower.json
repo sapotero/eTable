@@ -1,0 +1,22 @@
+{
+  "name": "nCore",
+  "description": "",
+  "main": "index.js",
+  "authors": [
+    "Sapotero"
+  ],
+  "license": "BSD-2-Clause",
+  "homepage": "https://github.com/sapotero/eTable",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "normalize.css": "*",
+    "jquery": "2.*"
+  }
+}
