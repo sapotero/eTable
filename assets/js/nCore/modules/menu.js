@@ -18,6 +18,13 @@ nCore.menu = (function(){
       },
       onContextMenu = function(e){
         e.preventDefault();
+        // function findAncestor (el, cls) {
+        //     while ( (el = el.parentElement) && !el.classList.contains(cls) );
+        //     return el;
+        // }
+        var parent = findAncestor(e.target, 'indexListView');
+        console.log('element', e, parent);
+
         showMenu(e.pageX, e.pageY);
         document.addEventListener('click', onClick, false);
       },
@@ -25,8 +32,12 @@ nCore.menu = (function(){
         hideMenu();
         document.removeEventListener('click', onClick);
       };
+
+
       if (target.length) {
+        
         for (var i = 0; i < target.length; i++) {
+          // console.log( target[i].contextmenu );
           target[i].addEventListener('contextmenu', onContextMenu, false);
         };
       };
@@ -39,7 +50,7 @@ nCore.menu = (function(){
     console.log('init', config);
   },
   attach = function(target, menu){
-    return new Menu().add(target, menu);
+    // return new Menu().add(target, menu);
   };
 
   return {

@@ -286,12 +286,12 @@ nCore.events = (function(){
 
     // расчёт критериев поиска и отправление их на сервер
     nCore.modules.table.event.subscribe('calculateQuery', function(cellData){
-      // console.log('calculateQuery', cellData);
+      console.log('calculateQuery', cellData);
       nCore.document.setCellQuery(cellData);
 
       nCore.query.post( 'queries.json', {data: cellData})
         .success(function(data){
-          // console.log('calculateQuery -> post', data);
+          console.log('calculateQuery -> post', data);
 
           nCore.modules.table.event.publish('insertCellData', data )
         }).error(function(data){
@@ -357,7 +357,7 @@ nCore.events = (function(){
                   list  = groupTemplate.getElementsByClassName('criteriaSelectorGroupList')[0],
                   cardTemplate  = document.getElementsByClassName('criteriaSelectorItemTemplate')[0];
 
-              console.log('!! criteria', item);
+              // console.log('!! criteria', item);
               
               
               var card = cardTemplate.cloneNode(true);
@@ -409,9 +409,9 @@ nCore.events = (function(){
                 var el   = _elements_to_update[m];
                 el.element = card.querySelector('select[name="'+el.name+'"]');
 
-                console.log('* el', el.element);
+                // console.log('* el', el.element);
               };
-              console.log('* card', card);
+              // console.log('* card', card);
 
               var _tmp = card.querySelector('input[name="value"]');
               _elements_to_update.push({ element: _tmp, val: item.value })

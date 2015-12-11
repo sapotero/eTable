@@ -329,24 +329,37 @@ nCore.modules.table = (function(){
     for (var i = 0; i < maxCells; i++) {
       var queryArray = [],
       dataCell = document.createElement('td');
+      dataCell.style.whiteSpace = 'nowrap';
+      dataCell.style.textOverflow = 'ellipsis';
+      dataCell.style.overflow = 'hidden';
+      // dataCell.style.width = '50px';
+      dataCell.style.maxWidth = 0;
+      // dataCell.style.display = 'block';
+
       dataRow.appendChild(dataCell);
 
       var coordinates = dataCell.getBoundingClientRect();
+      // console.log('datacell', dataCell, coordinates)
 
       // проходимся по центрам строкам и центрам ячеек чтобы получить элемент
       for (var b = 0; b < headRowsCenter.length; b++) {
-        var el = document.elementFromPoint( (coordinates.left+coordinates.right)/2, headRowsCenter[b]);
+        var el = document.elementFromPoint( (coordinates.left+coordinates.right)/2, headRowsCenter[b] );
+        // console.log('**el -> ', el, (coordinates.left+coordinates.right)/2 );
+
         if ( el ) {
-          dataCell.innerHTML += JSON.stringify(el.dataset);
+          // console.log('**dataCell', el, el.dataset.query)
+          dataCell.textContent += el.dataset.query;
           queryArray.push( el );
-          dataCell.dataset.query = JSON.stringify(el.dataset);
+          // dataCell.dataset._query = el.dataset;
         };
       };
-      dataCell.innerHTML = uniq(queryArray).map(function(e){ return JSON.stringify(e.dataset)} ).join(',');
+      dataCell.textContent = uniq(queryArray).map(function(e){ return e.dataset.query } ).join(',');
+      dataCell.dataset._query = dataCell.textContent;
     };
 
 
     var rowRoot   = {};
+
     for (var b = 0; b < sideRowsCenter.length; b++) {
       
       var row       = sideRowsCenter[b].el,
@@ -354,28 +367,29 @@ nCore.modules.table = (function(){
           rowQuery  = [],
           index     = 1;
 
-      // console.log('row ->', row, row.cells);
+      // console.log('row ->', row);
 
       for (var n = 0; n < row.cells.length; n++) {
         var cell = row.cells[n];
+        // console.log('  cell ->', cell);
 
         if ( cell.classList.contains( sideClass ) && cell.rowSpan > 1 ) {
           rowRoot = cell.dataset;
+          index = cell.rowSpan;
           index = 0;
         }
 
         
         if (cell.classList.contains( sideClass )){
-          rowQuery = [ JSON.stringify(rowRoot), JSON.stringify(cell.dataset) ]
+          rowQuery = [ rowRoot.query, cell.dataset.query ]
         } else {
-          // console.log('cell -> ', dataRow.getElementsByTagName('td')[cell.cellIndex])
-
-          cell.dataset.query = '['+ rowQuery.join(',') + ',' + dataRow.getElementsByTagName('td')[cell.cellIndex].dataset.query + ']';
+          // console.log(cell, dataRow.getElementsByTagName('td')[cell.cellIndex+index]);
+          cell.dataset.query = '['+ rowQuery.join(',') + ',' + dataRow.getElementsByTagName('td')[cell.cellIndex+index].dataset._query + ']';
           
           // обновим текст когда прилетят данные
           // cell.textContent = '+';
 
-          cell.dataset.cellType  = 'data-cell';
+          // cell.dataset.cellType  = 'data-cell';
           cell.dataset.cellIndex = cell.cellIndex;
           cell.dataset.rowIndex  = row.rowIndex;
 
@@ -383,10 +397,11 @@ nCore.modules.table = (function(){
           // if ( !cellData.hasOwnProperty( row.rowIndex ) ){
           //   cellData[row.rowIndex] = [];
           // }
+
           cellData.push({
             rowIndex  : row.rowIndex,
             cellIndex : cell.cellIndex,
-            query     : JSON.parse(cell.dataset.query)
+            query     : cell.dataset.query
           });
         }
       };
