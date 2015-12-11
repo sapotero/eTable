@@ -152,14 +152,16 @@ jQuery(function($) {
     });
   });
 
-  nCore.router.add('table/:name', function (r) {
-    document.title = 'tables/:name '+ r.params.name;
+  nCore.router.add('table/:id', function (r) {
+    document.title = 'tables/:id '+ r.params.id;
 
-    nCore.templates.render('table/table', function(data){ 
+    nCore.templates.render('table/new', function(data){ 
       if ( data ) {
         var wrapper = document.getElementById('content-wrapper');
         wrapper.innerHTML = data;
+        
         nCore.document.root.publish('initEditor');
+        nCore.document.root.publish('loadDocument', r.params.id );
       };
     });
   });

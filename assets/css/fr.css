@@ -1036,11 +1036,11 @@ iframe.fr-iframe {
 }
 .fr-view table td.fr-highlighted,
 .fr-view table th.fr-highlighted {
-  border: 1px double red;
+  border: 1px solid rgba(0,125,0,0.29);
 }
 .fr-view table td.fr-thick,
 .fr-view table th.fr-thick {
-  border-width: 2px;
+  border: 1px solid rgba(0,0,125,0.29);
 }
 .fr-view table th {
   background: #e6e6e6;

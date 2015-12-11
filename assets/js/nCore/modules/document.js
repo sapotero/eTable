@@ -67,7 +67,19 @@ nCore.document = (function(){
     nCoreIsNew = false;
     nCore.document.root.publish('setDocumentAttributes', data);
   },
-  createNew = function createNew(){
+  load = function load(config){
+    // nCoreDocumentId        = config.id;
+    // nCoreType              = config.type;
+    // nCoreDescription       = config.description;
+    // author
+    // body
+    // datetime
+    // name
+    console.log( 'load', atob(config.body) );
+    document.querySelector( '.fr-wrapper' ).classList.remove('show-placeholder');
+    document.querySelector( '.fr-element.fr-view' ).innerHTML = atob(config.body);
+  },
+  createNew = function createNew(url){
     var overlayEl = mui.overlay('on');
 
     // set overlay options
@@ -92,7 +104,7 @@ nCore.document = (function(){
     setTimeout( function(){ 
       mui.overlay('off');
       $bodyEl.addClass('hide-sidedrawer');
-      location.hash = "#tables/new"
+      location.hash = "#tables/"+ ( url ? url: "new" )
     },1000);
   };
   
@@ -104,6 +116,7 @@ nCore.document = (function(){
     type           : type,
     root           : root,
     event          : event,
+    load           : load,
     newDocument    : newDocument,
     cellQuery      : cellQuery,
     setName        : setName,

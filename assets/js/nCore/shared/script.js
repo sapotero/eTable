@@ -222,5 +222,8 @@ jQuery(function($) {
     };
   });
 
+  // $('.indexListView, .indexThumbView').live('click', function(){
+  //   nCore.document.root.publish('loadDocument', this.querySelector('.documentId').href.split('/').pop() );
+  // });
 
 });

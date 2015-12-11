@@ -158,6 +158,17 @@ nCore.events = (function(){
       location.hash = "#"+url;
     });
 
+    nCore.document.root.subscribe('loadDocument', function( id, callback ){
+      // console.log('loadDocument', id);
+      
+      nCore.query.get( 'documents/'+id+'.json', {id: id} )
+      .success(function(rawDocument){
+        nCore.document.load(rawDocument);
+        callback && typeof(callback) === 'function' ? callback.call(this, rawDocument) : false;
+      }).error(function(data){
+        console.error('[!] loadDocument -> get', data )
+      });
+    });
 
     // создание нового документа
     nCore.document.root.subscribe('createNewDocument', function(type){
