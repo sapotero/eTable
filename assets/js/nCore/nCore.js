@@ -155,8 +155,9 @@ nCore = (function(){
     nCore.preloader = {};
     nCore.storage   = {};
 
-    loadModules();
-
+    // раскоментировать для standalone приложения 
+    // loadModules();
+    
     // if ( !nCore.storage.getItem('indexViewType') ) {
     //   nCore.storage.setItem('indexViewType', 'renderThumbIndexView')
     // };

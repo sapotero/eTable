@@ -280,6 +280,11 @@ nCore.events = (function(){
       Transparency.render(document.getElementById('content-wrapper'), data);
     });
 
+    // проверяем что показывать
+    nCore.document.root.subscribe('onRouteChange', function(data){
+
+      console.log('onRouteChange', data);
+    });
 
     /////////////////////////
     // Cобытия для таблицы //
@@ -456,14 +461,14 @@ nCore.events = (function(){
         var _a = __elements_to_update[k];
         for (var o = 0; o < _a.length; o++) {
           
-          console.log('root ->', _a[o]);
+          // console.log('root ->', _a[o]);
           if ( !_a[o].element.dataset.hasOwnProperty('old') ) { _a[o].element.dataset.old = 1; };
           $(_a[o].element).val(_a[o].val).trigger('change');
           $(_a[o].element).trigger('change');
         };
       };
-      console.log('group_array', tab);
-      console.log('_elements_to_update', __elements_to_update);
+      // console.log('group_array', tab);
+      // console.log('_elements_to_update', __elements_to_update);
 
       // показываем боковое меню по нажатию кнопки
       if ( showCellSettings && !document.getElementById('cellSettings').classList.contains('active') ) {
@@ -598,40 +603,6 @@ nCore.events = (function(){
         });
       };
     });
-
-    nCore.preloader.event.subscribe('loadCriteria', function(data){
-      // console.log('loadCriteria', data);
-      
-      // если уже есть загруженные справочники
-      // то пока ничего не делаем
-      // TODO: запилить синхронизацию
-      if ( nCore.storage.hasOwnProperty('criteriaKeys') ) {
-        return true;
-      } else {
-        nCore.query.get( 'sources.json')
-        .success(function(data){
-          console.log('loadCriteria -> get', data);
-          
-          for (var i = 0; i < data.length; i++) {
-            var source = data[i];
-            nCore.storage.setItem(source.value, JSON.stringify(source) );
-          };
-
-          var keys = [];
-          data.filter(function(v) {
-            keys.push({
-              value: v.value,
-              name: v.name
-            });
-          });
-          
-          nCore.storage.setItem('criteriaKeys', JSON.stringify(keys) );
-        }).error(function(data){
-          console.error('[!] loadCriteria -> get', data )
-        });
-      };
-    });
-
   };
 
   return {

@@ -13,6 +13,7 @@ nCore.router = (function(){
         decode = decodeURIComponent;
   
     function noop(s) {
+
       return s;
     }
   
@@ -36,24 +37,24 @@ nCore.router = (function(){
       }
   
       return rules && {
-        cb: rules['@'],
+        callback: rules['@'],
         params: params
       };
     }
   
-    function processQuery(url, ctx, esc) {
-      if (url && ctx.cb) {
+    function processQuery(url, context, esc) {
+      if (url && context.callback) {
         var hash = url.indexOf('#'),
             query = (hash < 0 ? url : url.slice(0, hash)).split('&');
   
         for (var i = 0; i < query.length; ++i) {
           var nameValue = query[i].split('=');
   
-          ctx.params[nameValue[0]] = esc(nameValue[1]);
+          context.params[nameValue[0]] = esc(nameValue[1]);
         }
       }
   
-      return ctx;
+      return context;
     }
   
     function lookup(url) {
@@ -81,20 +82,26 @@ nCore.router = (function(){
        },
       exists: function (url) {
 
-        return !!lookup(url).cb;
+        return !!lookup(url).callback;
        },
       lookup: lookup,
       run: function(url) {
         var result = lookup(url);
   
-        result.cb && result.cb({
-          url: url,
-          params: result.params
+        result.callback && result.callback({
+          url    : url,
+          params : result.params,
+          data   : nCore.document.root.publish('onRouteChange', { url: url, params: result.params } )
         });
   
-        return !!result.cb;
+        return !!result.callback;
        },
-      init: function(){}
+      init: function(){},
+      
+      ///////////////
+      // test only //
+      ///////////////
+      routes : routes
     };
 })();
 

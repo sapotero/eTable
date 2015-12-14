@@ -75,7 +75,7 @@ nCore.document = (function(){
     // body
     // datetime
     // name
-    console.log( 'load', atob(config.body) );
+    // console.log( 'load', atob(config.body) );
     document.querySelector( '.fr-wrapper' ).classList.remove('show-placeholder');
     document.querySelector( '.fr-element.fr-view' ).innerHTML = atob(config.body);
   },
