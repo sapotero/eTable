@@ -156,13 +156,14 @@ nCore = (function(){
     nCore.storage   = {};
 
     // раскоментировать для standalone приложения 
-    // loadModules();
+    loadModules();
     
     // if ( !nCore.storage.getItem('indexViewType') ) {
     //   nCore.storage.setItem('indexViewType', 'renderThumbIndexView')
     // };
     //       dev only         // 
     // nCore.storage.clear(); //
+    bind();
   }
 
     /**
@@ -192,6 +193,35 @@ nCore = (function(){
       subscription.callback.apply(subscription.context, args);
     }
     return this;
+   },
+  bind = function(){
+
+    var nodeIterator = document.createNodeIterator(
+      document.body,
+      NodeFilter.SHOW_ELEMENT,
+      function(node) {
+         return node.dataset.hasOwnProperty('bind') ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT;
+      },
+      false
+    );
+
+    var pars = [], currentNode;
+
+    while (currentNode = nodeIterator.nextNode()) {
+      // pars.push({
+      //   el    : currentNode.dataset.bind,
+      //   name  : currentNode.dataset.name,
+      //   action: currentNode.dataset.action
+      // });
+
+      document.querySelector('input[name="'+currentNode.dataset.name+'"')
+      .addEventListener( currentNode.dataset.action , 
+        function(e, currentNode){
+          document.querySelector('[data-name="'+e.target.name+'"]') .textContent = e.target.value;
+        });
+    };
+
+    // console.log(pars);
    };
 
   return {

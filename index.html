@@ -4,10 +4,8 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>nCore.cells</title>
+    <title>nCore.cellss</title>
 
-    <!-- Bootstrap CSS -->
-    <!-- <link href="assets/css/bootstrap.min.css" rel="stylesheet"> -->
     <link href="assets/css/mui.min.css" rel="stylesheet">
     <link href="assets/css/fr.css" rel="stylesheet">
     <link href="assets/css/select2.css" rel="stylesheet">
@@ -57,14 +55,6 @@
               <a data-type="print" class="layoutSideMenuItem">Печатные формы</a>
             </strong>
           </li>
-<!--           <li>
-            <strong>Category 3</strong>
-            <ul style="display: block;">
-              <li><a href="#">Item 1</a></li>
-              <li><a href="#">Item 2</a></li>
-              <li><a href="#">Item 3</a></li>
-            </ul>
-          </li> -->
       </ul>
     </div>
 
@@ -81,7 +71,7 @@
               </td>
               
               <td class="mui--align-middle">
-                
+                <div class="mui-textfield"><input type="text" name="nCoreDocumentAuthor"></div>
               </td>
 
               <td class="mui--text-right">
@@ -90,25 +80,12 @@
                   <button class="indexViewChange mui-btn mui-btn--small mui-btn--raised" data-view-type="list">
                     <i class="fa fa-list"></i>
                   </button>
+
                   <button class="indexViewChange mui-btn mui-btn--small mui-btn--raised" data-view-type="thumb">
                   <i class="fa fa-th"></i>
                   </button>
 
-                  <i class="fa fa-user" id='nCoreDocumentAuthor'></i>
-                  
-                  <!-- dropdown
-                  <div class="mui-dropdown">
-                    <a href="#" class="mui-btn mui-btn--small" data-mui-toggle="dropdown" >
-                      <i class="fa fa-ellipsis-v" ></i>
-                    </a>
-                    <ul class="mui-dropdown__menu mui-dropdown__menu--right">
-                      <li><a href="#">A very long menu option</a></li>
-                      <li><a href="#">Option 2</a></li>
-                      <li><a href="#">Option 3</a></li>
-                      <li><a href="#">Option 4</a></li>
-                    </ul>
-                  </div>
-                  -->
+                  <i class="fa fa-user" data-bind="true" data-name="nCoreDocumentAuthor" data-action="input" id='nCoreDocumentAuthor'></i>
                 </div>
               </td>
             </tr>
@@ -171,10 +148,6 @@
     <button class="mui-btn mui-btn--accent mui-btn--fab AddDocument mui--z3">+</button>
 
     <script src="assets/js/nCore/shared/jquery.js"></script>
-    <!-- // <script src="assets/js/nCore/shared/transparency.min.js"></script> -->
-    <!-- // <script src="assets/js/shared/mui.min.js"></script> -->
-    <!-- // <script src="assets/js/nCore/shared/fr.js"></script> -->
-    <script src="assets/js/nCore/nCore.js?v1=122"></script>
-    <!-- // <script src="assets/js/shared/script.js"></script> -->
+    <script src="assets/js/nCore/nCore.js?v1=0.9.1"></script>
   </body>
 </html>
