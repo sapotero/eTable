@@ -173,25 +173,39 @@ nCore = (function(){
    * @param {object} channel На что подписываемся
    * @param {function} fn Функция, выполняемая после изменени
    */
-  var subscribe = function(channel, fn) {
+  var subscribe = function(channel, fn, before, after ) {
     if ( !nCore.channels[channel] ) {
       nCore.channels[channel] = [];
     }
 
     nCore.channels[channel].push({ context: this, callback: fn });
+        // before event
+    if ( before && typeof(before) === 'function' ) {
+      console.log('**before', channel);
+      before.call(this, arguments);
+    };
+
+    // after event
+    if ( after && typeof(after) === 'function' ) {
+      console.log('**after', channel);
+      after.call(this,  arguments);
+    };
+
     return this;
    },
-  publish = function(channel) {
+  publish = function( channel) {
     if ( !nCore.channels[channel] ) {
       return false;
     }
 
     var args = Array.prototype.slice.call(arguments, 1);
+    console.log('  -> ', channel);
 
     for (var i = 0, l = nCore.channels[channel].length; i < l; i++) {
       var subscription = nCore.channels[channel][i];
       subscription.callback.apply(subscription.context, args);
-    }
+    };
+
     return this;
    },
   bind = function(){
