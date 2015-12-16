@@ -372,7 +372,9 @@ nCore.modules.table = (function(){
         if (cell.classList.contains( sideClass )){
           rowQuery = [ rowRoot.query, cell.dataset.query ]
         } else {
-          cell.dataset.query = '['+ rowQuery.join(',') + ',' + dataRow.getElementsByTagName('td')[cell.cellIndex+index].dataset._query + ']';
+          var _q = dataRow.getElementsByTagName('td')[cell.cellIndex+index] ? dataRow.getElementsByTagName('td')[cell.cellIndex+index].dataset._query : []
+          
+          cell.dataset.query = '['+ rowQuery.join(',') + ',' + _q + ']';
           
           // обновим текст когда прилетят данные
           cell.dataset.cellIndex = cell.cellIndex;
@@ -386,7 +388,7 @@ nCore.modules.table = (function(){
         }
       };
     };
-    dataRow.style.display = 'none';
+    // dataRow.style.display = 'none';
     // console.log( 'cellData:', cellData );
     // console.log( 'str', JSON.stringify(cellData) );
     nCore.modules.table.event.publish('calculateQuery', cellData);

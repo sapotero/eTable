@@ -123,7 +123,7 @@ jQuery(function($) {
   });
 
   // изменение значения полей -> обновляем значения в ячейке
-  $('select, input[name="value"]').live('change', function(){
+  $('select, select[name="value"], input[name="value"]').live('change', function(){
     nCore.modules.table.event.publish('newCellSettingsChange' );
     return false;
   })
@@ -137,12 +137,18 @@ jQuery(function($) {
       var select = this.nextElementSibling.nextElementSibling;
       select.innerHTML = '';
       
+
       var _df = new DocumentFragment();
       var originTable = JSON.parse( nCore.storage.getItem( this.value) );
-      for (var q = 0; q < originTable.origin.length; q++) {
+      
+      // console.log('**originTable', originTable);
+
+      for (var q = 0; q < originTable.length; q++) {
         var option = document.createElement('option');
-        option.value = originTable.origin[q].value;
-        option.text  = originTable.origin[q].name;
+        option.value = originTable[q]._id;
+        option.text  = originTable[q].russian_name;
+
+        originTable[q].autocomplete_url ? option.dataset.auto = originTable[q].autocomplete_url : false;
         _df.appendChild(option);
       };
       select.appendChild(_df);
@@ -154,6 +160,17 @@ jQuery(function($) {
   $('.criteriaMenuItem.remove').live('click', function(){
     $(this).parents('.criteriaSelectorItem').detach();
   })
+  
+
+
+  function formatRepoSelection (data) {
+    return data.full_name || data.text;
+  }
+  function formatRepo (data) {
+    if (data.loading) return data.text;
+
+    return data;
+  };
 
   // клик по критерию
   $('.criteriaMenuItem.settings, .criteriaSelectorItemHeader').live('click', function(e){
@@ -179,17 +196,129 @@ jQuery(function($) {
 
         $(el).select2().on('change', function(){
           console.log('select change', this, this.name);
+
+
+          var _options = this.options[this.selectedIndex];
+
+          if ( _options.dataset.hasOwnProperty('auto') ){
+
+            var parent = this.parentNode,
+                input  = parent.querySelectorAll('[name="value"]');
+            
+            $.each(input, function(i, el){
+              console.log(i,el)
+              $(el).select2({});
+              $(el).select2('destroy');
+              parent.removeChild( el );
+            });
+            
+            // parent.removeChild( input );
+            var element   = document.createElement('select');
+            element.type         = 'text';
+            element.name         = 'value';
+            element.placeholder  = 'Значение';
+            element.style.paddingBottom = '15px';
+            element.style.marginBottom = '20px;';
+            element.style.width   = '92%';
+            element.dataset.name  = 'value';
+            
+            // console.log('emenet', element)
+
+
+            parent.appendChild(element);
+
+            input = element;
+
+            console.log('input', input, "http://localhost/rails/"+_options.dataset.auto);
+
+            $( input ).select2({
+              ajax: {
+                url: "http://localhost/rails"+_options.dataset.auto,
+                dataType: 'json',
+                delay: 250,
+                data: function (data) {
+                  // console.log('data', data);
+                  return { id: data._id, term: data.term };
+                },
+                processResults: function (data, params) {
+                  // console.log('*****', data, params);
+                  
+                   return {
+                      results: $.map(data, function(p) {
+                        return {
+                          id: p._id,
+                          text: p.term,
+                          value: p.term
+                        };
+                      })
+                    };
+                },
+                cache: true
+              },
+              // escapeMarkup: function (markup) { return markup; },
+              minimumInputLength: 1,
+              placeholder: "Начните ввод"
+              // templateResult: function(data){
+              //   if (data.loading) return data.text;
+              //   var markup = "<div class='select2-result-datasitory__forks'><i class='fa fa-flash'></i> " + data._id + "</div>"
+              //   return markup;
+              // },
+              // templateSelection: function(data){
+              //   return data.short_title || data.text;
+              // }
+            }).on('change', function(){
+              // this.dataset.name = this.options[this.selectedIndex].value;
+              // nCore.modules.table.activeCell().dataset.name = this.options[this.selectedIndex].value;
+              nCore.modules.table.event.publish('newCellSettingsChange',  this.options[this.selectedIndex].text );
+            });
+
+
+          } else {
+            var parent = this.parentNode,
+                input  = parent.querySelectorAll('[name="value"]');
+            $.each(input, function(i, el){
+              console.log(i,el)
+              $(el).select2({});
+              $(el).select2('destroy');
+              parent.removeChild( el );
+            });
+
+            
+            // console.log('input', input);
+
+            // input.parentNode.removeChild( input );
+            
+            // console.log('input*', input.parentNode);
+
+            var element   = document.createElement('input');
+            element.type          = 'text';
+            element.name          = 'value';
+            element.placeholder   = 'Значение';
+            element.classList.add('muiFieldField');
+            
+            parent.appendChild(element);
+
+            input = element;
+          }
+          
           // console.log('select[name="table_name"]', this);
           if ( this.name === 'table_name' ) {
             var select = this.nextElementSibling.nextElementSibling;
             select.innerHTML = '';
             
+            // console.log('**', this.value);
+
             var _df = new DocumentFragment();
             var originTable = JSON.parse( nCore.storage.getItem( this.value ) );
-            for (var q = 0; q < originTable.origin.length; q++) {
+            for (var q = 0; q < originTable.length; q++) {
               var option = document.createElement('option');
-              option.value = originTable.origin[q].value;
-              option.text  = originTable.origin[q].name;
+              option.value = originTable[q]._id;
+              option.text  = originTable[q].russian_name;
+              
+              if ( originTable[q].autocomplete_url ){
+                option.dataset.auto = originTable[q].autocomplete_url;
+              }
+
               _df.appendChild(option);
             };
             select.appendChild(_df);
@@ -221,9 +350,4 @@ jQuery(function($) {
       nCore.document.root.publish('go', this.dataset.type);
     };
   });
-
-  // $('.indexListView, .indexThumbView').live('click', function(){
-  //   nCore.document.root.publish('loadDocument', this.querySelector('.documentId').href.split('/').pop() );
-  // });
-
 });

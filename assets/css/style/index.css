@@ -525,6 +525,7 @@ buttons {
 }
 
 .criteriaForm{
+  padding-bottom: 20px;
   transition: 0.1s;
   display: block;
 }
@@ -656,4 +657,26 @@ buttons {
   margin-top: 0px;
   position: absolute;
   top: 0px;
+}
+
+.muiFieldField{
+  -webkit-animation-duration: .1ms;
+  animation-duration: .1ms;
+  -webkit-animation-name: mui-node-inserted;
+  animation-name: mui-node-inserted;
+  display: block;
+  background-color: transparent;
+  color: rgba(0,0,0,.87);
+  border: none;
+  border-bottom: 1px solid rgba(0,0,0,.26);
+  outline: 0;
+  height: 32px;
+  width: 90%;
+  font-size: 16px;
+  /*padding: 0;*/
+  box-shadow: none;
+  border-radius: 0;
+  background-image: none;
+  /* padding: 24px; */
+  margin: 0px auto;
 }

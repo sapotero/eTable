@@ -4373,46 +4373,36 @@ S2.define('select2/dropdown/closeOnSelect',[
 });
 
 S2.define('select2/i18n/en',[],function () {
-  // English
+  function e(e, t, n, r) {
+    return e % 10 < 5 && e % 10 > 0 && e % 100 < 5 || e % 100 > 20 ? e % 10 > 1 ? n : t : r
+  }
+
   return {
-    errorLoading: function () {
-      return 'The results could not be loaded.';
+    errorLoading: function() {
+      return "Невозможно загрузить результаты"
     },
-    inputTooLong: function (args) {
-      var overChars = args.input.length - args.maximum;
-
-      var message = 'Please delete ' + overChars + ' character';
-
-      if (overChars != 1) {
-        message += 's';
-      }
-
-      return message;
+    inputTooLong: function(t) {
+      var n = t.input.length - t.maximum,
+          r = "Пожалуйста, введите на " + n + " символ";
+      return r += e(n, "", "a", "ов"), r += " меньше", r
     },
-    inputTooShort: function (args) {
-      var remainingChars = args.minimum - args.input.length;
-
-      var message = 'Please enter ' + remainingChars + ' or more characters';
-
-      return message;
+    inputTooShort: function(t) {
+      var n = t.minimum - t.input.length,
+          r = "Пожалуйста, введите еще " + n + " символ";
+      return r += e(n, "", "a", "ов"), r
     },
-    loadingMore: function () {
-      return 'Loading more results…';
+    loadingMore: function() {
+      return "Загрузка данных…"
     },
-    maximumSelected: function (args) {
-      var message = 'You can only select ' + args.maximum + ' item';
-
-      if (args.maximum != 1) {
-        message += 's';
-      }
-
-      return message;
+    maximumSelected: function(t) {
+      var n = "Вы можете выбрать не более " + t.maximum + " элемент";
+      return n += e(t.maximum, "", "a", "ов"), n
     },
-    noResults: function () {
-      return 'No results found';
+    noResults: function() {
+      return "Совпадений не найдено"
     },
-    searching: function () {
-      return 'Searching…';
+    searching: function() {
+      return "Поиск…"
     }
   };
 });

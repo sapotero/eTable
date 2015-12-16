@@ -160,7 +160,8 @@ nCore.events = (function(){
 
     nCore.document.root.subscribe('loadDocument',
       function( id, callback ){
-        // console.log('loadDocument', id);
+        console.log('loadDocument', id);
+        
         nCore.query.get( 'documents/'+id+'.json', {id: id} )
         .success(function(rawDocument){
           nCore.document.load(rawDocument);
@@ -172,12 +173,12 @@ nCore.events = (function(){
       
       // before callback
       function(data){
-        console.log( '****', data );
+        // console.log( '** -> **', data );
       },
 
       // after callback
       function(data){
-        // console.log('after');
+        // console.log( '** <- **', data );
       }
     );
 
@@ -216,11 +217,10 @@ nCore.events = (function(){
     });
 
     nCore.document.root.subscribe('attachListMenu', function(type){
-      console.log('attachListMenu', type);
+      // console.log('attachListMenu', type);
       nCore.menu.attach('.mui-panel.indexListView', '.menu');// new Menu().add();
     });
 
-  
 
     /////////////////////
     // События рендера //
@@ -313,7 +313,7 @@ nCore.events = (function(){
 
     // расчёт критериев поиска и отправление их на сервер
     nCore.modules.table.event.subscribe('calculateQuery', function(cellData){
-      console.log('calculateQuery', cellData);
+      // console.log('calculateQuery', cellData);
       nCore.document.setCellQuery(cellData);
 
       nCore.query.post( 'queries.json', {data: cellData})
@@ -396,7 +396,7 @@ nCore.events = (function(){
               var table_name  = form.querySelector('select[name="table_name"]'),
                   origin_name = form.querySelector('select[name="origin_name"]'),
                   conditions  = form.querySelector('select[name="conditions"]'),
-                  value       = form.querySelector('input[name="value"]');
+                  value       = form.querySelector('[name="value"]');
 
               // на основании того какой спровачник был
               // выбран показываем те или иные значения
@@ -412,14 +412,19 @@ nCore.events = (function(){
                 };
               };
               table_name.appendChild(_df);
-
+              
+              // console.log('origin_table', item.source)
               _df = new DocumentFragment();
               var originTable = JSON.parse( nCore.storage.getItem( item.source ) );
-              for (var q = 0; q < originTable.origin.length; q++) {
+
+              
+              for (var q = 0; q < originTable.length; q++) {
                 var option = document.createElement('option');
-                option.value = originTable.origin[q].value;
-                option.text  = originTable.origin[q].name;
-                if (item.origin_name === originTable.origin[q].value) {
+                option.value = originTable[q]._id;
+                option.text  = originTable[q].russian_name;
+                option.dataset.auto = originTable[q].autocomplete_url;
+                originTable[q].autocomplete_url ? option.dataset.auto = originTable[q].autocomplete_url : false;
+                if (item.origin_name === originTable[q]._id) {
                   _elements_to_update.push({name: 'origin_name', val: item.origin_name  })
                 };
                 _df.appendChild(option);
@@ -440,7 +445,7 @@ nCore.events = (function(){
               };
               // console.log('* card', card);
 
-              var _tmp = card.querySelector('input[name="value"]');
+              var _tmp = card.querySelector('[name="value"]');
               _elements_to_update.push({ element: _tmp, val: item.value })
               
               __elements_to_update.push(_elements_to_update)
@@ -457,7 +462,7 @@ nCore.events = (function(){
 
             // _total_elements_to_update.push(_elements_to_update);
 
-            // _group.querySelector('input[name="value"]').value = item.value;
+            // _group.querySelector('[name="value"]').value = item.value;
             document.getElementsByClassName('firstTimeCriteria')[0].classList.add('mui--hide');
             tab.appendChild(_group);
 
@@ -488,7 +493,7 @@ nCore.events = (function(){
     });
 
     // изменение критериев поиска активной ячейки
-    nCore.modules.table.event.subscribe('newCellSettingsChange', function(){
+    nCore.modules.table.event.subscribe('newCellSettingsChange', function(NAME){
 
       var _query     = [],
       list = $(".criteriaSelector"),
@@ -521,7 +526,7 @@ nCore.events = (function(){
             source            : form.children('select[name="table_name"]').val(),
             conditions        : form.children('select[name="conditions"]').val(),
             origin_name       : form.children('select[name="origin_name"]').val(),
-            value             : form.children('.mui-textfield').children('input[name="value"]').val()
+            value             : form.children('select[name="value"]').val() ? form.children('select[name="value"]').val() : form.children('input[name="value"]').val()
           });
         };
 
@@ -532,6 +537,7 @@ nCore.events = (function(){
       // console.log('before: ', activeCell)
       if (activeCell) {
         activeCell.dataset.query = JSON.stringify(_query);
+        activeCell.dataset.name  = NAME
       };
 
       // console.log('newCellSettings | activeCell -> ',activeCell,  JSON.stringify(_query) )
@@ -593,17 +599,18 @@ nCore.events = (function(){
       } else {
         nCore.query.get( 'sources.json')
         .success(function(data){
-          console.log('loadCriteria -> get', data);
-          
+          console.warn('loadCriteria -> get', data);
+
           for (var i = 0; i < data.length; i++) {
             var source = data[i];
-            nCore.storage.setItem(source.value, JSON.stringify(source) );
+            nCore.storage.setItem(source.type, JSON.stringify(source.data) );
           };
 
           var keys = [];
-          data.filter(function(v) {
+          data.filter(function(v,i ) {
+            console.log('filter', v,i);
             keys.push({
-              value: v.value,
+              value: v.type,
               name: v.name
             });
           });
