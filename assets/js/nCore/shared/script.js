@@ -350,4 +350,8 @@ jQuery(function($) {
       nCore.document.root.publish('go', this.dataset.type);
     };
   });
+
+  $('.formula').live('change', function(){
+    nCore.modules.table.event.publish('newCellSettingsChange' );
+  });
 });

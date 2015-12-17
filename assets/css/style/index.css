@@ -680,3 +680,43 @@ buttons {
   /* padding: 24px; */
   margin: 0px auto;
 }
+
+.panelSelectorGroup {
+    background: rgba(0,0,0,0.02);
+    width: 95%;
+    margin: 10px 0 0 10px;
+    padding: 14px;
+    list-style: none;
+}
+
+.cellRotatse {
+  -webkit-writing-mode:vertical-lr; 
+  -ms-writing-mode:tb-lr; 
+  writing-mode:vertical-lr;
+/*  -moz-transform    : rotate(-90.0deg);
+  -o-transform      : rotate(-90.0deg);
+  -webkit-transform : rotate(-90.0deg);
+  transform         : rotate(-90.0deg);
+  filter            : progid  : DXImageTransform.Microsoft.BasicImage(rotation=0.083);
+  -ms-filter        : "progid : DXImageTransform.Microsoft.BasicImage(rotation=0.083)";*/
+/*  height: 140px;
+  width : auto;
+  white-space: nowrap;*/
+}
+
+.cellRotate{
+  position:relative;
+  left: 20px;
+  -moz-transform:rotate(-90deg); 
+  -moz-transform-origin:left;
+  -webkit-transform: rotate(-90deg);
+  -webkit-transform-origin: left;
+  -o-transform: rotate(-90deg);
+  -o-transform-origin: left;
+  display: block;
+}
+
+.rotatedCell {
+  height:300px;
+  vertical-align:bottom
+}

@@ -135,7 +135,7 @@ nCore.events = (function(){
     nCore.document.root.subscribe('initEditor', function(data){
       console.log('initEditor');
       $('div#paper').froalaEditor({
-        toolbarButtons: ['file-o', 'floppy-o', '|', 'bold', 'italic', 'underline', 'strikeThrough', 'fontSize', '|', 'color', 'calculator', 'paragraphStyle', '|', 'paragraphFormat', '|','alignLeft', 'alignCenter', 'alignRight', '|','formatOL', 'formatUL', '|','outdent', 'indent', '|','insertImage', 'insertTable', '|', 'html', '|','undo', 'redo', '|', 'cog'],
+        toolbarButtons: ['file-o', 'floppy-o', '|', 'bold', 'italic', 'underline', 'strikeThrough', 'fontSize', '|', 'color', 'calculator','phone', /*'paragraphStyle'*/, '|', 'paragraphFormat', '|','alignLeft', 'alignCenter', 'alignRight', '|','formatOL', 'formatUL', '|','outdent', 'indent', '|','insertImage', 'insertTable', '|', 'html', '|','undo', 'redo', '|', 'cog'],
         language: 'ru',
         charCounterCount: false,
         toolbarSticky: false
@@ -313,7 +313,7 @@ nCore.events = (function(){
 
     // расчёт критериев поиска и отправление их на сервер
     nCore.modules.table.event.subscribe('calculateQuery', function(cellData){
-      // console.log('calculateQuery', cellData);
+      console.log('calculateQuery', cellData);
       nCore.document.setCellQuery(cellData);
 
       nCore.query.post( 'queries.json', {data: cellData})
@@ -495,15 +495,17 @@ nCore.events = (function(){
     // изменение критериев поиска активной ячейки
     nCore.modules.table.event.subscribe('newCellSettingsChange', function(NAME){
 
-      var _query     = [],
-      list = $(".criteriaSelector"),
-      criterias = list.children('div');
+      var _query               = [],
+          list                 = $(".criteriaSelector"),
+          criterias            = list.children('div'),
+          formulaSettings      = document.querySelector('.formulaSettings'),
+          formulaSettingsItems = [].slice.call( formulaSettings.querySelectorAll('input') );
       // console.log('*** criterias: ', criterias);
 
       for (var i = 0; i < criterias.length; i++) {
-        var criteria          = $(criterias[i]),
-            criteriaItemsRoot = criteria.children('.criteriaSelectorGroup'),
-            criteriaItems     = criteriaItemsRoot.children('.criteriaSelectorGroupList').children('.criteriaSelectorItem');
+        var criteria             = $(criterias[i]),
+            criteriaItemsRoot    = criteria.children('.criteriaSelectorGroup'),
+            criteriaItems        = criteriaItemsRoot.children('.criteriaSelectorGroupList').children('.criteriaSelectorItem');
 
         // console.log('newCellSettingsChange -> criteria['+i+']', criteria, criteriaItems );
 
@@ -533,15 +535,26 @@ nCore.events = (function(){
         _query.push( data );
       };
       // console.log('newCellSettingsChange -> data -> ', data)
-
       // console.log('before: ', activeCell)
+
+
       if (activeCell) {
         activeCell.dataset.query = JSON.stringify(_query);
         activeCell.dataset.name  = NAME
+        
+        console.log('---------');
+        for (var v = 0; v < formulaSettingsItems.length; v++) {
+          var checkbox = formulaSettingsItems[v];
+          console.log('checkbox', checkbox.name, checkbox.checked);
+
+          activeCell.dataset[checkbox.name]  = checkbox.checked;
+        };
       };
 
       // console.log('newCellSettings | activeCell -> ',activeCell,  JSON.stringify(_query) )
     });
+
+
 
 
     ///////////////////

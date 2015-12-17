@@ -24012,6 +24012,28 @@ $.FroalaEditor.RegisterCommand('calculator', {
       headClass: 'fr-highlighted',
       sideClass: 'fr-thick'
     };
+
     nCore.modules.table.event.publish('generateQuery', data );
+  }
+});
+
+$.FroalaEditor.DefineIcon('phone', {NAME: 'phone'});
+$.FroalaEditor.RegisterCommand('phone', {
+  title: 'phone',
+  focus: false,
+  undo: false,
+  refreshAfterCallback: false,
+  callback: function () {
+
+    var el = this.selection.element();
+    // console.log('phone', this,this.selection.element(), this.$el);
+
+    if ( el.classList.contains('cellRotate') ) {
+        el.classList.remove('cellRotate');
+    } else{
+        el.classList.add('cellRotate');
+        // el.style.height = el.offsetWidth + 'px';
+    }
+
   }
 });

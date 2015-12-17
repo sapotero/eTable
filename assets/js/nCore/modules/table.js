@@ -365,12 +365,13 @@ nCore.modules.table = (function(){
         if ( cell.classList.contains( sideClass ) && cell.rowSpan > 1 ) {
           rowRoot = cell.dataset;
           index = cell.rowSpan;
-          index = 0;
+          index++;
         }
 
         
         if (cell.classList.contains( sideClass )){
           rowQuery = [];
+          index++;
 
           if ( rowRoot.query ) {
             rowQuery.push( rowRoot.query );
@@ -381,11 +382,16 @@ nCore.modules.table = (function(){
           };
           
         } else {
-          console.log('cell', cell);
-
-          var _q = dataRow.getElementsByTagName('td')[cell.cellIndex+index] ? dataRow.getElementsByTagName('td')[cell.cellIndex+index].dataset._query : dataRow.getElementsByTagName('td')[cell.cellIndex].dataset._query
+          // console.log('cell', index, cell, (_f && _f.dataset._query));
+          var _f = dataRow.getElementsByTagName('td')[cell.cellIndex],
+              _s = dataRow.getElementsByTagName('td')[cell.cellIndex+index],
+              _q = (_f && _f.dataset._query) ? _f : (_s && _s.dataset._query ? _s : undefined)
           
-          cell.dataset.query = '['+ rowQuery.join(',') + ',' + _q + ']';
+          if (_q) {
+            rowQuery.push( _q.dataset._query );
+          };
+          
+          cell.dataset.query = '['+rowQuery.join(',')+']';
           
           // обновим текст когда прилетят данные
           cell.dataset.cellIndex = cell.cellIndex;
@@ -394,12 +400,15 @@ nCore.modules.table = (function(){
           cellData.push({
             rowIndex  : row.rowIndex,
             cellIndex : cell.cellIndex,
-            query     : cell.dataset.query
+            query     : cell.dataset.query,
+            appg      : _q.dataset.appg,
+            black     : _q.dataset.black,
+            percent   : _q.dataset.percent
           });
         }
       };
     };
-    // dataRow.style.display = 'none';
+    dataRow.style.display = 'none';
     // console.log( 'cellData:', cellData );
     // console.log( 'str', JSON.stringify(cellData) );
     nCore.modules.table.event.publish('calculateQuery', cellData);
