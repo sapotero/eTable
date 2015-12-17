@@ -370,9 +370,20 @@ nCore.modules.table = (function(){
 
         
         if (cell.classList.contains( sideClass )){
-          rowQuery = [ rowRoot.query, cell.dataset.query ]
+          rowQuery = [];
+
+          if ( rowRoot.query ) {
+            rowQuery.push( rowRoot.query );
+          };
+
+          if ( cell.dataset.query ) {
+            rowQuery.push( cell.dataset.query );
+          };
+          
         } else {
-          var _q = dataRow.getElementsByTagName('td')[cell.cellIndex+index] ? dataRow.getElementsByTagName('td')[cell.cellIndex+index].dataset._query : []
+          console.log('cell', cell);
+
+          var _q = dataRow.getElementsByTagName('td')[cell.cellIndex+index] ? dataRow.getElementsByTagName('td')[cell.cellIndex+index].dataset._query : dataRow.getElementsByTagName('td')[cell.cellIndex].dataset._query
           
           cell.dataset.query = '['+ rowQuery.join(',') + ',' + _q + ']';
           
