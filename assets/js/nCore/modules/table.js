@@ -347,6 +347,7 @@ nCore.modules.table = (function(){
         };
       };
       dataCell.dataset._query =  uniq(queryArray).map(function(e){ return e.dataset.query } ).join(',');
+      dataCell.dataset.appg = el.dataset.appg ? el.dataset.appg : false;
     };
 
 
@@ -402,8 +403,8 @@ nCore.modules.table = (function(){
             cellIndex : cell.cellIndex,
             query     : cell.dataset.query,
             appg      : _q.dataset.appg,
-            black     : _q.dataset.black,
-            percent   : _q.dataset.percent
+            // black     : cell.dataset.black,
+            // percent   : cell.dataset.percent
           });
         }
       };

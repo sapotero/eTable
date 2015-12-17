@@ -71,6 +71,7 @@ jQuery(function($) {
   // клик по ячейке в таблице
   $('td.fr-selected-cell').live('click', function(e){
     nCore.modules.table.event.publish('cellSelect', this );
+    nCore.modules.table.event.publish('cellFormulaClear' );
   });
   
   // $('#cellSettingsForm').change(function(e){
@@ -352,6 +353,6 @@ jQuery(function($) {
   });
 
   $('.formula').live('change', function(){
-    nCore.modules.table.event.publish('newCellSettingsChange' );
+    nCore.modules.table.event.publish('cellFormulaChange' );
   });
 });

@@ -491,16 +491,34 @@ nCore.events = (function(){
         document.getElementById('cellSettings').classList.toggle('active');
       };
     });
+  
+    nCore.modules.table.event.subscribe('cellFormulaChange', function(){
+      var formulaSettings      = document.querySelector('.formulaSettings'),
+          formulaSettingsItems = [].slice.call( formulaSettings.querySelectorAll('input') );
+      for (var v = 0; v < formulaSettingsItems.length; v++) {
+        var checkbox = formulaSettingsItems[v];
+        activeCell.dataset[checkbox.name] = checkbox.checked;
+      };
+    });
+
+    nCore.modules.table.event.subscribe('cellFormulaClear', function(){
+      var formulaSettings      = document.querySelector('.formulaSettings'),
+          formulaSettingsItems = [].slice.call( formulaSettings.querySelectorAll('input') );
+      for (var v = 0; v < formulaSettingsItems.length; v++) {
+        var checkbox = formulaSettingsItems[v];
+        
+        console.log('activeCell.dataset[checkbox.name]', activeCell.dataset[checkbox.name]);
+
+        checkbox.checked =  activeCell.dataset[checkbox.name] === 'true' ? activeCell.dataset[checkbox.name] : null;
+      };
+    });
 
     // изменение критериев поиска активной ячейки
     nCore.modules.table.event.subscribe('newCellSettingsChange', function(NAME){
 
       var _query               = [],
           list                 = $(".criteriaSelector"),
-          criterias            = list.children('div'),
-          formulaSettings      = document.querySelector('.formulaSettings'),
-          formulaSettingsItems = [].slice.call( formulaSettings.querySelectorAll('input') );
-      // console.log('*** criterias: ', criterias);
+          criterias            = list.children('div');
 
       for (var i = 0; i < criterias.length; i++) {
         var criteria             = $(criterias[i]),
@@ -537,18 +555,9 @@ nCore.events = (function(){
       // console.log('newCellSettingsChange -> data -> ', data)
       // console.log('before: ', activeCell)
 
-
       if (activeCell) {
         activeCell.dataset.query = JSON.stringify(_query);
         activeCell.dataset.name  = NAME
-        
-        console.log('---------');
-        for (var v = 0; v < formulaSettingsItems.length; v++) {
-          var checkbox = formulaSettingsItems[v];
-          console.log('checkbox', checkbox.name, checkbox.checked);
-
-          activeCell.dataset[checkbox.name]  = checkbox.checked;
-        };
       };
 
       // console.log('newCellSettings | activeCell -> ',activeCell,  JSON.stringify(_query) )
