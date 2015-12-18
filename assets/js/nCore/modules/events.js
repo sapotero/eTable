@@ -164,6 +164,7 @@ nCore.events = (function(){
         
         nCore.query.get( 'documents/'+id+'.json', {id: id} )
         .success(function(rawDocument){
+          console.log('***raw', rawDocument);
           nCore.document.load(rawDocument);
           callback && typeof(callback) === 'function' ? callback.call(this, rawDocument) : false;
         }).error(function(data){
@@ -256,7 +257,7 @@ nCore.events = (function(){
         },
         documentId: {
           href: function(params) {
-            return "#/table/" + this.id || Math.random();
+            return "#/table/" + this._id || Math.random();
           },
           text: function(){
             return ''
@@ -313,12 +314,13 @@ nCore.events = (function(){
 
     // расчёт критериев поиска и отправление их на сервер
     nCore.modules.table.event.subscribe('calculateQuery', function(cellData){
-      console.log('calculateQuery', cellData);
+      // console.log('calculateQuery', cellData);
       nCore.document.setCellQuery(cellData);
+      console.log( '****', nCore.document.cellQuery() );
 
       nCore.query.post( 'queries.json', {data: cellData})
         .success(function(data){
-          console.log('calculateQuery -> post', data);
+          // console.log('calculateQuery -> post', data);
 
           nCore.modules.table.event.publish('insertCellData', data )
         }).error(function(data){
@@ -327,11 +329,21 @@ nCore.events = (function(){
     });
     // вставка данных в таблицу
     nCore.modules.table.event.subscribe('insertCellData', function(data){
-      // console.log('insertCellData', data);
+      console.log('insertCellData', data);
       var table = document.querySelector('.fr-element.fr-view > table');
 
       for (var i = 0; i < data.length; i++) {
-        table.rows[ data[i].rowIndex ].cells[ data[i].cellIndex ].textContent = data[i].value;
+        var cell = table.rows[ data[i].rowIndex ].cells[ data[i].cellIndex ];
+        
+        cell.textContent = data[i].value;
+        if ( data[i].hasOwnProperty('appg') && data[i].appg === 'true' ) {
+          cell.textContent += ' АППГ'
+        };
+
+        if ( data[i].hasOwnProperty('percent') && data[i].percent === 'true' ) {
+          cell.textContent += ' %'
+        };
+
       };
     });
     // выбор активной ячейки

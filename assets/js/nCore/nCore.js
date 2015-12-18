@@ -172,6 +172,8 @@ nCore = (function(){
    * @description Подписка на изменение объекта
    * @param {object} channel На что подписываемся
    * @param {function} fn Функция, выполняемая после изменени
+   * @param {function} before Функция, выполняемая перед подпиской
+   * @param {function} after  Функция, выполняемая после подписки
    */
   var subscribe = function(channel, fn, before, after ) {
     if ( !nCore.channels[channel] ) {
@@ -228,11 +230,13 @@ nCore = (function(){
       //   action: currentNode.dataset.action
       // });
 
-      document.querySelector('input[name="'+currentNode.dataset.name+'"')
-      .addEventListener( currentNode.dataset.action , 
-        function(e, currentNode){
-          document.querySelector('[data-name="'+e.target.name+'"]') .textContent = e.target.value;
-        });
+      if ( document.querySelector('input[name="'+currentNode.dataset.name+'"') ) {
+        document.querySelector('input[name="'+currentNode.dataset.name+'"')
+        .addEventListener( currentNode.dataset.action , 
+          function(e, currentNode){
+            document.querySelector('[data-name="'+e.target.name+'"]') .textContent = e.target.value;
+          });
+      };
     };
 
     // console.log(pars);

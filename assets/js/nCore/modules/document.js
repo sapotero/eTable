@@ -13,7 +13,7 @@ nCore.document = (function(){
       nCoreType = 'table',
       nCoreName = '',
       nCoreDescription = '',
-      nCoreDocumentCellQuery;
+      nCoreDocumentCellQuery = {};
 
   var init = function (config){
     var config = {
@@ -52,6 +52,7 @@ nCore.document = (function(){
     return nCoreDescription;
   },
   setCellQuery = function setCellQuery(data){
+    console.log('setCellQuery', data);
     nCoreDocumentCellQuery = data;
   },
   cellQuery = function cellQuery(){
@@ -78,6 +79,7 @@ nCore.document = (function(){
     // console.log( 'load', atob(config.body) );
     document.querySelector( '.fr-wrapper' ).classList.remove('show-placeholder');
     document.querySelector( '.fr-element.fr-view' ).innerHTML = atob(config.body);
+    nCoreIsNew = false;
   },
   createNew = function createNew(url){
     var overlayEl = mui.overlay('on');

@@ -47,7 +47,7 @@ nCore.menu = (function(){
   };
 
   var init = function init(config){
-    console.log('init', config);
+    // console.log('init', config);
   },
   attach = function(target, menu){
     // return new Menu().add(target, menu);
