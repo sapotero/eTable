@@ -26,6 +26,15 @@ nCore.query = (function(){
   post = function( url, data ){
     return $.post( host + url, data );
    },
+  put = function( url, data ){
+    return $.ajax({
+      type        : "PUT",
+      url         : host + url,
+      data        : JSON.stringify( data ),
+      contentType : 'application/json',
+      dataType    : 'json'
+    });
+   },
   // произвольный гет запрос
   get  = function( url, data ){
     return $.get( host + url, data );
@@ -54,6 +63,7 @@ nCore.query = (function(){
     init                    : init,
     post                    : post,
     get                     : get,
+    put                     : put,
     getTemplate             : getTemplate,
     getQuery                : getQuery,
     getQueryParam           : getQueryParam,

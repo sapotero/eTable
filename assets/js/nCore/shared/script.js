@@ -7,7 +7,6 @@ if (typeof jQuery.fn.live == 'undefined' || !(jQuery.isFunction(jQuery.fn.live))
       }
   });
 }
-
 jQuery(function($) {
   var $bodyEl              = $('body'),
   $sidedrawerEl            = $('#sidedrawer'),

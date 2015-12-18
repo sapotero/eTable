@@ -4,7 +4,7 @@
 
 var nCore = nCore || {};
 nCore.document = (function(){
-  var nCoreDocumentId = Math.floor(Math.random() * (Number.MAX_SAFE_INTEGER)),
+  var nCoreDocumentId = '',
       nCoreRoot = {},
       nCoreDocumentSave,
       nCoreDocumentEvent = {},
@@ -69,17 +69,18 @@ nCore.document = (function(){
     nCore.document.root.publish('setDocumentAttributes', data);
   },
   load = function load(config){
-    // nCoreDocumentId        = config.id;
-    // nCoreType              = config.type;
-    // nCoreDescription       = config.description;
-    // author
-    // body
-    // datetime
-    // name
-    // console.log( 'load', atob(config.body) );
+    console.log('+++', config);
+
+    nCoreDocumentId        = config._id
+    nCoreTitle             = config.title
+    nCoreType              = config.type
+    nCoreName              = config.name
+    nCoreDescription       = config.description
+    nCoreDocumentCellQuery = config.query
+    nCoreIsNew             = false
+
     document.querySelector( '.fr-wrapper' ).classList.remove('show-placeholder');
     document.querySelector( '.fr-element.fr-view' ).innerHTML = atob(config.body);
-    nCoreIsNew = false;
   },
   createNew = function createNew(url){
     var overlayEl = mui.overlay('on');

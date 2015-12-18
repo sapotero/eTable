@@ -66,24 +66,7 @@ nCore.events = (function(){
       if ( nCore.document.newDocument() && data.nodeName !== 'FORM' ) {
         console.log('saveDocument', data);
         nCore.document.root.publish('newDocument', true);
-        // тест
-        // nCore.query.post( 'queries.json', {data: 'test'})
-        // .success(function(data){
-        //   console.log('post', data);
-        // }).error(function(data){
-        //   console.error('[!] post', post, data)
-        // });
-
-        // nCore.query.get( 'queries.json', {data: 'test'})
-        // .success(function(data){
-        //   console.log('get', data);
-        // }).error(function(data){
-        //   console.error('[!] post', post, data)
-        // });
-      }
-      // если документ не новый - проверяем атрибуты
-      else {
-        
+                
         if (document.getElementById('mui-overlay')) {
           mui.overlay('off');
         };
@@ -104,6 +87,29 @@ nCore.events = (function(){
         nCore.document.setAttributes( nCoreDocumentAttributes );
 
         nCore.query.post( 'documents.json', nCoreDocumentAttributes)
+        .success(function(data){
+          console.log('newDocument', data);
+        }).error(function(data){
+          console.error('[!] newDocument', post, data)
+        });
+      }
+      // если документ не новый - проверяем атрибуты
+      else {
+
+        var nCoreDocumentAttributes = {
+          id          : nCore.document.id(),
+          type        : 'report',
+          name        : nCore.document.name(),
+          description : nCore.document.description(),
+          datetime    : new Date().getTime(),
+          body        : b64EncodeUnicode(document.getElementById('paper').innerHTML),
+          query       : nCore.document.cellQuery() || '',
+          author      : 'AuthorName'
+        };
+
+        nCore.document.setAttributes( nCoreDocumentAttributes );
+
+        nCore.query.put( 'documents/'+nCore.document.id()+'.json', nCoreDocumentAttributes)
         .success(function(data){
           console.log('saveDocument', data);
         }).error(function(data){
