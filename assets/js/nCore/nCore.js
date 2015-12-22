@@ -1,5 +1,18 @@
 // "use strict";
 
+
+
+//////////////////////////////////////
+//                                  //
+//          БИЗНЕС_ПРОЦЕССЫ         //
+// git@github.com:sapotero/view.git //
+//                                  //
+//          view.localhost          //
+//                                  //
+//////////////////////////////////////
+
+
+
 // наш микро фреймворк nCore
 
 /**
@@ -107,7 +120,7 @@ nCore = (function(){
    */
   function loadModules(){
     var dependencies = {
-      shared     : [ "jquery", "mui.min", "transparency.min", "fr", "script", "select2.full" ],
+      shared     : [ "jquery", "mui.min", "transparency.min", "fr", "script", "select2.full", "ractive.min" ],
       core       : [ "user", "query", "core", "roles", "templates", "router", "preloader"],
       background : [ "worker", "workerBack", "shared", "sharedBack", "update" ],
       modules    : [ "document", "table", "cellEditor", "cell", "events", "menu" ]

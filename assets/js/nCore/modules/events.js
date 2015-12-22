@@ -79,7 +79,7 @@ nCore.events = (function(){
           name        : nCore.document.name(),
           description : nCore.document.description(),
           datetime    : new Date().getTime(),
-          body        : b64EncodeUnicode(document.getElementById('paper').innerHTML),
+          body        : b64EncodeUnicode( document.querySelector('#paper .fr-wrapper').innerHTML ),
           query       : nCore.document.cellQuery() || '',
           author      : 'AuthorName'
         };
