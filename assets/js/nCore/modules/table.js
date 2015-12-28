@@ -407,7 +407,7 @@ nCore.modules.table = (function(){
       // dataCell.dataset.percent = el.dataset.percent ? el.dataset.percent : false;
       // dataCell.dataset.appg    = el.dataset.appg    ? el.dataset.appg    : false;
     };
-    console.log('dataRowsCenter', dataRowsCenter);
+    // console.log('dataRowsCenter', dataRowsCenter);
 
     for (var i = dataRow.cells.length - 1; i >= 0; i--) {
       var _cell = dataRow.cells[i],
@@ -439,7 +439,8 @@ nCore.modules.table = (function(){
           query.push( headCell.dataset.query );
         };
         if ( headCell.dataset.hasOwnProperty('appg') ) {
-          query.push( JSON.stringify({cell: {value: 'appg', year: '2012'}}) );
+          // query.push( JSON.stringify([{cell: {value: 'appg', year: '2012'}}]) );
+          _cell.dataset.appg = headCell.dataset.appg;
         };
         // query.push(_q);
 
@@ -459,16 +460,18 @@ nCore.modules.table = (function(){
     };
 
     var rowSpan  = 0,
-        rowQuery = [];
-    // for (var d = sideRows.length - 1; d >= 0; d--) {
+        rowQuery = [],
+        cellData = [];
     for (var d = 0; d < sideRows.length; d++) {
       
       var row   = sideRows[d],
-          query = [];
+          query = [],
+          cellSettings = {};
       console.log('row', row);
 
       for (var a = 0; a < row.cells.length; a++) {
         var cell = row.cells[a];
+
 
         if ( cell.rowSpan > 1 ) {
           rowQuery = [];
@@ -508,29 +511,33 @@ nCore.modules.table = (function(){
           };
 
           ___query = uniq(query);
-          var result = [];
+
+          var result = [],
+              appg   = false;
+
           result = result.concat(___query);
           result = result.concat(rowQuery);
+          result = result.concat(___dataCell.dataset.query);
 
-          if ( ___dataCell.dataset.hasOwnProperty('query') ) {
-            result = result.concat( JSON.stringify(___dataCell.dataset) );
-            console.log( '++', ___dataCell.dataset.query);
-            // var _h = JSON.parse('['+___dataCell.dataset.query+']');
-            // console.log('_h', _h);
-            // if ( h.hasOwnProperty('type') ) {
-            //   console.log( '+++++++', h.type );
-            //   // result = result.concat( ___dataCell.dataset.query.type )
-            // };
-            // if ( ___dataCell.dataset.query.hasOwnProperty('query') ) {
-            //   result = result.concat( ___dataCell.dataset.query.query )
-            // };
-          };
-
-          result = uniq(result);
-          result = '{"data":['+result.join(',')+']}';
+          //  console.log('cell', cell, cell.cellIndex);
+          // cellSettings.rowIndex  = row.rowIndex;
+          // cellSettings.cellIndex = cell.cellIndex;
+          // cellSettings.query     = result;
+          // cellSettings.appg      = appg;
+          // result = uniq(result);
+          
+          cellData.push( {
+            rowIndex  : row.rowIndex,
+            cellIndex : cell.cellIndex,
+            query     : uniq(result),
+            appg      : appg
+            // black     : cell.dataset.black,
+          });
+          // result = uniq(result);
+          // result = '{"data":['+result.join(',')+']}';
           
           // console.log(cell, result );
-          console.log(cell, JSON.parse(result) );
+          // console.log(cell, cellSettings );
           // console.log(' --> cell', cell, '__q:', ___query, 'q:',query, 'rq:', rowQuery, '___dataCell:', ___dataCell.dataset );
         };
       };
@@ -539,6 +546,11 @@ nCore.modules.table = (function(){
       rowSpan  = 0;
       // rowQuery = [];
     };
+
+    dataRow.style.display = 'none';
+    console.log( 'cellData:', cellData );
+    // console.log( 'str', JSON.stringify(cellData) );
+    nCore.modules.table.event.publish('calculateQuery', cellData);
 
     // 
       // for (var b = 0; b < sideRowsCenter.length; b++) {
