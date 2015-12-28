@@ -526,10 +526,18 @@ nCore.modules.table = (function(){
           // cellSettings.appg      = appg;
           // result = uniq(result);
           
+
+          ////////////////////////////////////
+          // допилить АППГ и ВСЕГО с СУММОЙ //
+          ////////////////////////////////////
+          ///
+          var __q = [];
+          __q.push(uniq(result));
+
           cellData.push( {
             rowIndex  : row.rowIndex,
             cellIndex : cell.cellIndex,
-            query     : uniq(result),
+            query     : __q,
             appg      : appg
             // black     : cell.dataset.black,
           });
