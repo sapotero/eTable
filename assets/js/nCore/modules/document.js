@@ -65,7 +65,7 @@ nCore.document = (function(){
     return nCoreIsNew;
   },
   setAttributes = function setAttributes(data){
-    nCoreIsNew = false;
+    // nCoreIsNew = false;
     nCore.document.root.publish('setDocumentAttributes', data);
   },
   load = function load(config){
@@ -80,7 +80,7 @@ nCore.document = (function(){
     nCoreIsNew             = false
 
     document.querySelector( '.fr-wrapper' ).classList.remove('show-placeholder');
-    document.querySelector( '.fr-element.fr-view' ).innerHTML = atob(config.body);
+    document.querySelectorAll( '.fr-element.fr-view' )[ document.querySelectorAll( '.fr-element.fr-view' ).length-1 ].innerHTML = Base64.decode( config.body );
   },
   createNew = function createNew(url){
     var overlayEl = mui.overlay('on');

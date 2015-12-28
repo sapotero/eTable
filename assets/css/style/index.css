@@ -720,3 +720,25 @@ buttons {
   height:300px;
   vertical-align:bottom
 }
+
+.point {
+  position: absolute;
+  height: 4px;
+  width:  4px;
+  z-index: 9999;
+  border: 2px solid black;
+}
+.point-head {
+  position: absolute;
+  height: 4px;
+  width:  4px;
+  z-index: 9999;
+  border: 2px solid red;
+}
+.point-side {
+  position: absolute;
+  height: 4px;
+  width:  4px;
+  z-index: 9999;
+  border: 2px solid purple;
+}

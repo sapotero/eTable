@@ -266,9 +266,28 @@ nCore.modules.table = (function(){
         sideRows       = [],
         headRowsCenter = [],
         sideRowsCenter = [],
+        dataRowsCenter = [],
         cellData       = [],
         head_elements,
         side_elements;
+
+    function cleanArray(actual) {
+      var newArray = new Array();
+      for (var i = 0; i < actual.length; i++) {
+        if (actual[i]) {
+          newArray.push(actual[i]);
+        }
+      }
+      return newArray;
+    };
+    function findUpTag(el, tag) {
+      while (el.parentNode) {
+        el = el.parentNode;
+        if (el.tagName === tag)
+          return el;
+      }
+      return null;
+    }
 
     // считаем макс. кол-во ячеек в таблице
     for(var i=0;i<table.rows.length;i++) {
@@ -315,12 +334,32 @@ nCore.modules.table = (function(){
     // считаем середины строк шапки
     for (var v = 0; v < headRows.length; v++) {
       var coordinates = headRows[v].getBoundingClientRect();
+
+      console.log('*coordinates', coordinates);
+
+      // // проверяем строки
+      // var point = document.createElement('div');
+      // point.className  = "point-head";
+      // point.style.top  = (coordinates.top+coordinates.bottom)/2 + 'px';
+      // point.style.left = (coordinates.left+coordinates.right)/2 + 'px';
+      // document.body.appendChild(point);
+
+
       headRowsCenter.push( (coordinates.top+coordinates.bottom)/2 );
     };
 
     // считаем середины строк боковины
     for (var v = 0; v < sideRows.length; v++) {
       var coordinates = sideRows[v].getBoundingClientRect();
+
+      // // проверяем строки
+      // var point = document.createElement('div');
+      // point.className  = "point-side";
+      // point.style.top  = (coordinates.top+coordinates.bottom)/2 + 'px';
+      // point.style.left = (coordinates.left+coordinates.right)/2 + 'px';
+      // document.body.appendChild(point);
+
+
       sideRowsCenter.push( {center: (coordinates.top+coordinates.bottom)/2, el: sideRows[v] } );
     };
 
@@ -334,86 +373,255 @@ nCore.modules.table = (function(){
       dataCell.style.maxWidth     = 0;
 
       dataRow.appendChild(dataCell);
+      coordinates = dataCell.getBoundingClientRect();
 
-      var coordinates = dataCell.getBoundingClientRect();
+      dataRowsCenter.push( (coordinates.top+coordinates.bottom)/2 );
 
       // проходимся по центрам строкам и центрам ячеек чтобы получить элемент
-      for (var b = 0; b < headRowsCenter.length; b++) {
-        var el = document.elementFromPoint( (coordinates.left+coordinates.right)/2, headRowsCenter[b] );
+      // for (var b = 0; b < headRowsCenter.length; b++) {
+      //   var el = document.elementFromPoint( (coordinates.left+coordinates.right)/2, headRowsCenter[b] );
+      //   console.log(el);
 
-        if ( el ) {
-          dataCell.textContent += el.dataset.query;
-          queryArray.push( el );
+      //   // console.log('cell', cell);
+      //   var coordinates = el.getBoundingClientRect();
+
+      //   var point = document.createElement('div');
+      //   point.className  = "point-head";
+      //   point.style.top  = (coordinates.top  + coordinates.bottom)/2 + 'px';
+      //   point.style.left = (coordinates.left + coordinates.right)/2  + 'px';
+      //   document.body.appendChild(point);
+      //   // console.log( (coordinates.left+coordinates.right)/2, headRowsCenter[b], dataCell.getBoundingClientRect() )
+        
+      //   if ( el.nodeName !== 'TD' ) {
+      //     el = findUpTag(el, 'TD');
+      //   };
+
+      //   if ( el ) {
+
+      //     dataCell.textContent += el.dataset.query ? el.dataset.query : [] ;
+      //     queryArray.push( el );
+
+      //   };
+      // };
+      // dataCell.dataset._query  = uniq(queryArray).map(function(e){ return e.dataset.query } ).join(',');
+      // dataCell.dataset.percent = el.dataset.percent ? el.dataset.percent : false;
+      // dataCell.dataset.appg    = el.dataset.appg    ? el.dataset.appg    : false;
+    };
+    console.log('dataRowsCenter', dataRowsCenter);
+
+    for (var i = dataRow.cells.length - 1; i >= 0; i--) {
+      var _cell = dataRow.cells[i],
+          coordinates = _cell.getBoundingClientRect(),
+          query = [],
+          previousElement;
+
+      for (var z = headRowsCenter.length - 1; z >= 0; z--) {
+        var center = headRowsCenter[z];
+        
+        // var point = document.createElement('div');
+        // point.className  = "point-head";
+        // point.style.top  = center + 'px';
+        // point.style.left = (coordinates.left + coordinates.right)/2  + 'px';
+        // document.body.appendChild(point);
+
+        var headCell = document.elementFromPoint( (coordinates.left + coordinates.right)/2 , center );
+
+        if ( !previousElement || previousElement == headCell ) {
+          previousElement = headCell;
+          console.log( previousElement, headCell );
+        }
+
+        // var _q = [];
+
+        // console.log( 'headCell', headCell, headCell.dataset );
+
+        if ( headCell.dataset.hasOwnProperty('query') ) {
+          query.push( headCell.dataset.query );
+        };
+        if ( headCell.dataset.hasOwnProperty('appg') ) {
+          query.push( JSON.stringify({cell: {value: 'appg', year: '2012'}}) );
+        };
+        // query.push(_q);
+
+        // if ( _q.hasOwnProperty('query') ) {
+        //   query.push( JSON.stringify(_q) );
+        // };
+        // if ( _q.hasOwnProperty('type') ) {
+        //   var h = { cell: _q };
+        //   query.push( JSON.stringify( h ) );
+        // }
+      };
+
+      query = uniq(query);
+      if ( query.length ) {
+        _cell.dataset.query = query;
+      };
+    };
+
+    var rowSpan  = 0,
+        rowQuery = [];
+    // for (var d = sideRows.length - 1; d >= 0; d--) {
+    for (var d = 0; d < sideRows.length; d++) {
+      
+      var row   = sideRows[d],
+          query = [];
+      console.log('row', row);
+
+      for (var a = 0; a < row.cells.length; a++) {
+        var cell = row.cells[a];
+
+        if ( cell.rowSpan > 1 ) {
+          rowQuery = [];
+
+          rowSpan = cell.rowSpan;
+          if ( cell.dataset.hasOwnProperty('query') ) {
+            rowQuery.push( cell.dataset.query );
+            rowQuery = uniq(rowQuery);
+          };
+        };
+
+        if ( cell.classList.contains(sideClass) ) {
+
+          if ( cell.dataset.hasOwnProperty('query') ) {
+            query.push( cell.dataset.query );
+          };
+
+          if ( rowQuery.length ) {
+            query.concat( rowQuery );
+          };
+
+        }
+        else {
+
+          var coordinates = cell.getBoundingClientRect(),
+              ___dataCell = document.elementFromPoint( (coordinates.left + coordinates.right)/2 , dataRowsCenter[a] ),
+              ___query = [];
+
+          // var point = document.createElement('div');
+          // point.className  = "point-head";
+          // point.style.top  = dataRowsCenter[a] + 'px';
+          // point.style.left = (coordinates.left + coordinates.right)/2  + 'px';
+          // document.body.appendChild(point);
+
+          if (rowQuery.length) {
+            ___query = ___query.concat(rowQuery);
+          };
+
+          ___query = uniq(query);
+          var result = [];
+          result = result.concat(___query);
+          result = result.concat(rowQuery);
+
+          if ( ___dataCell.dataset.hasOwnProperty('query') ) {
+            result = result.concat( JSON.stringify(___dataCell.dataset) );
+            console.log( '++', ___dataCell.dataset.query);
+            // var _h = JSON.parse('['+___dataCell.dataset.query+']');
+            // console.log('_h', _h);
+            // if ( h.hasOwnProperty('type') ) {
+            //   console.log( '+++++++', h.type );
+            //   // result = result.concat( ___dataCell.dataset.query.type )
+            // };
+            // if ( ___dataCell.dataset.query.hasOwnProperty('query') ) {
+            //   result = result.concat( ___dataCell.dataset.query.query )
+            // };
+          };
+
+          result = uniq(result);
+          result = '{"data":['+result.join(',')+']}';
+          
+          // console.log(cell, result );
+          console.log(cell, JSON.parse(result) );
+          // console.log(' --> cell', cell, '__q:', ___query, 'q:',query, 'rq:', rowQuery, '___dataCell:', ___dataCell.dataset );
         };
       };
-      dataCell.dataset._query  = uniq(queryArray).map(function(e){ return e.dataset.query } ).join(',');
-      dataCell.dataset.percent = el.dataset.percent ? el.dataset.percent : false;
-      dataCell.dataset.appg    = el.dataset.appg    ? el.dataset.appg    : false;
+
+      // console.log('row query -> ', query);
+      rowSpan  = 0;
+      // rowQuery = [];
     };
 
-
-    var rowRoot   = {};
-
-    for (var b = 0; b < sideRowsCenter.length; b++) {
-      
-      var row       = sideRowsCenter[b].el,
-          rowCenter = sideRowsCenter[b].center,
-          rowQuery  = [],
-          index     = 1;
-
-      for (var n = 0; n < row.cells.length; n++) {
-        var cell = row.cells[n];
-
-        if ( cell.classList.contains( sideClass ) && cell.rowSpan > 1 ) {
-          rowRoot = cell.dataset;
-          index = cell.rowSpan;
-          index++;
-        }
-
+    // 
+      // for (var b = 0; b < sideRowsCenter.length; b++) {
         
-        if (cell.classList.contains( sideClass )){
-          rowQuery = [];
-          index++;
+      //   var row       = sideRowsCenter[b].el,
+      //       rowCenter = sideRowsCenter[b].center,
+      //       rowQuery  = [],
+      //       index     = 1;
 
-          if ( rowRoot.query ) {
-            rowQuery.push( rowRoot.query );
-          };
+      //   for (var n = 0; n < row.cells.length; n++) {
+      //     var cell = row.cells[n];
 
-          if ( cell.dataset.query ) {
-            rowQuery.push( cell.dataset.query );
-          };
-          
-        } else {
-          // console.log('cell', index, cell, (_f && _f.dataset._query));
-          var _f = dataRow.getElementsByTagName('td')[cell.cellIndex],
-              _s = dataRow.getElementsByTagName('td')[cell.cellIndex+index],
-              _q = (_f && _f.dataset._query) ? _f : (_s && _s.dataset._query ? _s : undefined)
-          
-          if (_q) {
-            rowQuery.push( _q.dataset._query );
-          };
-          
-          cell.dataset.query = '['+rowQuery.join(',')+']';
-          
-          // обновим текст когда прилетят данные
-          cell.dataset.cellIndex = cell.cellIndex;
-          cell.dataset.rowIndex  = row.rowIndex;
+      //     if ( cell.classList.contains( sideClass ) && cell.rowSpan > 1 ) {
+      //       rowRoot = cell.dataset;
+      //       index = cell.rowSpan;
+      //       index++;
+      //     }
 
-          cellData.push({
-            rowIndex  : row.rowIndex,
-            cellIndex : cell.cellIndex,
-            query     : cell.dataset.query,
-            appg      : _q.dataset.appg,
-            percent   : _q.dataset.percent
-            // black     : cell.dataset.black,
-          });
-        }
-      };
-    };
-    dataRow.style.display = 'none';
-    // console.log( 'cellData:', cellData );
-    // console.log( 'str', JSON.stringify(cellData) );
-    nCore.modules.table.event.publish('calculateQuery', cellData);
+      //     // 1) считаем критерии шапки в отдельную cтроку
+      //     // 2) собираем результирующие query для крайнего элемента таблицы
+      //     // 3) при обходе таблицы прюсуюем к dataCell.query результирующую query
+      //     // ...
+      //     // profit!
+          
+      //     if (cell.classList.contains( sideClass )){
+      //       rowQuery = [];
+      //       index++;
+
+      //       if ( rowRoot.query ) {
+      //         rowQuery.push( rowRoot.query );
+      //       };
+
+      //       if ( cell.dataset.query ) {
+      //         rowQuery.push( cell.dataset.query );
+      //       };
+            
+      //     } else {
+      //       // console.log( 'rowRoot', rowRoot, rowQuery, cell );
+      //       // проверяем строки
+
+      //       var _f = dataRow.getElementsByTagName('td')[cell.cellIndex],
+      //           _s = dataRow.getElementsByTagName('td')[cell.cellIndex+index],
+      //           _q = (_f && _f.dataset._query) ? _f : (_s && _s.dataset._query ? _s : undefined)
+            
+      //       if (_q) {
+      //         rowQuery.push( _q.dataset._query );
+      //       };
+            
+      //       var _tmp = [];
+
+      //       for (var i = 0; i < rowQuery.length; i++) {
+      //         if( rowQuery[i] !== ',' ) {
+      //           var _str = rowQuery[i];
+      //           _str = _str.replace(/^,+/gi, '');
+      //           _str = _str.replace(/,+]$/gi, ']');
+      //           _tmp.push( _str );
+      //         }
+      //       };
+      //       // console.log('***tmp', _tmp);
+
+      //       cell.dataset.query = '['+_tmp.join(',')+']';
+            
+      //       rowQuery = [];
+            
+      //       // обновим текст когда прилетят данные
+      //       cell.dataset.cellIndex = cell.cellIndex;
+      //       cell.dataset.rowIndex  = row.rowIndex;
+
+      //       cellData.push({
+      //         rowIndex  : row.rowIndex,
+      //         cellIndex : cell.cellIndex,
+      //         query     : cell.dataset.query,
+      //         appg      : _q.dataset.appg,
+      //         percent   : _q.dataset.percent
+      //         // black     : cell.dataset.black,
+      //       });
+      //     }
+      //   };
+      // };
+      // dataRow.style.display = 'none';
+      // console.log( 'cellData:', cellData );
+      // console.log( 'str', JSON.stringify(cellData) );
+      // nCore.modules.table.event.publish('calculateQuery', cellData);
    },
   event = function event(){
     return nCoreTableEvent;

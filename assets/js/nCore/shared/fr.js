@@ -13489,11 +13489,12 @@ window.FDKModernizr = function(e, t, n) {
         }), e.FroalaEditor.DefineIcon("tableHeader", {
             NAME: "header"
         }), e.FroalaEditor.RegisterCommand("tableHeader", {
-            title: "Table Header",
+            title: "Copy selected down 2 times",
             focus: !1,
             callback: function() {
                 var e = this.popups.get("table.edit").find('.fr-command[data-cmd="tableHeader"]');
-                e.hasClass("fr-active") ? this.table.removeHeader() : this.table.addHeader()
+                console.log( 'e', this.selection, this.selection.element().parentNode );
+                // e.hasClass("fr-active") ? this.table.removeHeader() : this.table.addHeader()
             },
             refresh: function(e) {
                 var t = this.$el.find(".fr-selected-cell").closest("table");

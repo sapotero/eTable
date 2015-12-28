@@ -247,8 +247,8 @@ jQuery(function($) {
                       results: $.map(data, function(p) {
                         return {
                           id: p._id,
-                          text: p.term,
-                          value: p.term
+                          text: p.to_s,
+                          value: p.to_s
                         };
                       })
                     };

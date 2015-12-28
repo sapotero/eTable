@@ -51,7 +51,7 @@ nCore.events = (function(){
       // если не новый  - сохраняем
       else {
         // console.log('old doc');
-        nCore.document.root.publish('saveDocument', nCore.document.id() )
+        nCore.document.root.publish('saveDocument' )
       }
     });
     // сохранение документа
@@ -79,7 +79,7 @@ nCore.events = (function(){
           name        : nCore.document.name(),
           description : nCore.document.description(),
           datetime    : new Date().getTime(),
-          body        : b64EncodeUnicode(document.getElementById('paper').innerHTML),
+          body        : Base64.encode( document.querySelectorAll( '.fr-element.fr-view' )[ document.querySelectorAll( '.fr-element.fr-view' ).length-1 ].innerHTML ),
           query       : nCore.document.cellQuery() || '',
           author      : 'AuthorName'
         };
@@ -102,7 +102,7 @@ nCore.events = (function(){
           name        : nCore.document.name(),
           description : nCore.document.description(),
           datetime    : new Date().getTime(),
-          body        : b64EncodeUnicode(document.getElementById('paper').innerHTML),
+          body        : Base64.encode(document.getElementById('paper').innerHTML),
           query       : nCore.document.cellQuery() || '',
           author      : 'AuthorName'
         };
@@ -320,9 +320,9 @@ nCore.events = (function(){
 
     // расчёт критериев поиска и отправление их на сервер
     nCore.modules.table.event.subscribe('calculateQuery', function(cellData){
-      // console.log('calculateQuery', cellData);
+      // console.log('calculateQuery', JSON.stringify(cellData));
       nCore.document.setCellQuery(cellData);
-      console.log( '****', nCore.document.cellQuery() );
+      // console.log( '****', nCore.document.cellQuery() );
 
       nCore.query.post( 'queries.json', {data: cellData})
         .success(function(data){
@@ -339,8 +339,11 @@ nCore.events = (function(){
       var table = document.querySelector('.fr-element.fr-view > table');
 
       for (var i = 0; i < data.length; i++) {
-        var cell = table.rows[ data[i].rowIndex ].cells[ data[i].cellIndex ];
-        
+        var rowIndex = ( table.rows[ data[i].rowIndex ].cells[0].rowSpan > 1 ) ? 0 : -1,
+            cell     = table.rows[ data[i].rowIndex ].cells[ data[i].cellIndex ];
+
+        // console.log( table.rows[ data[i].rowIndex ].cells[0].rowSpan > 1, table.rows[ data[i].rowIndex ].cells[0] );
+
         cell.textContent = data[i].value;
         if ( data[i].hasOwnProperty('appg') && data[i].appg === 'true' ) {
           cell.textContent += ' АППГ'
