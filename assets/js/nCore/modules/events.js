@@ -349,8 +349,8 @@ nCore.events = (function(){
           cell.textContent += ' АППГ'
         };
 
-        if ( data[i].hasOwnProperty('percent') && data[i].percent === 'true' ) {
-          cell.textContent += ' %'
+        if ( data[i].hasOwnProperty('total') && data[i].total === 'true' ) {
+          cell.textContent += ' ВСЕГО'
         };
 
       };
